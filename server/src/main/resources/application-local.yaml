@@ -1,6 +1,8 @@
 spring:
   application:
     name: goal
+  config:
+    import: jwtconfig-local.yaml
 
   datasource:
     driver-class-name: org.h2.Driver
@@ -32,3 +34,4 @@ spring doc:
     enabled: true
   swagger-ui:
     enabled: true
+    with-credentials: true

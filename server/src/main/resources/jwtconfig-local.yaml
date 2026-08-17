@@ -1,0 +1,4 @@
+jwt:
+  secretKey: localtestsecretkey-localtestsecretkey-localtestsecretkey
+  accessTokenExpireTime: 1800 # 30분
+  refreshTokenExpireTime: 1209600 # 14일

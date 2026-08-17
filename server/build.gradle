@@ -17,6 +17,10 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	mockitoAgent
+}
+
 dependencies {
 	// spring
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
@@ -46,6 +50,12 @@ dependencies {
 	// junit
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// mockito
+	testImplementation("org.mockito:mockito-core:5.23.0")
+	mockitoAgent("org.mockito:mockito-core:5.23.0") {
+		transitive = false
+	}
+
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.13.0'
@@ -54,4 +64,6 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+	jvmArgs += "-Xshare:off"
 }
