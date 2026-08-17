@@ -1,0 +1,35 @@
+# ======================
+# server
+# ======================
+.gradle
+.idea
+.vscode
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+*.iws
+*.iml
+*.ipr
+
+server/build/
+bin/
+out/
+
+server/nbproject/private/
+server/nbbuild/
+server/dist/
+server/nbdist/
+server/.nb-gradle/
+
+!server/gradle/wrapper/gradle-wrapper.jar
+!server/**/src/main/**/build/
+!server/**/src/test/**/build/
+!server/**/src/main/**/bin/
+!server/**/src/test/**/bin/
+!server/**/src/main/**/out/
+!server/**/src/test/**/out/
