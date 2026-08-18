@@ -21,6 +21,14 @@ public record ResponseDtoError(
                 .build();
     }
 
+    public static ResponseDtoError unauthorized() {
+        return ResponseDtoError.builder()
+                .code(401)
+                .message("인증실패 또는 인증만료")
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
     public static ResponseDtoError serverFailed() {
         return ResponseDtoError.builder()
                 .code(500)

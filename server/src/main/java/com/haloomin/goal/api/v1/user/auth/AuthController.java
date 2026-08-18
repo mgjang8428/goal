@@ -5,17 +5,13 @@ import com.haloomin.goal.api.v1.user.auth.dto.SignInRequestDto;
 import com.haloomin.goal.api.v1.user.auth.dto.SignInResponseDto;
 import com.haloomin.goal.api.v1.user.auth.dto.SignUpRequestDto;
 import com.haloomin.goal.global.dto.ResponseDto;
-import com.haloomin.goal.global.util.JwtUtil;
 import com.haloomin.goal.user.service.UserAuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Validated
@@ -39,5 +35,10 @@ public class AuthController implements AuthControllerDocs {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(ResponseDto.success(responseDto));
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "testOK";
     }
 }

@@ -1,4 +1,4 @@
 jwt:
   secretKey: localtestsecretkey-localtestsecretkey-localtestsecretkey
-  accessTokenExpireTime: 1800 # 30분
-  refreshTokenExpireTime: 1209600 # 14일
+  accessTokenExpireTime: 1800000 # 30분 30 * 60 * 1000
+  refreshTokenExpireTime: 1209600000 # 14일 14 * 24 * 60 * 60 * 1000
