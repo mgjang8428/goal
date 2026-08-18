@@ -1,6 +1,7 @@
 package com.haloomin.goal.api.v1.user.auth.docs;
 
 import com.haloomin.goal.api.v1.user.auth.dto.SignInRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.SignInResponseDto;
 import com.haloomin.goal.api.v1.user.auth.dto.SignUpRequestDto;
 import com.haloomin.goal.global.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,11 +18,11 @@ public interface AuthControllerDocs {
             summary = "유저계정가입",
             description = "유저계정가입 API"
     )
-    public ResponseEntity<ResponseDto<Void>> signUp(@Valid @RequestBody SignUpRequestDto dto);
+    ResponseEntity<ResponseDto<Void>> signUp(@Valid @RequestBody SignUpRequestDto dto);
 
     @Operation(
             summary = "유저계정로그인",
             description = "유저계정로그인 API"
     )
-    public ResponseEntity<ResponseDto<Void>> signIn(@Valid @RequestBody SignInRequestDto dto);
+    ResponseEntity<ResponseDto<SignInResponseDto>> signIn(@Valid @RequestBody SignInRequestDto dto);
 }

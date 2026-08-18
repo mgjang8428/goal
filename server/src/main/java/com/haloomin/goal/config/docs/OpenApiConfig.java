@@ -12,14 +12,16 @@ import org.springframework.context.annotation.Profile;
 @Profile("local")
 @SecurityScheme(
         name = "accessToken",
-        type = SecuritySchemeType.APIKEY,
-        in = SecuritySchemeIn.COOKIE,
+        type = SecuritySchemeType.HTTP,
+        in = SecuritySchemeIn.HEADER,
+        scheme = "bearer",
         bearerFormat = "JWT"
 )
 @SecurityScheme(
         name = "refreshToken",
-        type = SecuritySchemeType.APIKEY,
-        in = SecuritySchemeIn.COOKIE,
+        type = SecuritySchemeType.HTTP,
+        in = SecuritySchemeIn.HEADER,
+        scheme = "bearer",
         bearerFormat = "JWT"
 )
 @Configuration

@@ -1,6 +1,7 @@
 package com.haloomin.goal.user.service.impl;
 
 import com.haloomin.goal.api.v1.user.auth.dto.SignInRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.SignInResponseDto;
 import com.haloomin.goal.api.v1.user.auth.dto.SignUpRequestDto;
 import com.haloomin.goal.global.util.JwtUtil;
 import com.haloomin.goal.user.entity.UserAuth;
@@ -9,7 +10,6 @@ import com.haloomin.goal.user.entity.UserRole;
 import com.haloomin.goal.user.repository.UserAuthJpaRepository;
 import com.haloomin.goal.user.repository.UserEntityJpaRepository;
 import com.haloomin.goal.user.service.UserAuthService;
-import com.haloomin.goal.user.service.dto.AuthTokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -59,7 +59,7 @@ public class UserAuthServiceImpl implements UserAuthService {
      * @return 로그인 성공, 생성된 인증 토큰(accessToken, refreshToken)
      */
     @Override
-    public AuthTokens signIn(SignInRequestDto dto) {
+    public SignInResponseDto signIn(SignInRequestDto dto) {
         // 사용자 일치 확인 (로그인 정보 확인)
         UsernamePasswordAuthenticationToken authenticationToken =
                 UsernamePasswordAuthenticationToken.unauthenticated(dto.username(), dto.password());
@@ -72,6 +72,6 @@ public class UserAuthServiceImpl implements UserAuthService {
         String accessToken = jwtUtil.createAccessToken(username, role);
         String refreshToken = jwtUtil.createRefreshToken(username, role);
 
-        return new AuthTokens(accessToken, refreshToken);
+        return new SignInResponseDto(accessToken, refreshToken);
     }
 }

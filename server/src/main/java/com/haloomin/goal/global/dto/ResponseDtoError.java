@@ -1,6 +1,5 @@
 package com.haloomin.goal.global.dto;
 
-import jakarta.annotation.Nullable;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -11,7 +10,8 @@ public record ResponseDtoError(
         LocalDateTime timestamp
 ) {
     @Builder
-    public ResponseDtoError {}
+    public ResponseDtoError {
+    }
 
     public static ResponseDtoError clientFailed() {
         return ResponseDtoError.builder()

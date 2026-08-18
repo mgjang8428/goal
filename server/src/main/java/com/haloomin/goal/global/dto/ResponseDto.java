@@ -17,7 +17,8 @@ public record ResponseDto<T>(
 ) {
 
     @Builder
-    public ResponseDto {}
+    public ResponseDto {
+    }
 
     public static <T> ResponseDto<T> success(@Nullable final T data) {
         return ResponseDto.<T>builder()
