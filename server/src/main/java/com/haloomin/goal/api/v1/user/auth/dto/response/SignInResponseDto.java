@@ -1,4 +1,4 @@
-package com.haloomin.goal.api.v1.user.auth.dto;
+package com.haloomin.goal.api.v1.user.auth.dto.response;
 
 public record SignInResponseDto(
         String accessToken,

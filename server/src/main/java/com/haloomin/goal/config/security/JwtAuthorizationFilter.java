@@ -64,8 +64,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String role = claims.get("role", String.class);
             String tokenType = claims.get("tokenType", String.class);
 
-            System.out.println("role: " + role);
-
             // TokenType 체크
             if (!"ACCESS".equals(tokenType)) {
                 throw new BadCredentialsException(null);
@@ -79,7 +77,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // SecurityContext에 인증 정보 저장
             SecurityContextHolder.getContext().setAuthentication(auth);
             // 다음 filter로
-            System.out.println("success filter");
             filterChain.doFilter(request, response);
 
         } catch (BadCredentialsException | JwtException e) {

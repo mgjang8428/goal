@@ -39,6 +39,7 @@ public class LocalSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/user/auth/signup").permitAll()
                         .requestMatchers("/api/v1/user/auth/signin").permitAll()
+                        .requestMatchers("/api/v1/user/auth/reissue").permitAll()
                         .requestMatchers("/api/v1/user/auth/test").hasRole("USER")
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/swagger-ui").permitAll()

@@ -1,9 +1,11 @@
 package com.haloomin.goal.api.v1.user.auth;
 
 import com.haloomin.goal.api.v1.user.auth.docs.AuthControllerDocs;
-import com.haloomin.goal.api.v1.user.auth.dto.SignInRequestDto;
-import com.haloomin.goal.api.v1.user.auth.dto.SignInResponseDto;
-import com.haloomin.goal.api.v1.user.auth.dto.SignUpRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.request.ReissueRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.response.ReissueResponseDto;
+import com.haloomin.goal.api.v1.user.auth.dto.response.SignInResponseDto;
+import com.haloomin.goal.api.v1.user.auth.dto.request.SignUpRequestDto;
 import com.haloomin.goal.global.dto.ResponseDto;
 import com.haloomin.goal.user.service.UserAuthService;
 import jakarta.validation.Valid;
@@ -37,8 +39,11 @@ public class AuthController implements AuthControllerDocs {
                 .body(ResponseDto.success(responseDto));
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "testOK";
+    @PostMapping("/reissue")
+    public ResponseEntity<ResponseDto<ReissueResponseDto>> reissue(@Valid @RequestBody ReissueRequestDto dto) {
+        ReissueResponseDto responseDto = userAuthService.reissue(dto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseDto.success(responseDto));
     }
 }

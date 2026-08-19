@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -25,6 +27,9 @@ public class UserEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "userEntity")
     UserAuth userAuth;
+
+    @OneToMany(mappedBy = "userEntity")
+    List<UserRefreshToken> userRefreshTokens;
 
     @Builder
     public UserEntity(String name, String email) {

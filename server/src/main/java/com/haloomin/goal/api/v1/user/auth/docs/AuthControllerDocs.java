@@ -1,8 +1,8 @@
 package com.haloomin.goal.api.v1.user.auth.docs;
 
-import com.haloomin.goal.api.v1.user.auth.dto.SignInRequestDto;
-import com.haloomin.goal.api.v1.user.auth.dto.SignInResponseDto;
-import com.haloomin.goal.api.v1.user.auth.dto.SignUpRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
+import com.haloomin.goal.api.v1.user.auth.dto.response.SignInResponseDto;
+import com.haloomin.goal.api.v1.user.auth.dto.request.SignUpRequestDto;
 import com.haloomin.goal.global.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
