@@ -33,3 +33,28 @@ server/.nb-gradle/
 !server/**/src/test/**/bin/
 !server/**/src/main/**/out/
 !server/**/src/test/**/out/
+
+# ======================
+# client: user-web
+# ======================
+node_modules
+dist
+dist-ssr
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
