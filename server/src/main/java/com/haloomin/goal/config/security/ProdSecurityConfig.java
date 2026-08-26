@@ -23,10 +23,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import tools.jackson.databind.ObjectMapper;
 
 @RequiredArgsConstructor
-@Profile("local")
+@Profile("prod")
 @EnableWebSecurity
 @Configuration
-public class LocalSecurityConfig {
+public class ProdSecurityConfig {
 
     @Value("${app.cors.allowed-origins}")
     private String corsUrl;
@@ -45,17 +45,12 @@ public class LocalSecurityConfig {
                 )
                 .addFilterAfter(new JwtAuthorizationFilter(corsUrl, jwtUtil, objectMapper), SecurityContextHolderFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/swagger-ui").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/swagger-resources/**").permitAll()
-
                         .requestMatchers("/api/v1/user/auth/signup").permitAll()
                         .requestMatchers("/api/v1/user/auth/signin").permitAll()
                         .requestMatchers("/api/v1/user/auth/signout").permitAll()
                         .requestMatchers("/api/v1/user/auth/reissue").permitAll()
 
+                        .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)

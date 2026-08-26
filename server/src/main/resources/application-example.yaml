@@ -2,12 +2,13 @@ app:
   cookie:
     secure: false
   cors:
-    allowed-origins: "http://localhost:5173"
+    allowed-origins: "http://example.com"
 spring:
   application:
     name: goal
   config:
-    import: jwtconfig-local.yaml
+#    변경 필요!
+    import: jwtconfig-example.yaml
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:localmemdb;MODE=MySQL;
@@ -19,19 +20,21 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       default_batch_fetch_size: 1000
-    show-sql: true
+    show-sql: false
     p6spy:
-      enable-logging: true
+      enable-logging: false
 logging:
   level:
     root: info
+    org:
+      springframework: warn
 spring doc:
-  use-fqn: true
+  use-fqn: false
   api-docs:
-    enabled: true
+    enabled: false
   swagger-ui:
-    enabled: true
-    with-credentials: true
+    enabled: false
+    with-credentials: false

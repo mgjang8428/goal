@@ -30,6 +30,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
+    private final String corsUrl;
+
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
 
@@ -85,9 +87,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private void responseError(@NonNull HttpServletResponse response, ResponseDtoError errorDto) throws IOException {
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", corsUrl);
+        response.setHeader("Access-Control-Allow-Credentials", "true");
 
         ResponseDto<Void> responseDto = ResponseDto.clientFail(errorDto);
         String json = objectMapper.writeValueAsString(responseDto);

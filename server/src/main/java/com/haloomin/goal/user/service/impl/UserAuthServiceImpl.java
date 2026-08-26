@@ -1,10 +1,7 @@
 package com.haloomin.goal.user.service.impl;
 
-import com.haloomin.goal.api.v1.user.auth.dto.request.ReissueRequestDto;
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignUpRequestDto;
-import com.haloomin.goal.api.v1.user.auth.dto.response.ReissueResponseDto;
-import com.haloomin.goal.api.v1.user.auth.dto.response.SignInResponseDto;
 import com.haloomin.goal.global.util.JwtUtil;
 import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
@@ -16,6 +13,7 @@ import com.haloomin.goal.user.repository.UserRefreshTokenJpaRepository;
 import com.haloomin.goal.user.service.UserAuthService;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,7 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -71,7 +72,7 @@ public class UserAuthServiceImpl implements UserAuthService {
      */
     @Transactional
     @Override
-    public SignInResponseDto signIn(SignInRequestDto dto) {
+    public Map<String, String> signIn(SignInRequestDto dto) {
         // 사용자 일치 확인 (로그인 정보 확인)
         UsernamePasswordAuthenticationToken authenticationToken =
                 UsernamePasswordAuthenticationToken.unauthenticated(dto.username(), dto.password());
@@ -95,20 +96,24 @@ public class UserAuthServiceImpl implements UserAuthService {
                 build();
         userRefreshTokenJpaRepository.save(userRefreshToken);
 
-        return new SignInResponseDto(accessToken, refreshToken);
+        Map<String, String> result = new HashMap<>();
+        result.put("accessToken", accessToken);
+        result.put("refreshToken", refreshToken);
+
+        return result;
     }
 
     @Transactional
     @Override
-    public ReissueResponseDto reissue(ReissueRequestDto dto) {
-        // token 앞 Bearer 체크
-        if (!dto.refreshToken().startsWith("Bearer ")) {
-            throw new RuntimeException();
-        }
+    public void signOut(String refreshToken) {
+        UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByToken(refreshToken)
+                .orElseThrow(RuntimeException::new);
+        userRefreshToken.softDelete();
+    }
 
-        // RefreshToken 추출
-        String refreshToken = dto.refreshToken().replace("Bearer ", "");
-
+    @Transactional
+    @Override
+    public Map<String, String> reissue(String refreshToken) {
         // RefreshToken 검증 및 내용 추출
         Claims claims = jwtUtil.getClaims(refreshToken);
         String username = claims.getSubject();
@@ -118,32 +123,27 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // TokenType 체크
         if (!"REFRESH".equals(tokenType)) {
-            System.out.println("TokenType 체크");
             throw new RuntimeException();
         }
 
         // RefreshToken 만료 여부 확인
         Date now = new Date();
         if (expiration.before(now)) {
-            System.out.println("RefreshToken 만료 여부 확인");
             throw new RuntimeException();
         }
 
         // DB RefreshToken 검증
-        System.out.println("DB RefreshToken 검증");
         UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByToken(refreshToken)
                 .orElseThrow(RuntimeException::new);
 
         // DB RefreshToken 삭제 여부 확인
         if (userRefreshToken.isDeleted()) {
-            System.out.println("DB RefreshToken 삭제 여부 확인");
             throw new RuntimeException();
         }
 
         // username 일치 확인
         String dbRefreshTokenUsername = userRefreshToken.getUserEntity().getUserAuth().getUsername();
         if (!dbRefreshTokenUsername.equals(username)) {
-            System.out.println("username 일치 확인");
             throw new RuntimeException();
         }
 
@@ -164,7 +164,10 @@ public class UserAuthServiceImpl implements UserAuthService {
                 .build();
         userRefreshTokenJpaRepository.save(newUserRefreshToken);
 
+        Map<String, String> result = new HashMap<>();
+        result.put("accessToken", newAccessToken);
+        result.put("refreshToken", newRefreshToken);
         // dto return
-        return new ReissueResponseDto(newAccessToken, newRefreshToken);
+        return result;
     }
 }

@@ -5,13 +5,14 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+// TODO: 응답 구체화 구현 필요!!
 public record ResponseDto<T>(
         boolean isSuccess,
         int code,
         String message,
         LocalDateTime timestamp,
         @Nullable
-        T data,
+        T dto,
         @Nullable
         ResponseDtoError error
 ) {
@@ -20,13 +21,13 @@ public record ResponseDto<T>(
     public ResponseDto {
     }
 
-    public static <T> ResponseDto<T> success(@Nullable final T data) {
+    public static <T> ResponseDto<T> success(@Nullable final T dto) {
         return ResponseDto.<T>builder()
                 .isSuccess(true)
                 .code(200)
                 .message("성공")
                 .timestamp(LocalDateTime.now())
-                .data(data)
+                .dto(dto)
                 .error(null)
                 .build();
     }
@@ -37,7 +38,7 @@ public record ResponseDto<T>(
                 .code(500)
                 .message("서버 오류")
                 .timestamp(LocalDateTime.now())
-                .data(null)
+                .dto(null)
                 .error(error)
                 .build();
     }
@@ -48,7 +49,7 @@ public record ResponseDto<T>(
                 .code(400)
                 .message("클라이언트 오류")
                 .timestamp(LocalDateTime.now())
-                .data(null)
+                .dto(null)
                 .error(error)
                 .build();
     }

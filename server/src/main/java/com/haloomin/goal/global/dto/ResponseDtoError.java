@@ -4,6 +4,7 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 
+// TODO: 응답 구체화 구현 필요!!
 public record ResponseDtoError(
         int code,
         String message,
