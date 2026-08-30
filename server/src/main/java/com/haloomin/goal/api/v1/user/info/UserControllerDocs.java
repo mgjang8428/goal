@@ -1,7 +1,7 @@
 package com.haloomin.goal.api.v1.user.info;
 
-import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.DeleteUserRequestDto;
+import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
 import com.haloomin.goal.global.dto.ResponseDto;
@@ -27,7 +27,7 @@ public interface UserControllerDocs {
             summary = "유저정보",
             description = "유저 자신의 정보"
     )
-    ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(@AuthenticationPrincipal UserDetails userDetails);
+    ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(@AuthenticationPrincipal String username);
 
     @Operation(
             summary = "유저정보변경",

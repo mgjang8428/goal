@@ -1,7 +1,7 @@
 package com.haloomin.goal.api.v1.user.info;
 
-import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.DeleteUserRequestDto;
+import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
 import com.haloomin.goal.global.dto.ResponseDto;
@@ -9,6 +9,7 @@ import com.haloomin.goal.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,11 @@ public class UserController implements UserControllerDocs {
 
     @GetMapping
     @Override
-    public ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(UserDetails userDetails) {
-        return null;
+    public ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(@AuthenticationPrincipal String username) {
+        MyInfoResponseDto responseDto = userService.getMyInfo(username);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseDto.success(responseDto));
     }
 
     @PatchMapping

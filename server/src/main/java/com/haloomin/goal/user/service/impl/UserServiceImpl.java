@@ -1,6 +1,7 @@
 package com.haloomin.goal.user.service.impl;
 
 import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
+import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
 import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
 import com.haloomin.goal.user.entity.UserRole;
@@ -62,5 +63,18 @@ public class UserServiceImpl implements UserService {
                 .role(UserRole.USER)
                 .build();
         userAuthJpaRepository.save(userAuth);
+    }
+
+    @Override
+    public MyInfoResponseDto getMyInfo(String username) {
+        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+                .orElseThrow(IllegalArgumentException::new);
+        UserEntity userEntity = userAuth.getUserEntity();
+
+        return MyInfoResponseDto.builder()
+                .username(username)
+                .name(userEntity.getName())
+                .email(userEntity.getEmail())
+                .build();
     }
 }

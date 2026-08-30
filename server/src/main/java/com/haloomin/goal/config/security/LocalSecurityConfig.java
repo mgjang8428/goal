@@ -52,6 +52,7 @@ public class LocalSecurityConfig {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-resources/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signout").permitAll()
