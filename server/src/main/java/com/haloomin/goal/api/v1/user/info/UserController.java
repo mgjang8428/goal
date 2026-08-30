@@ -42,8 +42,11 @@ public class UserController implements UserControllerDocs {
 
     @PatchMapping
     @Override
-    public ResponseEntity<ResponseDto<Void>> updateMyInfo(UserDetails userDetails, UpdateMyInfoRequestDto requestDto) {
-        return null;
+    public ResponseEntity<ResponseDto<Void>> updateMyInfo(String username, UpdateMyInfoRequestDto requestDto) {
+        userService.updateMyInfo(username, requestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseDto.success(null));
     }
 
     @DeleteMapping

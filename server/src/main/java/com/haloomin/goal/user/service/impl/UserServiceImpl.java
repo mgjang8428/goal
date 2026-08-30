@@ -1,6 +1,8 @@
 package com.haloomin.goal.user.service.impl;
 
 import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
+import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestDto;
+import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestType;
 import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
 import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
@@ -76,5 +78,34 @@ public class UserServiceImpl implements UserService {
                 .name(userEntity.getName())
                 .email(userEntity.getEmail())
                 .build();
+    }
+
+    @Transactional
+    @Override
+    public void updateMyInfo(String username, UpdateMyInfoRequestDto requestDto) {
+        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+                .orElseThrow(IllegalArgumentException::new);
+
+        UpdateMyInfoRequestType updateType = requestDto.updateMyInfoRequestType();
+
+        switch (updateType) {
+            case PASSWORD -> {
+                if (passwordEncoder.matches(requestDto.nowPassword(), userAuth.getPassword())) {
+                    userAuth.changePassword(passwordEncoder.encode(requestDto.newPassword()));
+                } else {
+                    throw new IllegalArgumentException();
+                }
+            }
+            case NAME -> {
+                userAuth.getUserEntity().changeName(requestDto.name());
+            }
+            case EMAIL -> {
+                userAuth.getUserEntity().changeEmail(requestDto.email());
+
+            }
+            case null, default -> {
+                throw new IllegalArgumentException();
+            }
+        }
     }
 }

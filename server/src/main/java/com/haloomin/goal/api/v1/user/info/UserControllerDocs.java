@@ -34,7 +34,7 @@ public interface UserControllerDocs {
             description = "유저 자신의 정보를 변경한다."
     )
     ResponseEntity<ResponseDto<Void>> updateMyInfo(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal String username,
             @RequestBody UpdateMyInfoRequestDto requestDto
     );
 
