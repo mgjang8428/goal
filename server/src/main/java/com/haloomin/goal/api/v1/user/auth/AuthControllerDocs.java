@@ -1,7 +1,6 @@
 package com.haloomin.goal.api.v1.user.auth;
 
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
-import com.haloomin.goal.api.v1.user.auth.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.auth.dto.response.ReissueResponseDto;
 import com.haloomin.goal.api.v1.user.auth.dto.response.SignInResponseDto;
 import com.haloomin.goal.global.dto.ResponseDto;
@@ -15,12 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @SuppressWarnings("unused")
 @Tag(name = "유저계정 인증 API")
 public interface AuthControllerDocs {
-
-    @Operation(
-            summary = "유저계정가입",
-            description = "유저계정가입 API"
-    )
-    ResponseEntity<ResponseDto<Void>> signUp(@Valid @RequestBody SignUpRequestDto dto);
 
     @Operation(
             summary = "유저계정로그인",

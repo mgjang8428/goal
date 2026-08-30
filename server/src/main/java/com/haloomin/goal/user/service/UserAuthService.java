@@ -1,18 +1,10 @@
 package com.haloomin.goal.user.service;
 
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
-import com.haloomin.goal.api.v1.user.auth.dto.request.SignUpRequestDto;
 
 import java.util.Map;
 
 public interface UserAuthService {
-
-    /**
-     * 유저 서비스 가입
-     *
-     * @param dto 가입요청 RequestDto
-     */
-    void signUp(SignUpRequestDto dto);
 
     /**
      * 유저 로그인

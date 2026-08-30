@@ -1,7 +1,6 @@
 package com.haloomin.goal.api.v1.user.auth;
 
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
-import com.haloomin.goal.api.v1.user.auth.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.auth.dto.response.ReissueResponseDto;
 import com.haloomin.goal.api.v1.user.auth.dto.response.SignInResponseDto;
 import com.haloomin.goal.global.dto.ResponseDto;
@@ -30,14 +29,6 @@ public class AuthController implements AuthControllerDocs {
     private final UserAuthService userAuthService;
     private final JwtUtil jwtUtil;
 
-    @PostMapping("/signup")
-    public ResponseEntity<ResponseDto<Void>> signUp(@Valid @RequestBody SignUpRequestDto dto) {
-        userAuthService.signUp(dto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseDto.success(null));
-    }
-
     @PostMapping("/signin")
     public ResponseEntity<ResponseDto<SignInResponseDto>> signIn(@Valid @RequestBody SignInRequestDto dto) {
         Map<String, String> signInData = userAuthService.signIn(dto);
@@ -51,7 +42,7 @@ public class AuthController implements AuthControllerDocs {
         ResponseCookie refreshTokenCookie = ResponseCookie
                 .from("refreshToken", refreshToken)
                 .httpOnly(true)
-//                .secure(true)
+                .secure(isCookieSecure)
                 .path("/")
                 .maxAge(expiredTime)
                 .build();

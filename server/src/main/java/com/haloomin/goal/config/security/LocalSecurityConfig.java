@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,10 +52,12 @@ public class LocalSecurityConfig {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-resources/**").permitAll()
 
-                        .requestMatchers("/api/v1/user/auth/signup").permitAll()
-                        .requestMatchers("/api/v1/user/auth/signin").permitAll()
-                        .requestMatchers("/api/v1/user/auth/signout").permitAll()
-                        .requestMatchers("/api/v1/user/auth/reissue").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signin").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signout").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/reissue").permitAll()
+
+                        .anyRequest().authenticated()
 
                 )
                 .headers(headers -> headers
