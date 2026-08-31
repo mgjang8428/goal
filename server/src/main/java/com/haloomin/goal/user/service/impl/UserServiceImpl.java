@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @SuppressWarnings("NullableProblems")
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+        UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(IllegalArgumentException::new);
         return User.builder()
                 .username(userAuth.getUsername())
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public MyInfoResponseDto getMyInfo(String username) {
-        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+        UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(IllegalArgumentException::new);
         UserEntity userEntity = userAuth.getUserEntity();
 
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void updateMyInfo(String username, UpdateMyInfoRequestDto requestDto) {
-        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+        UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(IllegalArgumentException::new);
 
         UpdateMyInfoRequestType updateType = requestDto.updateMyInfoRequestType();
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void deleteUser(String username, DeleteUserRequestDto requestDto) {
-        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+        UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(IllegalArgumentException::new);
         UserEntity userEntity = userAuth.getUserEntity();
 

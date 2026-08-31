@@ -55,7 +55,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         String refreshToken = jwtUtil.createRefreshToken(username, role);
 
         // refreshToken 저장
-        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+        UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(IllegalArgumentException::new);
         UserEntity userEntity = userAuth.getUserEntity();
         UserRefreshToken userRefreshToken = UserRefreshToken.builder()
@@ -75,7 +75,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Transactional
     @Override
     public void signOut(String refreshToken) {
-        UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByToken(refreshToken)
+        UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByTokenAndDeletedAtIsNull(refreshToken)
                 .orElseThrow(RuntimeException::new);
         userRefreshToken.softDelete();
     }
@@ -102,7 +102,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         }
 
         // DB RefreshToken 검증
-        UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByToken(refreshToken)
+        UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByTokenAndDeletedAtIsNull(refreshToken)
                 .orElseThrow(RuntimeException::new);
 
         // DB RefreshToken 삭제 여부 확인
@@ -123,7 +123,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         // 기존 RefreshToken 삭제
         userRefreshToken.softDelete();
         // 새 RefreshToken 저장
-        UserAuth userAuth = userAuthJpaRepository.findByUsername(username)
+        UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
                 .orElseThrow(RuntimeException::new);
         UserEntity userEntity = userAuth.getUserEntity();
         UserRefreshToken newUserRefreshToken = UserRefreshToken.builder()
