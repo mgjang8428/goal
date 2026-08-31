@@ -1,6 +1,5 @@
 import container, { ContainerSet } from "@/config/di/container";
 import type SigninRequestDto from "@/model/auth/dto/request/signinRequestDto";
-import type SignupRequestDto from "@/model/auth/dto/request/signupRequestDto";
 import type ReissueResponseDto from "@/model/auth/dto/response/reissueResponseDto";
 import type SigninResponseDto from "@/model/auth/dto/response/signinResponseDto";
 import type AuthRepository from "@/model/auth/repository/authRepository";
@@ -12,14 +11,6 @@ import type { Logger } from "@/util/logger/logger";
  * AuthService Interface
  */
 export interface AuthService {
-    /**
-     * 유저 가입
-     * @param username user ID
-     * @param password user PW
-     * @param name user Name
-     * @param email user Email null ok
-     */
-    signup(username: string, password: string, name: string, email: string): Promise<void>
 
     /**
      * 유저 로그인
@@ -43,28 +34,6 @@ export default class AuthServiceImpl implements AuthService {
 
     private log: Logger = container.resolve(ContainerSet.LOGGER)
     private authRepository: AuthRepository = container.resolve(ContainerSet.AUTH_REPOSITORY)
-
-    public async signup(username: string, password: string, name: string, email: string): Promise<void> {
-        this.log.debug("Do authService signup()")
-
-        const dto: SignupRequestDto = {
-            username: username,
-            password: password,
-            name: name,
-            email: email
-        }
-
-        try {
-            const responseData: ResponseDto<void> = await this.authRepository.postSignup(dto)
-            if (!responseData.isSuccess) {
-                throw new Error()
-                // TODO: error 처리 필요
-            }
-        } catch (error) {
-            this.log.error("signup error")
-            throw error
-        }
-    }
 
     public async signin(
         username: string,

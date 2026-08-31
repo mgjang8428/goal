@@ -1,13 +1,13 @@
 import container, { ContainerSet } from "@/config/di/container";
 import { RouterLocaleSet } from "@/config/route/router";
-import type AuthService from "@/model/auth/service/authService";
+import type { UserService } from "@/model/user/service/userService";
 import type { Logger } from "@/util/logger/logger";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function useSignupViewModel() {
     const log: Logger = container.resolve(ContainerSet.LOGGER)
-    const authService: AuthService = container.resolve(ContainerSet.AUTH_SERVICE)
+    const userService: UserService = container.resolve(ContainerSet.USER_SERVICE)
 
     const navigate = useNavigate()
 
@@ -20,7 +20,7 @@ export default function useSignupViewModel() {
         log.debug("Do signupHandler()")
         event.preventDefault()
         try {
-            await authService.signup(username, password, name, email)
+            await userService.signup(username, password, name, email)
         } catch (error) {
             alert("가입 실패")
             return

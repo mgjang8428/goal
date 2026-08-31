@@ -1,5 +1,5 @@
 import { RouterLocaleSet } from '@/config/route/router'
-import useSignupViewModel from '@/viewmodel/auth/useSignupViewModel'
+import useSignupViewModel from '@/viewmodel/user/useSignupViewModel'
 import type React from 'react'
 import { NavLink } from 'react-router'
 
