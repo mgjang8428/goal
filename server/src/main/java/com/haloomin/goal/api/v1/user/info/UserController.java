@@ -51,7 +51,10 @@ public class UserController implements UserControllerDocs {
 
     @DeleteMapping
     @Override
-    public ResponseEntity<ResponseDto<Void>> deleteUser(UserDetails userDetails, DeleteUserRequestDto requestDto) {
-        return null;
+    public ResponseEntity<ResponseDto<Void>> deleteUser(String username, DeleteUserRequestDto requestDto) {
+        userService.deleteUser(username, requestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ResponseDto.success(null));
     }
 }

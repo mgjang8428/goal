@@ -1,5 +1,6 @@
 package com.haloomin.goal.user.service;
 
+import com.haloomin.goal.api.v1.user.info.dto.request.DeleteUserRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
@@ -12,4 +13,6 @@ public interface UserService extends UserDetailsService {
     MyInfoResponseDto getMyInfo(String username);
 
     void updateMyInfo(String username, UpdateMyInfoRequestDto requestDto);
+
+    void deleteUser(String username, DeleteUserRequestDto requestDto);
 }

@@ -54,6 +54,9 @@ public class LocalSecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/user").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/user").authenticated()
+
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signout").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/reissue").permitAll()

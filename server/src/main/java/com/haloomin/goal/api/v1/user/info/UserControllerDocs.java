@@ -43,7 +43,7 @@ public interface UserControllerDocs {
             description = "유저 본인이 서비스에서 탈퇴한다."
     )
     ResponseEntity<ResponseDto<Void>> deleteUser(
-            @AuthenticationPrincipal UserDetails userDetails,
+            @AuthenticationPrincipal String username,
             @RequestBody DeleteUserRequestDto requestDto
     );
 }
