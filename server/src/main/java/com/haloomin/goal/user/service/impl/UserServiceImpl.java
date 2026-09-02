@@ -9,6 +9,9 @@ import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
 import com.haloomin.goal.user.entity.UserRefreshToken;
 import com.haloomin.goal.user.entity.UserRole;
+import com.haloomin.goal.user.exception.IllegalUpdateTypeException;
+import com.haloomin.goal.user.exception.IncorrectPasswordException;
+import com.haloomin.goal.user.exception.NotFoundUsernameException;
 import com.haloomin.goal.user.repository.UserAuthJpaRepository;
 import com.haloomin.goal.user.repository.UserEntityJpaRepository;
 import com.haloomin.goal.user.repository.UserRefreshTokenJpaRepository;
@@ -76,7 +79,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public MyInfoResponseDto getMyInfo(String username) {
         UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NotFoundUsernameException::new);
         UserEntity userEntity = userAuth.getUserEntity();
 
         return MyInfoResponseDto.builder()
@@ -90,28 +93,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateMyInfo(String username, UpdateMyInfoRequestDto requestDto) {
         UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NotFoundUsernameException::new);
 
-        UpdateMyInfoRequestType updateType = requestDto.updateMyInfoRequestType();
+        UpdateMyInfoRequestType updateType = requestDto.type();
 
         switch (updateType) {
             case PASSWORD -> {
                 if (passwordEncoder.matches(requestDto.nowPassword(), userAuth.getPassword())) {
                     userAuth.changePassword(passwordEncoder.encode(requestDto.newPassword()));
                 } else {
-                    throw new IllegalArgumentException();
+                    throw new IncorrectPasswordException();
                 }
             }
-            case NAME -> {
-                userAuth.getUserEntity().changeName(requestDto.name());
-            }
-            case EMAIL -> {
-                userAuth.getUserEntity().changeEmail(requestDto.email());
-
-            }
-            case null, default -> {
-                throw new IllegalArgumentException();
-            }
+            case NAME -> userAuth.getUserEntity().changeName(requestDto.name());
+            case EMAIL -> userAuth.getUserEntity().changeEmail(requestDto.email());
+            case null, default -> throw new IllegalUpdateTypeException(updateType);
         }
     }
 
@@ -119,12 +115,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String username, DeleteUserRequestDto requestDto) {
         UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NotFoundUsernameException::new);
         UserEntity userEntity = userAuth.getUserEntity();
 
         // 비밀번호 비일치 시 에러
         if (!passwordEncoder.matches(requestDto.password(), userAuth.getPassword())) {
-            throw new IllegalArgumentException();
+            throw new IncorrectPasswordException();
         }
 
         // 유저 soft delete

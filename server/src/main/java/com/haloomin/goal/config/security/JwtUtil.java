@@ -1,4 +1,4 @@
-package com.haloomin.goal.global.util;
+package com.haloomin.goal.config.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

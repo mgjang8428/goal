@@ -4,13 +4,13 @@ import com.haloomin.goal.api.v1.user.info.dto.request.DeleteUserRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestDto;
 import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
-import com.haloomin.goal.global.dto.ResponseDto;
+import com.haloomin.goal.global.response.dto.ResponseDto;
+import com.haloomin.goal.global.response.util.ResponseUtil;
 import com.haloomin.goal.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,39 +22,43 @@ public class UserController implements UserControllerDocs {
 
     private final UserService userService;
 
+    private final ResponseUtil responseUtil;
+
     @PostMapping
     @Override
-    public ResponseEntity<ResponseDto<Void>> signUp(SignUpRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<Void>> signUp(
+            @Valid @RequestBody SignUpRequestDto requestDto
+    ) {
         userService.signUp(requestDto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseDto.success(null));
+        return responseUtil.okResponse();
     }
 
     @GetMapping
     @Override
-    public ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(@AuthenticationPrincipal String username) {
+    public ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(
+            @AuthenticationPrincipal String username
+    ) {
         MyInfoResponseDto responseDto = userService.getMyInfo(username);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseDto.success(responseDto));
+        return responseUtil.okResponse(responseDto);
     }
 
     @PatchMapping
     @Override
-    public ResponseEntity<ResponseDto<Void>> updateMyInfo(String username, UpdateMyInfoRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<Void>> updateMyInfo(
+            @AuthenticationPrincipal String username,
+            @Valid @RequestBody UpdateMyInfoRequestDto requestDto
+    ) {
         userService.updateMyInfo(username, requestDto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseDto.success(null));
+        return responseUtil.okResponse();
     }
 
     @DeleteMapping
     @Override
-    public ResponseEntity<ResponseDto<Void>> deleteUser(String username, DeleteUserRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<Void>> deleteUser(
+            @AuthenticationPrincipal String username,
+            @Valid @RequestBody DeleteUserRequestDto requestDto
+    ) {
         userService.deleteUser(username, requestDto);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(ResponseDto.success(null));
+        return responseUtil.okResponse();
     }
 }

@@ -1,6 +1,6 @@
 package com.haloomin.goal.security;
 
-import com.haloomin.goal.global.util.JwtUtil;
+import com.haloomin.goal.config.security.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

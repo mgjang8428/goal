@@ -1,10 +1,11 @@
 package com.haloomin.goal.user.service.impl;
 
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
-import com.haloomin.goal.global.util.JwtUtil;
+import com.haloomin.goal.config.security.JwtUtil;
 import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
 import com.haloomin.goal.user.entity.UserRefreshToken;
+import com.haloomin.goal.user.exception.*;
 import com.haloomin.goal.user.repository.UserAuthJpaRepository;
 import com.haloomin.goal.user.repository.UserRefreshTokenJpaRepository;
 import com.haloomin.goal.user.service.UserAuthService;
@@ -56,7 +57,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // refreshToken 저장
         UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NotFoundUsernameException::new);
         UserEntity userEntity = userAuth.getUserEntity();
         UserRefreshToken userRefreshToken = UserRefreshToken.builder()
                 .token(refreshToken).
@@ -76,7 +77,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public void signOut(String refreshToken) {
         UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByTokenAndDeletedAtIsNull(refreshToken)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundUserRefreshTokenException::new);
         userRefreshToken.softDelete();
     }
 
@@ -92,28 +93,23 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // TokenType 체크
         if (!"REFRESH".equals(tokenType)) {
-            throw new RuntimeException();
+            throw new IllegalTokenTypeException();
         }
 
         // RefreshToken 만료 여부 확인
         Date now = new Date();
         if (expiration.before(now)) {
-            throw new RuntimeException();
+            throw new AlreadyExpiredTokenException();
         }
 
         // DB RefreshToken 검증
         UserRefreshToken userRefreshToken = userRefreshTokenJpaRepository.findByTokenAndDeletedAtIsNull(refreshToken)
-                .orElseThrow(RuntimeException::new);
-
-        // DB RefreshToken 삭제 여부 확인
-        if (userRefreshToken.isDeleted()) {
-            throw new RuntimeException();
-        }
+                .orElseThrow(NotFoundUserRefreshTokenException::new);
 
         // username 일치 확인
         String dbRefreshTokenUsername = userRefreshToken.getUserEntity().getUserAuth().getUsername();
         if (!dbRefreshTokenUsername.equals(username)) {
-            throw new RuntimeException();
+            throw new IncorrectRefreshTokenUsernameException();
         }
 
         // accessToken, refreshToken 재발급
@@ -124,7 +120,7 @@ public class UserAuthServiceImpl implements UserAuthService {
         userRefreshToken.softDelete();
         // 새 RefreshToken 저장
         UserAuth userAuth = userAuthJpaRepository.findByUsernameAndDeletedAtIsNull(username)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundUsernameException::new);
         UserEntity userEntity = userAuth.getUserEntity();
         UserRefreshToken newUserRefreshToken = UserRefreshToken.builder()
                 .token(newRefreshToken)

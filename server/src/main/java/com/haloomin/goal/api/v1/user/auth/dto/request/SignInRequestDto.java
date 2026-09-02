@@ -5,11 +5,11 @@ import jakarta.validation.constraints.Size;
 
 public record SignInRequestDto(
         @NotNull
-        @Size(max = 30)
+        @Size(min = 3, max = 30)
         String username,
 
         @NotNull
-        @Size(max = 50)
+        @Size(min = 5, max = 50)
         String password
 ) {
 }

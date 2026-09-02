@@ -1,6 +1,5 @@
 package com.haloomin.goal.config.security;
 
-import com.haloomin.goal.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
