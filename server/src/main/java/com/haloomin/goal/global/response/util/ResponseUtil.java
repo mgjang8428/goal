@@ -1,6 +1,6 @@
 package com.haloomin.goal.global.response.util;
 
-import com.haloomin.goal.config.security.JwtUtil;
+import com.haloomin.goal.config.security.jwt.JwtTokenProvider;
 import com.haloomin.goal.global.response.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ public final class ResponseUtil {
 
     @Value("${app.cookie.secure:false}")
     private boolean isCookieSecure;
-    private final JwtUtil jwtUtil;
+    private final JwtTokenProvider jwtTokenProvider;
 
     /**
      * 성공 응답
@@ -72,7 +72,7 @@ public final class ResponseUtil {
         // make ResponseDto
         ResponseDto<T> responseDto = ResponseDto.<T>builder().dto(dto).build();
         // refreshToken expiredTime
-        long refreshTokenExpirationTime = jwtUtil.getClaims(refreshToken).getExpiration().getTime();
+        long refreshTokenExpirationTime = jwtTokenProvider.getClaims(refreshToken).getExpiration().getTime();
         long expiredTime = (refreshTokenExpirationTime - System.currentTimeMillis()) / 1000;
         // make RefreshTokenCookie
         ResponseCookie refreshTokenCookie = makeRefreshTokenCookie(refreshToken, expiredTime);

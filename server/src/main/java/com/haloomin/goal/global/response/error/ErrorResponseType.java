@@ -14,7 +14,9 @@ public enum ErrorResponseType {
 
     //AUTH ERROR
     BAD_CREDENTIALS_ERROR("E1101", "인증 실패"),
-    ACCESS_DENIED_ERROR("E1102", "접근 권한 없음")
+    ACCESS_DENIED_ERROR("E1102", "접근 권한 없음"),
+    SECURITY_UNAUTHORIZED_ERROR("E1103", "시큐리티 인증 실패"),
+    SECURITY_FORBIDDEN_ERROR("E1104", "시큐리티 권한 없음")
     ;
 
     private final String code;

@@ -52,7 +52,7 @@ public class UserController implements UserControllerDocs {
         return responseUtil.okResponse();
     }
 
-    @DeleteMapping
+    @PostMapping("/delete")
     @Override
     public ResponseEntity<ResponseDto<Void>> deleteUser(
             @AuthenticationPrincipal String username,

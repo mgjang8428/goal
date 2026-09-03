@@ -1,5 +1,9 @@
 package com.haloomin.goal.config.security;
 
+import com.haloomin.goal.config.security.jwt.JwtAuthorizationFilter;
+import com.haloomin.goal.config.security.jwt.exception.JwtAccessDeniedHandler;
+import com.haloomin.goal.config.security.jwt.exception.JwtAuthenticationEntryPoint;
+import com.haloomin.goal.config.security.jwt.exception.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,11 +20,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.context.SecurityContextHolderFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import tools.jackson.databind.ObjectMapper;
 
 @RequiredArgsConstructor
 @Profile("prod")
@@ -31,8 +34,12 @@ public class ProdSecurityConfig {
     @Value("${app.cors.allowed-origins}")
     private String corsUrl;
 
-    private final JwtUtil jwtUtil;
-    private final ObjectMapper objectMapper;
+    //filter
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    //exception
+    private final JwtExceptionFilter jwtExceptionFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -43,7 +50,12 @@ public class ProdSecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .addFilterAfter(new JwtAuthorizationFilter(corsUrl, jwtUtil, objectMapper), SecurityContextHolderFilter.class)
+                .exceptionHandling((exception) -> exception
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                )
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signin").permitAll()

@@ -3,7 +3,6 @@ package com.haloomin.goal.api.v1.user.auth;
 import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
 import com.haloomin.goal.api.v1.user.auth.dto.response.ReissueResponseDto;
 import com.haloomin.goal.api.v1.user.auth.dto.response.SignInResponseDto;
-import com.haloomin.goal.config.security.JwtUtil;
 import com.haloomin.goal.global.response.dto.ResponseDto;
 import com.haloomin.goal.global.response.util.ResponseUtil;
 import com.haloomin.goal.user.service.UserAuthService;
@@ -23,7 +22,6 @@ public class AuthController implements AuthControllerDocs {
 
     private final UserAuthService userAuthService;
 
-    private final JwtUtil jwtUtil;
     private final ResponseUtil responseUtil;
 
     @Override

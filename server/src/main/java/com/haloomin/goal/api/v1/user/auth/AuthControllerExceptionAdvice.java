@@ -14,11 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice(assignableTypes = {AuthController.class})
 public class AuthControllerExceptionAdvice {
 
-    // TODO: Exception 구체화 필요!!
+    private final ErrorResponseUtil errorResponseUtil;
+
     @ExceptionHandler(BadCredentialsException.class)
     ResponseEntity<ResponseDto<Void>> badCredentialsException(BadCredentialsException e) {
-        return ErrorResponseUtil.unauthorizedErrorResponse(ErrorResponseType.BAD_CREDENTIALS_ERROR);
+        return errorResponseUtil.unauthorizedErrorResponse(ErrorResponseType.BAD_CREDENTIALS_ERROR);
     }
 
     // TODO: MethodArgumentNotValidException 구현 필요!!
+//    SecurityException | MalformedJwtException
+//    -> Invalid JWT Token
+//    ExpiredJwtException
+//    -> Expired JWT Token
+//    UnsupportedJwtException
+//    -> Unsupported JWT Token
+//    IllegalArgumentException
+//    -> JWT claims string is empty
 }
