@@ -1,4 +1,5 @@
 import checkAccessToken from "@/config/network/checkAccessToken"
+import DefaultLayout from "@/view/layouts/DefaultLayout"
 import DashboardPage from "@/view/page/dashboard/DashboardPage"
 import MainPage from "@/view/page/MainPage"
 import MyInfoPage from "@/view/page/myinfo/MyInfoPage"
@@ -17,26 +18,33 @@ export const RouterLocaleSet = {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainPage />
+    element: <DefaultLayout />,
+    children: [
+      {
+        index: true,
+        element: <MainPage />
+      },
+      {
+        path: "/signup",
+        element: <SignupPage />
+      },
+      {
+        path: "/signin",
+        element: <SigninPage />
+      },
+      {
+        path: "/dashboard",
+        loader: checkAccessToken,
+        element: <DashboardPage />
+      },
+      {
+        path: "/myinfo",
+        loader: checkAccessToken,
+        element: <MyInfoPage />
+      }
+    ]
   },
-  {
-    path: "/signup",
-    element: <SignupPage />
-  },
-  {
-    path: "/signin",
-    element: <SigninPage />
-  },
-  {
-    path: "/dashboard",
-    loader: checkAccessToken,
-    element: <DashboardPage />
-  },
-  {
-    path: "/myinfo",
-    loader: checkAccessToken,
-    element: <MyInfoPage />
-  }
+
 ])
 
 export default router
