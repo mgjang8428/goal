@@ -9,6 +9,7 @@ import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
 import com.haloomin.goal.user.entity.UserRefreshToken;
 import com.haloomin.goal.user.entity.UserRole;
+import com.haloomin.goal.user.exception.DuplicateUsernameException;
 import com.haloomin.goal.user.exception.IllegalUpdateTypeException;
 import com.haloomin.goal.user.exception.IncorrectPasswordException;
 import com.haloomin.goal.user.exception.NotFoundUsernameException;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -74,6 +76,14 @@ public class UserServiceImpl implements UserService {
                 .role(UserRole.USER)
                 .build();
         userAuthJpaRepository.save(userAuth);
+    }
+
+    @Override
+    public void checkUsername(String username) {
+        Optional<UserAuth> byUsername = userAuthJpaRepository.findByUsername(username);
+        if (byUsername.isPresent()) {
+            throw new DuplicateUsernameException();
+        }
     }
 
     @Override

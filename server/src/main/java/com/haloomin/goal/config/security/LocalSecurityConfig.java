@@ -64,6 +64,7 @@ public class LocalSecurityConfig {
                         .requestMatchers("/swagger-resources/**").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/user").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/username").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/user").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/delete").authenticated()

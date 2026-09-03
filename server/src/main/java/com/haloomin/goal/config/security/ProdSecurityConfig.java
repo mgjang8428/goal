@@ -57,6 +57,7 @@ public class ProdSecurityConfig {
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, "/api/v1/user/username").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/user/auth/signout").permitAll()

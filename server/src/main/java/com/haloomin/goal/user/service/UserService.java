@@ -13,9 +13,12 @@ public interface UserService extends UserDetailsService {
 
     void signUp(SignUpRequestDto requestDto);
 
+    void checkUsername(String username);
+
     MyInfoResponseDto getMyInfo(String username);
 
     void updateMyInfo(String username, UpdateMyInfoRequestDto requestDto);
 
     void deleteUser(String username, DeleteUserRequestDto requestDto);
+
 }

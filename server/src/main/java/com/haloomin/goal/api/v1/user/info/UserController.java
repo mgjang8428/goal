@@ -33,6 +33,13 @@ public class UserController implements UserControllerDocs {
         return responseUtil.okResponse();
     }
 
+    @GetMapping("/username")
+    @Override
+    public ResponseEntity<ResponseDto<Void>> checkUsername(@RequestParam("username") String username) {
+        userService.checkUsername(username);
+        return responseUtil.okResponse();
+    }
+
     @GetMapping
     @Override
     public ResponseEntity<ResponseDto<MyInfoResponseDto>> getMyInfo(

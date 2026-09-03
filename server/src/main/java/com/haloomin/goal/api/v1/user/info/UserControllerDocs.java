@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @SuppressWarnings("unused")
 @Tag(name = "유저 관련 API")
@@ -23,6 +24,15 @@ public interface UserControllerDocs {
     )
     ResponseEntity<ResponseDto<Void>> signUp(
             @Valid @RequestBody SignUpRequestDto requestDto
+    );
+
+    @Operation(
+            summary = "유저 username 중복 확인",
+            description = "유저 username 중복 확인",
+            method = "GET"
+    )
+    ResponseEntity<ResponseDto<Void>> checkUsername(
+            @RequestParam("username") String username
     );
 
     @Operation(
