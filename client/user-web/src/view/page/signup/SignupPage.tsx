@@ -13,7 +13,10 @@ export default function SignupPage() {
         setPassword,
         setName,
         setEmail,
-        signupHandler
+        signupHandler,
+        isUsernameInputBlock,
+        duplicateUsernameCheck,
+        cancelDuplicateCheck
     } = useSignupViewModel()
 
     return (
@@ -24,12 +27,35 @@ export default function SignupPage() {
             </NavLink>
             <form onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => { signupHandler(event) }}>
                 <label>ID</label>
-                <input
-                    id='username'
-                    type='text'
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+                {
+                    isUsernameInputBlock ? (
+                        <>
+                            <span>{username}</span>
+                            <button
+                                type='button'
+                                onClick={() => { cancelDuplicateCheck() }}
+                            >
+                                재입력
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <input
+                                id='username'
+                                type='text'
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <button
+                                type='button'
+                                onClick={() => { duplicateUsernameCheck() }}
+                            >
+                                중복확인
+                            </button>
+                        </>
+                    )
+                }
+
                 <label>PW</label>
                 <input
                     id='password'
@@ -52,7 +78,7 @@ export default function SignupPage() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <button type='submit'>가입</button>
-            </form>
+            </form >
         </>
     )
 }

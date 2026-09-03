@@ -5,6 +5,7 @@ import type ResponseDto from "@/model/global/dto/responseDto";
 import type DeleteUserRequestDto from "@/model/user/dto/request/deleteUserRequestDto";
 import type SignupRequestDto from "@/model/user/dto/request/signupRequestDto";
 import type UpdateMyInfoRequestDto from "@/model/user/dto/request/updateMyInfoRequestDto";
+import type UsernameCheckRequestDto from "@/model/user/dto/request/usernameCheckRequestDto";
 import type GetMyInfoResponseDto from "@/model/user/dto/response/getMyInfoResponseDto";
 import type { Logger } from "@/util/logger/logger";
 
@@ -15,6 +16,12 @@ export interface UserRepository {
      * @returns Promise<ResponseDto<void>>: api 가입응답 DTO Promise
      */
     postSignup(dto: SignupRequestDto): Promise<void>
+
+    /**
+     * GET: ID 중복확인
+     * @param requestDto ID 중복확인 요청 DTO
+     */
+    checkUsername(requestDto: UsernameCheckRequestDto): Promise<void>
 
     /**
      * GET: 내정보 가져오기 api
@@ -46,6 +53,20 @@ export default class UserRepositoryImpl implements UserRepository {
             )
         } catch (error: unknown) {
             this.log.error("postSignup error")
+            throw error
+        }
+    }
+
+    public async checkUsername(requestDto: UsernameCheckRequestDto): Promise<void> {
+        this.log.debug("Do userRepository checkUsername()")
+        try {
+            const params = requestDto
+            await api.get<ResponseDto<void>>(
+                apiLocale.USER_ID_CHECK,
+                {params}
+            )
+        } catch (error) {
+            this.log.error("getCheckUsername error")
             throw error
         }
     }

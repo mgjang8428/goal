@@ -11,14 +11,21 @@ export default function useSignupViewModel() {
 
     const navigate = useNavigate()
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+
+    const [isUsernameDuplicateCheck, setIsUsernameDuplicateCheck] = useState(false)
+    const [isUsernameInputBlock, setIsUsernameInputBlock] = useState(false)
 
     async function signupHandler(event: React.SubmitEvent<HTMLFormElement>) {
         log.debug("Do signupHandler()")
         event.preventDefault()
+        if (!isUsernameDuplicateCheck) {
+            alert("ID 중복확인이 필요합니다.")
+            return
+        }
         try {
             await userService.signup(username, password, name, email)
         } catch (error) {
@@ -26,6 +33,23 @@ export default function useSignupViewModel() {
             return
         }
         navigate(RouterLocaleSet.MAIN_PAGE, { replace: true })
+    }
+
+    async function duplicateUsernameCheck() {
+        log.debug("Do duplicateUsernameCheck()")
+        try {
+            await userService.checkUsername(username)
+            setIsUsernameDuplicateCheck(true)
+            setIsUsernameInputBlock(true)
+            alert("사용 가능한 아이디입니다.")
+        } catch (error) {
+            alert("중복 아이디입니다.")
+        }
+    }
+
+    function cancelDuplicateCheck() {
+        setIsUsernameDuplicateCheck(false)
+        setIsUsernameInputBlock(false)
     }
 
     return {
@@ -37,7 +61,10 @@ export default function useSignupViewModel() {
         setPassword,
         setName,
         setEmail,
-        signupHandler
+        signupHandler,
+        isUsernameInputBlock,
+        duplicateUsernameCheck,
+        cancelDuplicateCheck
     }
 
 }

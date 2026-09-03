@@ -4,6 +4,7 @@ import type DeleteUserRequestDto from "@/model/user/dto/request/deleteUserReques
 import type SignupRequestDto from "@/model/user/dto/request/signupRequestDto"
 import type UpdateMyInfoRequestDto from "@/model/user/dto/request/updateMyInfoRequestDto"
 import { UpdateMyInfoRequestType } from "@/model/user/dto/request/updateMyInfoRequestDto"
+import type UsernameCheckRequestDto from "@/model/user/dto/request/usernameCheckRequestDto"
 import type GetMyInfoResponseDto from "@/model/user/dto/response/getMyInfoResponseDto"
 import type { UserRepository } from "@/model/user/repository/userRepository"
 import type { Logger } from "@/util/logger/logger"
@@ -17,6 +18,12 @@ export interface UserService {
      * @param email user Email null ok
      */
     signup(username: string, password: string, name: string, email: string): Promise<void>
+
+    /**
+     * 유저 ID 중복 확인
+     * @param username user ID
+     */
+    checkUsername(username: string): Promise<void>
 
     /**
      * 내 정보 가져오기
@@ -70,6 +77,20 @@ export default class UserServiceImpl implements UserService {
             this.log.error("signup error")
             throw error
         }
+    }
+
+    public async checkUsername(username: string): Promise<void> {
+        this.log.debug("Do authService usernameCheck()")
+        const requestDto: UsernameCheckRequestDto = {
+            username: username
+        }
+        try {
+            await this.userRepository.checkUsername(requestDto)
+        } catch (error) {
+            this.log.error("checkUsername error")
+            throw error
+        }
+        
     }
 
     public async getMyInfoData(): Promise<GetMyInfoResponseDto> {
