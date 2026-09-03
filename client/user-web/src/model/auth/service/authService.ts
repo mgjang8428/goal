@@ -27,7 +27,7 @@ export interface AuthService {
     /**
      * accessToken 재발행
      */
-    reissue(): void
+    reissue(): Promise<void>
 }
 
 export default class AuthServiceImpl implements AuthService {
@@ -44,10 +44,6 @@ export default class AuthServiceImpl implements AuthService {
         const requestDto: SigninRequestDto = { username: username, password: password }
         try {
             const responseData: ResponseDto<SigninResponseDto> = await this.authRepository.postSignin(requestDto)
-            if (!responseData.isSuccess) {
-                throw Error;
-                // TODO: error 처리 필요
-            }
             const accessCode: string | null = responseData.dto?.accessToken ?? null
             setAccessToken(accessCode)
         } catch (error) {
@@ -59,14 +55,11 @@ export default class AuthServiceImpl implements AuthService {
     async signout(): Promise<void> {
         const { popAccessToken }: AuthStoreState = useAuthStore.getState()
         try {
-            const responseData: ResponseDto<void> = await this.authRepository.postSignout()
-            if (!responseData.isSuccess) {
-                throw Error;
-                // TODO: error 처리 필요
-            }
-            popAccessToken()
+            await this.authRepository.postSignout()
         } catch (error) {
             this.log.error("signout error")
+        } finally {
+            popAccessToken()
         }
     }
 
@@ -74,10 +67,6 @@ export default class AuthServiceImpl implements AuthService {
         const { setAccessToken }: AuthStoreState = useAuthStore.getState()
         try {
             const responseData: ResponseDto<ReissueResponseDto> = await this.authRepository.postReissue()
-            if (!responseData.isSuccess) {
-                throw Error;
-                // TODO: error 처리 필요
-            }
             setAccessToken(responseData.dto?.accessToken as string)
         } catch (error) {
             this.log.error("reissue error")

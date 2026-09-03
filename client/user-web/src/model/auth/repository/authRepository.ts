@@ -22,7 +22,7 @@ export interface AuthRepository {
     /**
      * POST: 로그아웃 api
      */
-    postSignout(): Promise<ResponseDto<void>>
+    postSignout(): Promise<void>
 
     /**
      * POST: accessToken 재발급 api
@@ -53,13 +53,12 @@ export default class AuthRepositoryImpl implements AuthRepository {
         }
     }
 
-    public async postSignout(): Promise<ResponseDto<void>> {
+    public async postSignout(): Promise<void> {
         this.log.debug("Do authRepository postSignout")
         try {
-            const response = await api.post<ResponseDto<void>>(
+            await api.post<ResponseDto<void>>(
                 apiLocale.AUTH_SIGNOUT
             )
-            return response.data
             // TODO: error 처리 필요
         } catch (error: unknown) {
             this.log.error("postSignout error")

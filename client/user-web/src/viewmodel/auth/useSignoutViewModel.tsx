@@ -6,10 +6,10 @@ import { useNavigate } from "react-router"
 export default function useSignoutViewModel() {
     const authService: AuthService = container.resolve(ContainerSet.AUTH_SERVICE)
     const navigate = useNavigate()
-    function signoutHandler() {
+    async function signoutHandler() {
         const confirmResult: boolean = confirm("로그아웃?")
         if (confirmResult) {
-            authService.signout()
+            await authService.signout()
             navigate(RouterLocaleSet.MAIN_PAGE)
         }
     }

@@ -9,5 +9,5 @@ export const apiLocale = {
     USER_SIGNUP: "/api/v1/user",
     USER_GETMYINFO: "/api/v1/user",
     USER_UPDATEMYINFO: "/api/v1/user",
-    USER_DELETEUSER: "/api/v1/user"
+    USER_DELETEUSER: "/api/v1/user/delete"
 } as const

@@ -4,5 +4,4 @@
 export default interface ResponseErrorDto {
     code: number
     message: string
-    timestamp: string
 }

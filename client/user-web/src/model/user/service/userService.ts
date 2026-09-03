@@ -1,5 +1,6 @@
 import container, { ContainerSet } from "@/config/di/container"
 import type ResponseDto from "@/model/global/dto/responseDto"
+import type DeleteUserRequestDto from "@/model/user/dto/request/deleteUserRequestDto"
 import type SignupRequestDto from "@/model/user/dto/request/signupRequestDto"
 import type UpdateMyInfoRequestDto from "@/model/user/dto/request/updateMyInfoRequestDto"
 import { UpdateMyInfoRequestType } from "@/model/user/dto/request/updateMyInfoRequestDto"
@@ -64,11 +65,7 @@ export default class UserServiceImpl implements UserService {
         }
 
         try {
-            const responseData: ResponseDto<void> = await this.userRepository.postSignup(dto)
-            if (!responseData.isSuccess) {
-                throw new Error()
-                // TODO: error 처리 필요
-            }
+            await this.userRepository.postSignup(dto)
         } catch (error) {
             this.log.error("signup error")
             throw error
@@ -79,10 +76,6 @@ export default class UserServiceImpl implements UserService {
         this.log.debug("Do getMyInfoData()")
         try {
             const responseData: ResponseDto<GetMyInfoResponseDto> = await this.userRepository.getMyInfo()
-            if (!responseData.isSuccess || responseData == undefined) {
-                throw new Error()
-                // TODO: error 처리 필요
-            }
             return responseData.dto as GetMyInfoResponseDto
         } catch (error) {
             this.log.error("getMyInfoData error")
@@ -97,7 +90,7 @@ export default class UserServiceImpl implements UserService {
             newPassword: newPassword,
         }
         try {
-            const response = await this.userRepository.updateMyInfo(requestDto)
+            await this.userRepository.updateMyInfo(requestDto)
         } catch (error) {
             this.log.error("changePassword error")
         }
@@ -109,7 +102,7 @@ export default class UserServiceImpl implements UserService {
             name: newName
         }
         try {
-            const response = await this.userRepository.updateMyInfo(requestDto)
+            await this.userRepository.updateMyInfo(requestDto)
         } catch (error) {
             this.log.error("changeName error")
         }
@@ -121,15 +114,18 @@ export default class UserServiceImpl implements UserService {
             email: newEmail
         }
         try {
-            const response = await this.userRepository.updateMyInfo(requestDto)
+            await this.userRepository.updateMyInfo(requestDto)
         } catch (error) {
             this.log.error("changeEmail error")
         }
     }
 
     public async deleteUser(deleteUserPassword: string): Promise<void> {
+        const requestDto: DeleteUserRequestDto = {
+            password: deleteUserPassword
+        }
         try {
-            const response = this.userRepository.deleteUser()
+            this.userRepository.deleteUser(requestDto)
         } catch (error) {
             this.log.error("deleteUser error")
         }
