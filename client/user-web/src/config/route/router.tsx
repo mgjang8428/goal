@@ -32,19 +32,33 @@ const router = createBrowserRouter([
         path: "/signin",
         element: <SigninPage />
       },
+      // {
+      //   path: "/dashboard",
+      //   loader: checkAccessToken,
+      //   element: <DashboardPage />
+      // },
+      // {
+      //   path: "/myinfo",
+      //   loader: checkAccessToken,
+      //   element: <MyInfoPage />
+      // }
+    ]
+  },
+  {
+    path: "/",
+    element: <DefaultLayout />,
+    loader: checkAccessToken,
+    children: [
       {
         path: "/dashboard",
-        loader: checkAccessToken,
         element: <DashboardPage />
       },
       {
         path: "/myinfo",
-        loader: checkAccessToken,
         element: <MyInfoPage />
       }
     ]
-  },
-
+  }
 ])
 
 export default router

@@ -4,6 +4,7 @@ import type ReissueResponseDto from "@/model/auth/dto/response/reissueResponseDt
 import type ResponseDto from "@/model/global/dto/responseDto"
 import useAuthStore from "@/store/authStore"
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios"
+import i18next from "i18next"
 
 const baseURL: string = import.meta.env.VITE_NETWORK_API_URL
 const timeout: number = import.meta.env.VITE_NETWORK_API_TIMEOUT as number
@@ -98,7 +99,7 @@ authApi.interceptors.response.use(
     (response) => response,
     async (error: AxiosError) => {
         const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean }
-        if (error.response?.status == 403 && originalRequest && !originalRequest._retry) {
+        if ((error.response?.status == 401 || error.response?.status == 403) && originalRequest && !originalRequest._retry) {
             // 동시 요청 방지
             if (isRefreshing) {
                 return new Promise<string>((resolve, reject) => { failedQueue.push({ resolve, reject }) })
@@ -137,7 +138,7 @@ authApi.interceptors.response.use(
                 popAccessToken()
 
                 // 재로그인 요청 alert
-                alert("재로그인이 필요합니다.")
+                alert(i18next.t("noti:auth_error.need_to_resignin"))
                 // 로그인 페이지로 강제 이동
                 window.location.href = RouterLocaleSet.SIGNIN_PAGE
 

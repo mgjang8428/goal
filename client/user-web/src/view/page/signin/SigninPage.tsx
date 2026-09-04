@@ -1,8 +1,10 @@
 import { RouterLocaleSet } from "@/config/route/router";
 import useSigninViewModel from "@/viewmodel/auth/useSigninViewModel";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router";
 
 export default function SigninPage() {
+  const { t } = useTranslation()
   const {
     username,
     setUsername,
@@ -17,21 +19,23 @@ export default function SigninPage() {
         <p>Go Main</p>
       </NavLink>
       <form onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => { signinHandler(event) }}>
-        <label>ID</label>
+        <label>{t("page.signin_page.username")}</label>
         <input
           id="username"
           type="text"
           value={username}
           onChange={(e) => { setUsername(e.target.value) }}
         />
-        <label>PW</label>
+        <br/>
+        <label>{t("page.signin_page.password")}</label>
         <input
           id="password"
           type="password"
           value={password}
           onChange={(e) => { setPassword(e.target.value) }}
         />
-        <button type="submit">SignIn</button>
+        <br/>
+        <button type="submit">{t("page.signin_page.signin_button")}</button>
       </form>
     </>
   )

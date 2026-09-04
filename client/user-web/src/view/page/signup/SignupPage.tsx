@@ -1,9 +1,12 @@
 import { RouterLocaleSet } from '@/config/route/router'
 import useSignupViewModel from '@/viewmodel/user/useSignupViewModel'
 import type React from 'react'
+import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 export default function SignupPage() {
+    const { t } = useTranslation()
+
     const {
         username,
         password,
@@ -26,7 +29,7 @@ export default function SignupPage() {
                 <p>Go Main</p>
             </NavLink>
             <form onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => { signupHandler(event) }}>
-                <label>ID</label>
+                <label>{t("page.signup_page.username")} : </label>
                 {
                     isUsernameInputBlock ? (
                         <>
@@ -35,7 +38,7 @@ export default function SignupPage() {
                                 type='button'
                                 onClick={() => { cancelDuplicateCheck() }}
                             >
-                                재입력
+                                {t("page.signup_page.check_username_button.recheck_button")}
                             </button>
                         </>
                     ) : (
@@ -50,34 +53,37 @@ export default function SignupPage() {
                                 type='button'
                                 onClick={() => { duplicateUsernameCheck() }}
                             >
-                                중복확인
+                                {t("page.signup_page.check_username_button.check_button")}
                             </button>
                         </>
                     )
                 }
-
-                <label>PW</label>
+                <br/>
+                <label>{t("page.signup_page.password")} : </label>
                 <input
                     id='password'
                     type='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <label>이름</label>
+                <br/>
+                <label>{t("page.signup_page.name")} : </label>
                 <input
                     id='name'
                     type='text'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                <label>E-mail</label>
+                <br/>
+                <label>{t("page.signup_page.email")} : </label>
                 <input
                     id='email'
                     type='text'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <button type='submit'>가입</button>
+                <br/>
+                <button type='submit'>{t("page.signup_page.signup_button")}</button>
             </form >
         </>
     )

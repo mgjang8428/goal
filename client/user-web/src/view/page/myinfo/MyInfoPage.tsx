@@ -1,9 +1,11 @@
 import { RouterLocaleSet } from "@/config/route/router"
 import useMyInfoViewModel from "@/viewmodel/user/useMyInfoViewModel"
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { NavLink } from "react-router"
 
 export default function MyInfoPage() {
+    const { t } = useTranslation()
     const {
         loadMyInfoData,
 
@@ -44,11 +46,11 @@ export default function MyInfoPage() {
             </NavLink>
             <br />
             <div>
-                <p>username: </p>
-                <p>{username}</p>
+                <span>{t("page.myinfo_page.label.username")} : </span>
+                <span>{username}</span>
             </div>
             <div>
-                <p>password: </p>
+                <p>{t("page.myinfo_page.label.password")}</p>
                 <button
                     onClick={() => {
                         isPasswordUpdateMode ? setIsPasswordUpdateMode(false) : setIsPasswordUpdateMode(true)
@@ -56,89 +58,112 @@ export default function MyInfoPage() {
                         setNewPassword("")
                     }}
                 >
-                    {isPasswordUpdateMode ? "취소" : "수정"}
+                    {
+                        // 비밀번호 변경, 취소 버튼 Text
+                        isPasswordUpdateMode ? (
+                            t("page.myinfo_page.change_button.cencel")
+                        ) : (
+                            t("page.myinfo_page.change_button.change")
+                        )
+                    }
                 </button>
                 {
                     isPasswordUpdateMode ?
                         (
                             <div>
-                                <p>현재 비밀번호: </p>
+                                <span>{t("page.myinfo_page.change_label.nowpassword")} : </span>
                                 <input
                                     type="password"
                                     value={nowPassword}
                                     onChange={(e) => setNowPassword(e.target.value)}
                                 />
-                                <p>변경할 비밀번호: </p>
+                                <br/>
+                                <span>{t("page.myinfo_page.change_label.newpassword")} : </span>
                                 <input
                                     type="password"
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
                                 />
                                 <br />
-                                <button onClick={() => changePassword()}>변경</button>
+                                <button onClick={() => changePassword()}>{t("page.myinfo_page.change_button.accept")}</button>
                             </div>
                         ) : (<></>)
                 }
 
             </div>
             <div>
-                <p>name: </p>
-                <p>{name}</p>
+                <span>{t("page.myinfo_page.label.name")} : </span>
+                <span>{name}</span>
+                <br/>
                 <button
                     onClick={() => {
                         isNameUpdateMode ? setIsNameUpdateMode(false) : setIsNameUpdateMode(true)
                         setNewName("")
                     }}
                 >
-                    {isNameUpdateMode ? "취소" : "수정"}
+                    {
+                        // 이름 변경, 취소 버튼 Text
+                        isNameUpdateMode ? (
+                            t("page.myinfo_page.change_button.cencel")
+                        ) : (
+                            t("page.myinfo_page.change_button.change")
+                        )
+                    }
                 </button>
                 {
                     isNameUpdateMode ?
                         (
                             <div>
-                                <p>변경할 이름: </p>
+                                <span>{t("page.myinfo_page.change_label.newname")} : </span>
                                 <input
                                     type="text"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value)}
                                 />
                                 <br />
-                                <button onClick={() => changeName()}>변경</button>
+                                <button onClick={() => changeName()}>{t("page.myinfo_page.change_button.accept")}</button>
                             </div>
                         ) : (<></>)
                 }
 
             </div>
             <div>
-                <p>email: </p>
-                <p>{email}</p>
+                <span>{t("page.myinfo_page.label.email")} : </span>
+                <span>{email}</span>
+                <br/>
                 <button
                     onClick={() => {
                         isEmailUpdateMode ? (setIsEmailUpdateMode(false)) : (setIsEmailUpdateMode(true))
                         setNewEmail("")
                     }}
                 >
-                    {isEmailUpdateMode ? "취소" : "수정"}
+                    {
+                        isEmailUpdateMode ? (
+                            t("page.myinfo_page.change_button.cencel")
+                        ) : (
+                            t("page.myinfo_page.change_button.change")
+                        )
+                    }
                 </button>
                 {
                     isEmailUpdateMode ?
                         (
                             <div>
-                                <p>변경할 이메일: </p>
+                                <span>{t("page.myinfo_page.change_label.newemail")} : </span>
                                 <input
                                     type="text"
                                     value={newEmail}
                                     onChange={(e) => setNewEmail(e.target.value)}
                                 />
                                 <br />
-                                <button onClick={() => { changeEmail() }}>변경</button>
+                                <button onClick={() => { changeEmail() }}>{t("page.myinfo_page.change_button.accept")}</button>
                             </div>
                         ) : (<></>)
                 }
             </div>
             <br />
             <div>
-                <button onClick={() => deleteUser()}>회원탈퇴</button>
+                <button onClick={() => deleteUser()}>{t("page.myinfo_page.user_delete_button")}</button>
             </div>
         </>
     )

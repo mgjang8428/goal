@@ -5,12 +5,15 @@ import type GetMyInfoResponseDto from "@/model/user/dto/response/getMyInfoRespon
 import type { UserService } from "@/model/user/service/userService"
 import type { Logger } from "@/util/logger/logger"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { redirect } from "react-router"
 
 export default function useMyInfoViewModel() {
     const log: Logger = container.resolve(ContainerSet.LOGGER)
     const userService: UserService = container.resolve(ContainerSet.USER_SERVICE)
     const authService: AuthService = container.resolve(ContainerSet.AUTH_SERVICE)
+
+    const { t } = useTranslation('noti')
 
     const [username, setUsername] = useState('')
     const [name, setName] = useState('')
@@ -35,20 +38,23 @@ export default function useMyInfoViewModel() {
             setName(responseDto.name)
             setEmail(responseDto.email)
         } catch (error) {
-            alert("내정보 불러오기 오류")
+            alert(t("myinfo_viewmodel.loadmyinfodata_error_alert"))
             return
         }
     }
 
     async function changePassword() {
         log.debug("Do changePassword()")
-        const confirmResult = confirm("비밀번호 변경?")
+        const confirmResult = confirm(t("myinfo_viewmodel.changepassword_confirm"))
         if (!confirmResult) return
         try {
             await userService.changePassword(nowPassword, newPassword)
             setIsDataUpdate(true)
+            setIsPasswordUpdateMode(false)
+            setNowPassword("")
+            setNewPassword("")
         } catch (error) {
-            alert("비밀번호 변경 오류")
+            alert(t("myinfo_viewmodel.changepassword_error_alert"))
             return
         }
 
@@ -56,13 +62,15 @@ export default function useMyInfoViewModel() {
 
     async function changeName() {
         log.debug("Do changeName()")
-        const confirmResult = confirm("이름 변경?")
+        const confirmResult = confirm(t("myinfo_viewmodel.changename_confirm"))
         if (!confirmResult) return
         try {
             await userService.changeName(newName)
             setIsDataUpdate(true)
+            setIsNameUpdateMode(false)
+            setNewName("")
         } catch (error) {
-            alert("이름 변경 오류")
+            alert(t("myinfo_viewmodel.changename_error_alert"))
             return
         }
 
@@ -70,26 +78,28 @@ export default function useMyInfoViewModel() {
 
     async function changeEmail() {
         log.debug("Do changeEmail()")
-        const confirmResult = confirm("비밀번호 변경?")
+        const confirmResult = confirm(t("myinfo_viewmodel.changeemail_confirm"))
         if (!confirmResult) return
         try {
             await userService.changeEmail(newEmail)
             setIsDataUpdate(true)
+            setIsEmailUpdateMode(false)
+            setNewEmail("")
         } catch (error) {
-            alert("이메일 변경 오류")
+            alert(t("myinfo_viewmodel.changeemail_error_alert"))
             return
         }
     }
 
     async function deleteUser() {
         log.debug("Do deleteUser()")
-        const isDeleteConfirm = confirm("탈퇴?")
+        const isDeleteConfirm = confirm(t("myinfo_viewmodel.deleteuser_confirm"))
         if (!isDeleteConfirm) return
 
-        const deleteUserPassword = prompt("현재 비밀번호 입력")
+        const deleteUserPassword = prompt(t("myinfo_viewmodel.deleteuser_prompt"))
         if (deleteUserPassword == null) return
         if (deleteUserPassword == "") {
-            alert("비밀번호를 입력해주세요.")
+            alert(t("myinfo_viewmodel.deleteuser_prompt_alert"))
             return
         }
         try {
@@ -97,7 +107,7 @@ export default function useMyInfoViewModel() {
             authService.signout()
             redirect(RouterLocaleSet.MAIN_PAGE)
         } catch (error) {
-            alert("탈퇴 오류")
+            alert(t("myinfo_viewmodel.deleteuser_error_alert"))
             return
         }
 
