@@ -1,0 +1,48 @@
+{
+    "layouts" : {
+        "header" : {
+            "signup" : "가입",
+            "signin" : "로그인",
+            "signout" : "로그아웃",
+            "myinfo" : "내정보"
+        }
+    },
+    "page" : {
+        "signup_page" : {
+            "username" : "아이디",
+            "check_username_button" : {
+                "check_button" : "중복확인",
+                "recheck_button" : "재입력"
+            },
+            "password" : "비밀번호",
+            "name" : "이름",
+            "email" : "이메일",
+            "signup_button" : "가입"
+        },
+        "signin_page" : {
+            "username" : "아이디",
+            "password" : "비밀번호",
+            "signin_button" : "로그인"
+        },
+        "myinfo_page" : {
+            "label" : {
+                "username" : "아이디",
+                "password" : "비밀번호 변경",
+                "name" : "이름",
+                "email" : "이메일"
+            },
+            "change_label" : {
+                "nowpassword" : "현재 비밀번호",
+                "newpassword" : "새로운 비밀번호",
+                "newname" : "변경할 이름",
+                "newemail" : "변경할 이메일"
+            },
+            "change_button" : {
+                "change" : "수정",
+                "cencel" : "취소",
+                "accept" : "변경"
+            },
+            "user_delete_button" : "회원탈퇴"
+        }
+    }
+}

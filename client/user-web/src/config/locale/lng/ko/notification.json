@@ -1,0 +1,30 @@
+{
+    "auth_error" : {
+        "need_to_resignin" : "재로그인이 필요합니다."
+    },
+    "signin_viewmodel" : {
+        "signin_failed_alert" : "로그인 실패"
+    },
+    "signout_viewmodel" : {
+        "signout_confirm" : "로그아웃하시겠습니까?"
+    },
+    "myinfo_viewmodel" : {
+        "loadmyinfodata_error_alert" : "내정보 불러오기 에러",
+        "changepassword_confirm" : "비밀번호를 변경할까요?",
+        "changepassword_error_alert" : "비밀번호 변경 실패",
+        "changename_confirm" : "이름을 변경할까요?",
+        "changename_error_alert" : "이름 변경 실패",
+        "changeemail_confirm" : "이메일을 변경할까요?",
+        "changeemail_error_alert" : "이메일 변경 실패",
+        "deleteuser_confirm" : "서비스에서 탈퇴하시겠습니까?",
+        "deleteuser_prompt" : "현재 비밀번호를 입력해주세요.",
+        "deleteuser_prompt_alert" : "현재 비밀번호를 입력해주세요.",
+        "deleteuser_error_alert" : "서비스 탈퇴 실패"
+    },
+    "signup_viewmodel" : {
+        "signup_need_duplecheck_alert" : "아이디 중복확인이 필요합니다.",
+        "signup_error_alert" : "서비스 가입 실패",
+        "duplecheck_ok_alert" : "사용가능한 아이디입니다.",
+        "duplecheck_failed_alert" : "사용가능한 아이디입니다."
+    }
+}

@@ -3,11 +3,14 @@ import { RouterLocaleSet } from "@/config/route/router";
 import type { UserService } from "@/model/user/service/userService";
 import type { Logger } from "@/util/logger/logger";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 export default function useSignupViewModel() {
     const log: Logger = container.resolve(ContainerSet.LOGGER)
     const userService: UserService = container.resolve(ContainerSet.USER_SERVICE)
+
+    const { t } = useTranslation('noti')
 
     const navigate = useNavigate()
 
@@ -23,13 +26,13 @@ export default function useSignupViewModel() {
         log.debug("Do signupHandler()")
         event.preventDefault()
         if (!isUsernameDuplicateCheck) {
-            alert("ID 중복확인이 필요합니다.")
+            alert(t("signup_viewmodel.signup_need_duplecheck_alert"))
             return
         }
         try {
             await userService.signup(username, password, name, email)
         } catch (error) {
-            alert("가입 실패")
+            alert(t("signup_viewmodel.signup_error_alert"))
             return
         }
         navigate(RouterLocaleSet.MAIN_PAGE, { replace: true })
@@ -41,9 +44,9 @@ export default function useSignupViewModel() {
             await userService.checkUsername(username)
             setIsUsernameDuplicateCheck(true)
             setIsUsernameInputBlock(true)
-            alert("사용 가능한 아이디입니다.")
+            alert(t("signup_viewmodel.duplecheck_ok_alert"))
         } catch (error) {
-            alert("중복 아이디입니다.")
+            alert(t("signup_viewmodel.duplecheck_failed_alert"))
         }
     }
 

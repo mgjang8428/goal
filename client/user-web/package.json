@@ -13,9 +13,11 @@
     "@tailwindcss/vite": "^4.3.3",
     "awilix": "^13.0.5",
     "axios": "^1.19.0",
+    "i18next": "^26.4.1",
     "jwt-decode": "^4.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-i18next": "^17.0.13",
     "react-router": "^8.3.0",
     "tailwindcss": "^4.3.3",
     "zustand": "^5.0.15"
@@ -29,6 +31,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
     "babel-plugin-react-compiler": "^1.0.0",
+    "i18next-resources-for-ts": "^2.1.0",
     "oxlint": "^1.75.0",
     "typescript": "~6.0.2",
     "vite": "^8.2.0"

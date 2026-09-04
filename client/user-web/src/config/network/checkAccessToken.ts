@@ -3,7 +3,9 @@ import { RouterLocaleSet } from "@/config/route/router";
 import type AuthService from "@/model/auth/service/authService";
 import useAuthStore from "@/store/authStore";
 import type { Logger } from "@/util/logger/logger";
+import i18next from "i18next";
 import { jwtDecode } from "jwt-decode";
+
 import { redirect } from "react-router";
 
 /**
@@ -19,7 +21,7 @@ export default async function checkAccessToken() {
 
     // null 체크
     if (accessToken == null) {
-        alert("재로그인이 필요합니다.")
+        alert(i18next.t("noti:auth_error.need_to_resignin"))
         authService.signout()
         return redirect(RouterLocaleSet.SIGNIN_PAGE)
     }
@@ -36,7 +38,7 @@ export default async function checkAccessToken() {
             return
         } catch (error) {
             log.error(error)
-            alert("재로그인이 필요합니다.")
+            alert(i18next.t("noti:auth_error.need_to_resignin"))
             authService.signout()
             return redirect(RouterLocaleSet.SIGNIN_PAGE)
         }
