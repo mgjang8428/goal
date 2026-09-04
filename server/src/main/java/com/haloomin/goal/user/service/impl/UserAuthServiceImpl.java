@@ -102,12 +102,11 @@ public class UserAuthServiceImpl implements UserAuthService {
 
         // accessToken, refreshToken 재발급
         UserDetails userDetails = userService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        Authentication authenticate = new UsernamePasswordAuthenticationToken(
                 userDetails,
-                "",
+                null,
                 userDetails.getAuthorities()
         );
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         String newAccessToken = jwtTokenProvider.createAccessToken(authenticate);
         String newRefreshToken = jwtTokenProvider.createRefreshToken(authenticate);
 
