@@ -16,6 +16,7 @@ export default function useSignupViewModel() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [passwordCheck, setPasswordCheck] = useState('')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
 
@@ -27,6 +28,10 @@ export default function useSignupViewModel() {
         event.preventDefault()
         if (!isUsernameDuplicateCheck) {
             alert(t("signup_viewmodel.signup_need_duplecheck_alert"))
+            return
+        }
+        if (password != passwordCheck) {
+            alert(t("signup_viewmodel.signup_password_notmatch_alert"))
             return
         }
         try {
@@ -56,14 +61,11 @@ export default function useSignupViewModel() {
     }
 
     return {
-        username,
-        password,
-        name,
-        email,
-        setUsername,
-        setPassword,
-        setName,
-        setEmail,
+        username, setUsername,
+        password, setPassword,
+        passwordCheck, setPasswordCheck,
+        name, setName,
+        email, setEmail,
         signupHandler,
         isUsernameInputBlock,
         duplicateUsernameCheck,

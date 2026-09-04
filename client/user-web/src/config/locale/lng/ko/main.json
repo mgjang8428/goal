@@ -15,6 +15,7 @@
                 "recheck_button" : "재입력"
             },
             "password" : "비밀번호",
+            "password_check" : "비밀번호 확인",
             "name" : "이름",
             "email" : "이메일",
             "signup_button" : "가입"

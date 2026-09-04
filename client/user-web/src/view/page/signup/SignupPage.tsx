@@ -8,14 +8,11 @@ export default function SignupPage() {
     const { t } = useTranslation()
 
     const {
-        username,
-        password,
-        name,
-        email,
-        setUsername,
-        setPassword,
-        setName,
-        setEmail,
+        username, setUsername,
+        password, setPassword,
+        passwordCheck, setPasswordCheck,
+        name, setName,
+        email, setEmail,
         signupHandler,
         isUsernameInputBlock,
         duplicateUsernameCheck,
@@ -65,6 +62,14 @@ export default function SignupPage() {
                     type='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                />
+                <br/>
+                <label>{t("page.signup_page.password_check")} : </label>
+                <input
+                id='passwordCheck'
+                type='password'
+                value={passwordCheck}
+                onChange={(e) => setPasswordCheck(e.target.value)}
                 />
                 <br/>
                 <label>{t("page.signup_page.name")} : </label>
