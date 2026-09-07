@@ -1,4 +1,4 @@
-package com.haloomin.goal.api.v1.user.info.dto.response;
+package com.haloomin.goal.user.dto.user.response;
 
 import lombok.Builder;
 

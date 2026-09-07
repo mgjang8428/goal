@@ -1,6 +1,6 @@
 package com.haloomin.goal.user.exception;
 
-import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestType;
+import com.haloomin.goal.user.dto.user.request.UpdateMyInfoRequestType;
 
 public class IllegalUpdateTypeException extends RuntimeException {
     public IllegalUpdateTypeException(UpdateMyInfoRequestType updateType) {

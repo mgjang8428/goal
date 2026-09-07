@@ -1,11 +1,11 @@
 package com.haloomin.goal.api.v1.user.info;
 
-import com.haloomin.goal.api.v1.user.info.dto.request.DeleteUserRequestDto;
-import com.haloomin.goal.api.v1.user.info.dto.request.SignUpRequestDto;
-import com.haloomin.goal.api.v1.user.info.dto.request.UpdateMyInfoRequestDto;
-import com.haloomin.goal.api.v1.user.info.dto.response.MyInfoResponseDto;
 import com.haloomin.goal.global.response.dto.ResponseDto;
 import com.haloomin.goal.global.response.util.ResponseUtil;
+import com.haloomin.goal.user.dto.user.request.DeleteUserRequestDto;
+import com.haloomin.goal.user.dto.user.request.SignUpRequestDto;
+import com.haloomin.goal.user.dto.user.request.UpdateMyInfoRequestDto;
+import com.haloomin.goal.user.dto.user.response.MyInfoResponseDto;
 import com.haloomin.goal.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

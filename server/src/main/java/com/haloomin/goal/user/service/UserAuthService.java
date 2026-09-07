@@ -1,6 +1,6 @@
 package com.haloomin.goal.user.service;
 
-import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
+import com.haloomin.goal.user.dto.auth.request.SignInRequestDto;
 
 import java.util.Map;
 
