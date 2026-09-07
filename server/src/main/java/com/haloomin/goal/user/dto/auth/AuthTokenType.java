@@ -1,4 +1,4 @@
-package com.haloomin.goal.api.v1.user.auth;
+package com.haloomin.goal.user.dto.auth;
 
 import lombok.Getter;
 

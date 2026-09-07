@@ -1,6 +1,6 @@
 package com.haloomin.goal.user.service.impl;
 
-import com.haloomin.goal.api.v1.user.auth.dto.request.SignInRequestDto;
+import com.haloomin.goal.user.dto.auth.request.SignInRequestDto;
 import com.haloomin.goal.config.security.jwt.JwtTokenProvider;
 import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;

@@ -1,6 +1,7 @@
 package com.haloomin.goal.user.entity;
 
 import com.haloomin.goal.global.entity.BaseEntity;
+import com.haloomin.goal.goal.entity.Goal;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,6 +31,9 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "userEntity")
     List<UserRefreshToken> userRefreshTokens;
+
+    @OneToMany(mappedBy = "userEntity")
+    List<Goal> goals;
 
     @Builder
     public UserEntity(String name, String email) {

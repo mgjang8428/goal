@@ -1,4 +1,4 @@
-package com.haloomin.goal.api.v1.user.auth.dto.response;
+package com.haloomin.goal.user.dto.auth.response;
 
 public record ReissueResponseDto(
         String accessToken
