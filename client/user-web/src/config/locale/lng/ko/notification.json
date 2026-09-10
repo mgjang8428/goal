@@ -27,5 +27,24 @@
         "signup_error_alert" : "서비스 가입 실패",
         "duplecheck_ok_alert" : "사용가능한 아이디입니다.",
         "duplecheck_failed_alert" : "사용가능한 아이디입니다."
+    },
+    "goalcreate_viewmodel" : {
+        "goalcreate_confirm" : "목표를 생성할까요?",
+        "goalcreate_then_alert" : "목표 생성완료",
+        "goalcreate_error_alert" : "목표 생성실패"
+    },
+    "goaldetail_viewmodel" : {
+        "getgoaldetail_catch_alert" : "목표 상세정보 불러오기 에러"
+    },
+    "goallist_viewmodel" : {
+        "getgoallist_catch_alert" : "목표 리스트 가져오기 실패",
+        "dodeletegoal_confirm" : "목표를 삭제하시겠습니까?",
+        "dodeletegoal_then_alert" : "삭제되었습니다.",
+        "dodeletegoal_catch_alert" : "삭제를 실패하였습니다."
+    },
+    "goalupdate_viewmodel" : {
+        "getgoaldetail_catch_alert" : "목표 상세정보 불러오기 에러",
+        "updategoal_then_alert" : "상세정보 업데이트 성공",
+        "updategoal_catch_alert" : "상세정보 업데이트 실패"
     }
 }

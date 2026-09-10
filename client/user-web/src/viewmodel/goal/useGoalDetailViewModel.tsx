@@ -4,6 +4,7 @@ import type GetGoalDetailResponseDto from "@/model/goal/dto/response/getGoalDeta
 import type { GoalService } from "@/model/goal/service/goalService"
 import type { Logger } from "@/util/logger/logger"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 
 const log: Logger = container.resolve(ContainerSet.LOGGER)
@@ -12,6 +13,7 @@ const goalService: GoalService = container.resolve(ContainerSet.GOAL_SERVICE)
 export default function useGoalDetailViewModel() {
 
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const [goalId, setGoalId] = useState(0)
     const [title, setTitle] = useState("")
@@ -25,7 +27,7 @@ export default function useGoalDetailViewModel() {
             })
             .catch((error) => {
                 log.error("getGoalDetail error: ", error)
-                alert("목표 상세정보 불러오기 에러")
+                alert(t("goaldetail_viewmodel.getgoaldetail_catch_alert"))
             })
     }
 
