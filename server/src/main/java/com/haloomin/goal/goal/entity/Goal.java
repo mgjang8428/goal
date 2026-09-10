@@ -18,8 +18,10 @@ public class Goal extends BaseEntity {
     @Column(name = "goal_id")
     private Long id;
 
+    @Column(length = 100)
     private String title;
 
+    @Column(length = 3000)
     private String content;
 
     @ManyToOne
