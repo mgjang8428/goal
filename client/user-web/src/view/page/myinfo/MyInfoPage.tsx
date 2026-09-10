@@ -26,18 +26,13 @@ export default function MyInfoPage() {
         changeName,
         changeEmail,
 
-        deleteUser,
-
-        isDataUpdate,
-        setIsDataUpdate
+        deleteUser
     } = useMyInfoViewModel()
 
-    useEffect(
-        () => {
-            loadMyInfoData()
-            setIsDataUpdate(false)
-        }, [isDataUpdate]
-    )
+    useEffect(() => {
+        loadMyInfoData()
+    }, [])
+
     return (
         <>
             <h1>MyInfoPage</h1>
@@ -72,19 +67,22 @@ export default function MyInfoPage() {
                         (
                             <div>
                                 <span>{t("page.myinfo_page.change_label.nowpassword")} : </span>
-                                <input
-                                    type="password"
-                                    value={nowPassword}
-                                    onChange={(e) => setNowPassword(e.target.value)}
-                                />
-                                <br/>
-                                <span>{t("page.myinfo_page.change_label.newpassword")} : </span>
-                                <input
-                                    type="password"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                />
-                                <br />
+                                <form>
+                                    <input
+                                        type="password"
+                                        value={nowPassword}
+                                        autoComplete="off"
+                                        onChange={(e) => setNowPassword(e.target.value)}
+                                    />
+                                    <br />
+                                    <p>{t("page.myinfo_page.change_label.newpassword")} : </p>
+                                    <input
+                                        type="password"
+                                        value={newPassword}
+                                        autoComplete="off"
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                    />
+                                </form>
                                 <button onClick={() => changePassword()}>{t("page.myinfo_page.change_button.accept")}</button>
                             </div>
                         ) : (<></>)
@@ -94,7 +92,7 @@ export default function MyInfoPage() {
             <div>
                 <span>{t("page.myinfo_page.label.name")} : </span>
                 <span>{name}</span>
-                <br/>
+                <br />
                 <button
                     onClick={() => {
                         isNameUpdateMode ? setIsNameUpdateMode(false) : setIsNameUpdateMode(true)
@@ -130,7 +128,7 @@ export default function MyInfoPage() {
             <div>
                 <span>{t("page.myinfo_page.label.email")} : </span>
                 <span>{email}</span>
-                <br/>
+                <br />
                 <button
                     onClick={() => {
                         isEmailUpdateMode ? (setIsEmailUpdateMode(false)) : (setIsEmailUpdateMode(true))

@@ -1,6 +1,10 @@
 import checkAccessToken from "@/config/network/checkAccessToken"
 import DefaultLayout from "@/view/layouts/DefaultLayout"
 import DashboardPage from "@/view/page/dashboard/DashboardPage"
+import GoalCreatePage from "@/view/page/goal/create/GoalCreatePage"
+import GoalDetailPage from "@/view/page/goal/detail/GoalDetailPage"
+import GoalPage from "@/view/page/goal/main/GoalPage"
+import GoalUpdatePage from "@/view/page/goal/update/GoalUpdatePage"
 import MainPage from "@/view/page/MainPage"
 import MyInfoPage from "@/view/page/myinfo/MyInfoPage"
 import SigninPage from "@/view/page/signin/SigninPage"
@@ -12,7 +16,11 @@ export const RouterLocaleSet = {
   SIGNUP_PAGE: "/signup",
   SIGNIN_PAGE: "/signin",
   DASHBOARD_PAGE: "/dashboard",
-  MYINFO_PAGE: "/myinfo"
+  MYINFO_PAGE: "/myinfo",
+  GOAL_PAGE: "/goal",
+  GOAL_DETAIL_PAGE: (goalId: number) => `/goal/${goalId}`,
+  GOAL_CREATE_PAGE: "/goal/create",
+  GOAL_UPDATE_PAGE: (goalId: number) => `/goal/${goalId}/update`
 } as const
 
 const router = createBrowserRouter([
@@ -22,26 +30,16 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <MainPage />
+        Component: MainPage
       },
       {
         path: "/signup",
-        element: <SignupPage />
+        Component: SignupPage
       },
       {
         path: "/signin",
-        element: <SigninPage />
-      },
-      // {
-      //   path: "/dashboard",
-      //   loader: checkAccessToken,
-      //   element: <DashboardPage />
-      // },
-      // {
-      //   path: "/myinfo",
-      //   loader: checkAccessToken,
-      //   element: <MyInfoPage />
-      // }
+        Component: SigninPage
+      }
     ]
   },
   {
@@ -50,12 +48,38 @@ const router = createBrowserRouter([
     loader: checkAccessToken,
     children: [
       {
-        path: "/dashboard",
-        element: <DashboardPage />
+        path: "dashboard",
+        Component: DashboardPage
       },
       {
-        path: "/myinfo",
-        element: <MyInfoPage />
+        path: "myinfo",
+        Component: MyInfoPage
+      },
+      {
+        path: "goal",
+        children: [
+          {
+            index: true,
+            Component: GoalPage,
+          },
+          {
+            path: "create",
+            Component: GoalCreatePage
+          },
+          {
+            path: ":goalId",
+            children: [
+              {
+                index: true,
+                Component: GoalDetailPage
+              },
+              {
+                path: "update",
+                Component: GoalUpdatePage
+              }
+            ]
+          }
+        ]
       }
     ]
   }
