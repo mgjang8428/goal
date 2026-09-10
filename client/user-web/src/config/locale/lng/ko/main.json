@@ -44,6 +44,37 @@
                 "accept" : "변경"
             },
             "user_delete_button" : "회원탈퇴"
+        },
+        "goal" : {
+            "create" : {
+                "title_label" : "제목",
+                "title_input_placeholder" : "제목입력",
+                "content_label" : "목표 내용",
+                "content_input_placeholder" : "내용입력",
+                "submit_button" : "생성"
+            },
+            "detail" : {
+                "change_button" : "수정",
+                "number_label" : "번호",
+                "title_label" : "제목",
+                "content_label" : "내용"
+            },
+            "main" : {
+                "create_button" : "생성",
+                "reload_button" : "새로고침",
+                "goal_list" : {
+                    "table_header" : {
+                        "title" : "제목",
+                        "update_btn" : "수정",
+                        "delete_btn" : "삭제"
+                    },
+                    "empty_list_alert_message" : "목표를 생성해주세요."
+                },
+                "goal_list_item" : {
+                    "update_btn" : "수정",
+                    "delete_btn" : "삭제"
+                }
+            }
         }
     }
 }

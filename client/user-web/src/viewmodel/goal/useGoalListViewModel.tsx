@@ -4,6 +4,7 @@ import type GetGoalListResponseDto from "@/model/goal/dto/response/getGoalListRe
 import type { GoalService } from "@/model/goal/service/goalService"
 import type { Logger } from "@/util/logger/logger"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 
 const log: Logger = container.resolve(ContainerSet.LOGGER)
@@ -12,6 +13,7 @@ const goalService: GoalService = container.resolve(ContainerSet.GOAL_SERVICE)
 export default function useGoalListViewModel() {
 
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const [goalList, setGoalList] = useState<GetGoalListResponseDto[]>([])
 
@@ -22,7 +24,7 @@ export default function useGoalListViewModel() {
             })
             .catch((error) => {
                 log.error("getGoalList error: ", error)
-                alert("목표 리스트 가져오기 실패")
+                alert(t("goallist_viewmodel.getgoallist_catch_alert"))
             })
     }
 
@@ -31,16 +33,16 @@ export default function useGoalListViewModel() {
     }
 
     async function doDeleteGoal(goalId: number) {
-        if(!confirm("목표를 삭제하시겠습니까?")) return
+        if(!confirm(t("goallist_viewmodel.dodeletegoal_confirm"))) return
 
         await goalService.deleteGoal(goalId)
             .then(async () => {
-                alert("삭제되었습니다.")
+                alert(t("goallist_viewmodel.dodeletegoal_then_alert"))
                 getGoalList()
             })
             .catch((error) => {
                 log.error("doDeleteGoal error: ", error)
-                alert("삭제를 실패하였습니다.")
+                alert(t("goallist_viewmodel.dodeletegoal_catch_alert"))
             })
     }
 

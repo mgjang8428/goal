@@ -1,7 +1,11 @@
 import useGoalCreateViewModel from "@/viewmodel/goal/useGoalCreateViewModel"
 import type { ChangeEvent } from "react"
+import { useTranslation } from "react-i18next"
 
 export default function GoalCreatePage() {
+
+  const { t } = useTranslation()
+
   const {
     title, setTitle,
     content, setContent,
@@ -24,19 +28,19 @@ export default function GoalCreatePage() {
   return (
     <>
       <form onSubmit={submitHandler}>
-        <p>제목</p>
+        <p>{t("page.goal.create.title_label")}</p>
         <input
           type="text"
-          placeholder="제목 입력"
+          placeholder={t("page.goal.create.title_input_placeholder")}
           value={title}
           onChange={titleInputChangeHandler}
           minLength={1}
           maxLength={100}
           required
         />
-        <p>내용</p>
+        <p>{t("page.goal.create.content_label")}</p>
         <textarea
-          placeholder="내용 입력"
+          placeholder={t("page.goal.create.content_input_placeholder")}
           value={content}
           onChange={contentInputChangeHandler}
           maxLength={3000}
@@ -44,7 +48,7 @@ export default function GoalCreatePage() {
         <br />
         <button
           type="submit"
-          children={"생성"}
+          children={t("page.goal.create.submit_button")}
         />
       </form>
     </>

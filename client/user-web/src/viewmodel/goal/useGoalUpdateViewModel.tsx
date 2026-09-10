@@ -4,6 +4,7 @@ import type GetGoalDetailResponseDto from "@/model/goal/dto/response/getGoalDeta
 import type { GoalService } from "@/model/goal/service/goalService"
 import type { Logger } from "@/util/logger/logger"
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 
 const log: Logger = container.resolve(ContainerSet.LOGGER)
@@ -12,6 +13,7 @@ const goalService: GoalService = container.resolve(ContainerSet.GOAL_SERVICE)
 export default function useGoalUpdateViewModel() {
 
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const [goalId, setGoalId] = useState(0)
     const [title, setTitle] = useState("")
@@ -25,21 +27,21 @@ export default function useGoalUpdateViewModel() {
             })
             .catch((error) => {
                 log.error("getGoalDetail error: ", error)
-                alert("목표 정보 가져오기 에러")
+                alert(t("goalupdate_viewmodel.getgoaldetail_catch_alert"))
             })
     }
 
     async function updateGoal() {
-        if (!confirm("목표를 수정할까요?")) return
+        if (!confirm(t("goalupdate_viewmodel.getgoaldetail_catch_alert"))) return
 
         await goalService.updateGoal(goalId, title, content)
             .then(() => {
-                alert("정보 업데이트 성공")
+                alert(t("goalupdate_viewmodel.updategoal_then_alert"))
                 navigate(RouterLocaleSet.GOAL_PAGE)
             })
             .catch((error) => {
                 log.error("updateGoal error: ", error)
-                alert("정보 업데이트 실패")
+                alert(t("goalupdate_viewmodel.updategoal_catch_alert"))
             })
     }
 

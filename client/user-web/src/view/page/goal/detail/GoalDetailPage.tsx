@@ -1,8 +1,11 @@
 import useGoalDetailViewModel from "@/viewmodel/goal/useGoalDetailViewModel"
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router"
 
 export default function GoalDetailPage() {
+
+  const { t } = useTranslation()
 
   const { goalId } = useParams<{ goalId: string }>()
 
@@ -22,13 +25,13 @@ export default function GoalDetailPage() {
     <>
       <h1>GoalDetailPage</h1>
       <button
-        children="수정"
+        children={t("page.goal.detail.change_button")}
         onClick={goUpdateGoalPage}
       />
-      <p>번호: <span>{goalId}</span></p>
-      <p>제목</p>
+      <p>{t("page.goal.detail.number_label")}: <span>{goalId}</span></p>
+      <p>{t("page.goal.detail.title_label")}</p>
       <p>{title}</p>
-      <p>내용</p>
+      <p>{t("page.goal.detail.content_label")}</p>
       <p>{content}</p>
     </>
   )
