@@ -28,8 +28,6 @@ export default function useMyInfoViewModel() {
     const [isEmailUpdateMode, setIsEmailUpdateMode] = useState(false)
     const [isPasswordUpdateMode, setIsPasswordUpdateMode] = useState(false)
 
-    const [isDataUpdate, setIsDataUpdate] = useState(false)
-
     async function loadMyInfoData() {
         log.debug("Do getMyInfoData()")
         try {
@@ -49,7 +47,7 @@ export default function useMyInfoViewModel() {
         if (!confirmResult) return
         try {
             await userService.changePassword(nowPassword, newPassword)
-            setIsDataUpdate(true)
+            loadMyInfoData()
             setIsPasswordUpdateMode(false)
             setNowPassword("")
             setNewPassword("")
@@ -66,7 +64,7 @@ export default function useMyInfoViewModel() {
         if (!confirmResult) return
         try {
             await userService.changeName(newName)
-            setIsDataUpdate(true)
+            loadMyInfoData()
             setIsNameUpdateMode(false)
             setNewName("")
         } catch (error) {
@@ -82,7 +80,7 @@ export default function useMyInfoViewModel() {
         if (!confirmResult) return
         try {
             await userService.changeEmail(newEmail)
-            setIsDataUpdate(true)
+            loadMyInfoData()
             setIsEmailUpdateMode(false)
             setNewEmail("")
         } catch (error) {
@@ -133,9 +131,6 @@ export default function useMyInfoViewModel() {
         changeName,
         changeEmail,
 
-        deleteUser,
-
-        isDataUpdate,
-        setIsDataUpdate
+        deleteUser
     }
 }

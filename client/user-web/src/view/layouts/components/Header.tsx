@@ -9,7 +9,7 @@ export default function Header() {
   const { signoutHandler } = useSignoutViewModel()
   const { t } = useTranslation()
   return (
-    <>
+    <header className="bg-gray-500 text-white">
       {
         // 로그인 여부에 따른 로고 이동 경로 변경
         accessToken == null ? (
@@ -47,6 +47,6 @@ export default function Header() {
             </>
           )
       }
-    </>
+    </header>
   )
 }

@@ -5,11 +5,13 @@ import { initReactI18next } from 'react-i18next'
 
 export const defaultNS = 'main'
 
+const isDevMode: boolean = import.meta.env.DEV
+
 i18n
     .use(initReactI18next)
     .init({
         lng: 'ko',
-        debug: true,
+        debug: isDevMode,
         resources: {
             ko: {
                 main: main,

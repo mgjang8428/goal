@@ -2,27 +2,30 @@
 
 @layer base {
   h1 {
-    @apply text-2xl
+    @apply text-4xl
   }
 
   h2 {
-    @apply text-xl
+    @apply text-3xl
   }
 
   h3 {
-    @apply text-lg
+    @apply text-2xl
   }
 
   a {
-    color: var(--color-blue-600);
-    text-decoration-line: underline;
+    @apply cursor-pointer
   }
 
   button {
-    @apply border border-solid
+    @apply border border-solid cursor-pointer
   }
 
   input {
+    @apply border border-solid
+  }
+
+  textarea {
     @apply border border-solid
   }
 }
