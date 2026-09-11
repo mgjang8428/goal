@@ -11,7 +11,6 @@ export default function useSignupViewModel() {
     const userService: UserService = container.resolve(ContainerSet.USER_SERVICE)
 
     const { t } = useTranslation('noti')
-
     const navigate = useNavigate()
 
     const [username, setUsername] = useState('')
@@ -23,36 +22,39 @@ export default function useSignupViewModel() {
     const [isUsernameDuplicateCheck, setIsUsernameDuplicateCheck] = useState(false)
     const [isUsernameInputBlock, setIsUsernameInputBlock] = useState(false)
 
-    async function signupHandler(event: React.SubmitEvent<HTMLFormElement>) {
-        log.debug("Do signupHandler()")
-        event.preventDefault()
+    async function signupHandler() {
+        // ID 중복 확인 안했을 경우
         if (!isUsernameDuplicateCheck) {
             alert(t("signup_viewmodel.signup_need_duplecheck_alert"))
             return
         }
+        // PW 일치 확인
         if (password != passwordCheck) {
             alert(t("signup_viewmodel.signup_password_notmatch_alert"))
             return
         }
-        try {
-            await userService.signup(username, password, name, email)
-        } catch (error) {
-            alert(t("signup_viewmodel.signup_error_alert"))
-            return
-        }
-        navigate(RouterLocaleSet.MAIN_PAGE, { replace: true })
+        await userService.signup(username, password, name, email)
+            .then(() => {
+                alert(t("signup_viewmodel.signup_success_alert"))
+                navigate(RouterLocaleSet.MAIN_PAGE, { replace: true })
+            })
+            .catch((error) => {
+                log.error("signupHandler error: ", error)
+                alert(t("signup_viewmodel.signup_error_alert"))
+            })
     }
 
     async function duplicateUsernameCheck() {
-        log.debug("Do duplicateUsernameCheck()")
-        try {
-            await userService.checkUsername(username)
-            setIsUsernameDuplicateCheck(true)
-            setIsUsernameInputBlock(true)
-            alert(t("signup_viewmodel.duplecheck_ok_alert"))
-        } catch (error) {
-            alert(t("signup_viewmodel.duplecheck_failed_alert"))
-        }
+        await userService.checkUsername(username)
+            .then(() => {
+                setIsUsernameDuplicateCheck(true)
+                setIsUsernameInputBlock(true)
+                alert(t("signup_viewmodel.duplecheck_ok_alert"))
+            })
+            .catch((error) => {
+                log.error("duplicateUsernameCheck error: ", error)
+                alert(t("signup_viewmodel.duplecheck_failed_alert"))
+            })
     }
 
     function cancelDuplicateCheck() {
@@ -71,5 +73,4 @@ export default function useSignupViewModel() {
         duplicateUsernameCheck,
         cancelDuplicateCheck
     }
-
 }

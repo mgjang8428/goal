@@ -41,7 +41,6 @@ export default function Header() {
             <>
               <NavLink to={RouterLocaleSet.MYINFO_PAGE}>
                 <p>{t("layouts.header.myinfo")}</p>
-                <br />
               </NavLink>
               <button onClick={signoutHandler}>{t("layouts.header.signout")}</button>
             </>

@@ -6,77 +6,48 @@ import type ReissueResponseDto from "@/model/auth/dto/response/reissueResponseDt
 import type SigninResponseDto from "@/model/auth/dto/response/signinResponseDto";
 import type ResponseDto from "@/model/global/dto/responseDto";
 import type { Logger } from "@/util/logger/logger";
+import type { AxiosError } from "axios";
 
-/**
- * AuthRepository Interface
- */
 export interface AuthRepository {
 
-    /**
-     * POST: 로그인 api
-     * @param dto SigninRequestDto: 로그인 요청 DTO
-     * @returns Promise<ResponseDto<SigninResponseDto>>: api 로그인 응답 DTO Promise
-     */
-    postSignin(dto: SigninRequestDto): Promise<ResponseDto<SigninResponseDto>>
+    postSignin(dto: SigninRequestDto): Promise<SigninResponseDto>
 
-    /**
-     * POST: 로그아웃 api
-     */
     postSignout(): Promise<void>
 
-    /**
-     * POST: accessToken 재발급 api
-     */
-    postReissue(): Promise<ResponseDto<ReissueResponseDto>>
+    postReissue(): Promise<ReissueResponseDto>
 }
 
-
-/**
- * AuthRepository class
- */
 export default class AuthRepositoryImpl implements AuthRepository {
 
     private log: Logger = container.resolve(ContainerSet.LOGGER)
 
-    public async postSignin(dto: SigninRequestDto): Promise<ResponseDto<SigninResponseDto>> {
-        this.log.debug("Do authRepository postSignin")
-        try {
-            const response = await api.post<ResponseDto<SigninResponseDto>>(
-                apiLocale.AUTH_SIGNIN,
-                dto
-            )
-            // TODO: error 처리 필요
-            return response.data
-        } catch (error: unknown) {
-            this.log.error("postSignin error")
+    public async postSignin(dto: SigninRequestDto): Promise<SigninResponseDto> {
+        const response = await api.post<ResponseDto<SigninResponseDto>>(
+            apiLocale.AUTH_SIGNIN,
+            dto
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
+        return response.data.dto!
     }
 
     public async postSignout(): Promise<void> {
-        this.log.debug("Do authRepository postSignout")
-        try {
-            await api.post<ResponseDto<void>>(
-                apiLocale.AUTH_SIGNOUT
-            )
-            // TODO: error 처리 필요
-        } catch (error: unknown) {
-            this.log.error("postSignout error")
+        await api.post<ResponseDto<void>>(
+            apiLocale.AUTH_SIGNOUT
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
     }
 
-    public async postReissue(): Promise<ResponseDto<ReissueResponseDto>> {
-        this.log.debug("Do authRepository postReissue()")
-        try {
-            const response = await api.post<ResponseDto<ReissueResponseDto>>(
-                apiLocale.AUTH_REISSUE
-            )
-            return response.data
-            // TODO: error 처리 필요
-        } catch (error: unknown) {
-            this.log.error("postResign error")
+    public async postReissue(): Promise<ReissueResponseDto> {
+        const response = await api.post<ResponseDto<ReissueResponseDto>>(
+            apiLocale.AUTH_REISSUE
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
+        return response.data.dto!
     }
 }

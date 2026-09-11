@@ -8,35 +8,18 @@ import type UpdateMyInfoRequestDto from "@/model/user/dto/request/updateMyInfoRe
 import type UsernameCheckRequestDto from "@/model/user/dto/request/usernameCheckRequestDto";
 import type GetMyInfoResponseDto from "@/model/user/dto/response/getMyInfoResponseDto";
 import type { Logger } from "@/util/logger/logger";
+import type { AxiosError } from "axios";
 
 export interface UserRepository {
-    /**
-     * POST: 가입 api
-     * @param dto SignupRequestDto: 가입요청 DTO
-     * @returns Promise<ResponseDto<void>>: api 가입응답 DTO Promise
-     */
+
     postSignup(dto: SignupRequestDto): Promise<void>
 
-    /**
-     * GET: ID 중복확인
-     * @param requestDto ID 중복확인 요청 DTO
-     */
     checkUsername(requestDto: UsernameCheckRequestDto): Promise<void>
 
-    /**
-     * GET: 내정보 가져오기 api
-     * @returns Promise<ResponseDto<GetMyInfoResponseDto>>: api 내정보 DTO Promise
-     */
-    getMyInfo(): Promise<ResponseDto<GetMyInfoResponseDto>>
+    getMyInfo(): Promise<GetMyInfoResponseDto>
 
-    /**
-     * PATCH: 내정보 수정 api
-     */
     updateMyInfo(requestDto: UpdateMyInfoRequestDto): Promise<void>
 
-    /**
-     * DELETE: 유저 탈퇴 api
-     */
     deleteUser(requestDto: DeleteUserRequestDto): Promise<void>
 }
 
@@ -45,68 +28,53 @@ export default class UserRepositoryImpl implements UserRepository {
     private log: Logger = container.resolve(ContainerSet.LOGGER)
 
     public async postSignup(dto: SignupRequestDto): Promise<void> {
-        this.log.debug("Do userRepository postSignup")
-        try {
-            await api.post<ResponseDto<void>>(
-                apiLocale.USER_SIGNUP,
-                dto
-            )
-        } catch (error: unknown) {
-            this.log.error("postSignup error")
+        await api.post<ResponseDto<void>>(
+            apiLocale.USER_SIGNUP,
+            dto
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
     }
 
     public async checkUsername(requestDto: UsernameCheckRequestDto): Promise<void> {
-        this.log.debug("Do userRepository checkUsername()")
-        try {
-            const params = requestDto
-            await api.get<ResponseDto<void>>(
-                apiLocale.USER_ID_CHECK,
-                {params}
-            )
-        } catch (error) {
-            this.log.error("getCheckUsername error")
+        await api.get<ResponseDto<void>>(
+            apiLocale.USER_ID_CHECK,
+            { params: { username: requestDto.username } }
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
     }
 
-    public async getMyInfo(): Promise<ResponseDto<GetMyInfoResponseDto>> {
-        this.log.debug("Do userRepository getMyInfo()")
-        try {
-            const response = await authApi.get<ResponseDto<GetMyInfoResponseDto>>(
-                apiLocale.USER_GETMYINFO
-            )
-            return response.data
-        } catch (error) {
-            this.log.error("getMyInfo error")
+    public async getMyInfo(): Promise<GetMyInfoResponseDto> {
+        const response = await authApi.get<ResponseDto<GetMyInfoResponseDto>>(
+            apiLocale.USER_GETMYINFO
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
+
+        return response.data.dto!
     }
 
     public async updateMyInfo(requestDto: UpdateMyInfoRequestDto): Promise<void> {
-        this.log.debug("Do userRepository updateMyInfo()")
-        try {
-            await authApi.patch<ResponseDto<void>>(
-                apiLocale.USER_UPDATEMYINFO,
-                requestDto
-            )
-        } catch (error) {
-            this.log.error("updateMyInfo error")
+        await authApi.patch<ResponseDto<void>>(
+            apiLocale.USER_UPDATEMYINFO,
+            requestDto
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
     }
 
     public async deleteUser(requestDto: DeleteUserRequestDto): Promise<void> {
-        this.log.debug("Do userRepository deleteUser()")
-        try {
-            await authApi.post<ResponseDto<void>>(
-                apiLocale.USER_DELETEUSER,
-                requestDto
-            )
-        } catch (error) {
-            this.log.error("deleteUser error")
+        await authApi.post<ResponseDto<void>>(
+            apiLocale.USER_DELETEUSER,
+            requestDto
+        ).catch((error: AxiosError<ResponseDto<void>>) => {
+            this.log.error(error.response?.data.error)
             throw error
-        }
+        })
     }
 }

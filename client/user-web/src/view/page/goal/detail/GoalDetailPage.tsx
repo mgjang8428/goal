@@ -6,7 +6,6 @@ import { useParams } from "react-router"
 export default function GoalDetailPage() {
 
   const { t } = useTranslation()
-
   const { goalId } = useParams<{ goalId: string }>()
 
   const {
@@ -21,6 +20,7 @@ export default function GoalDetailPage() {
     setGoalId(parseInt(goalId as string, 10))
     getGoalDetail(parseInt(goalId as string, 10))
   }, [])
+
   return (
     <>
       <h1>GoalDetailPage</h1>
