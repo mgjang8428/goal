@@ -1,10 +1,12 @@
 import { RouterLocaleSet } from '@/config/route/router'
 import useSignupViewModel from '@/viewmodel/user/useSignupViewModel'
+import type { ChangeEvent } from 'react'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 
 export default function SignupPage() {
+
     const { t } = useTranslation()
 
     const {
@@ -19,24 +21,55 @@ export default function SignupPage() {
         cancelDuplicateCheck
     } = useSignupViewModel()
 
+    function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
+        event.preventDefault()
+        signupHandler()
+    }
+
+    function duplicateCheckBtnHandler() {
+        duplicateUsernameCheck()
+    }
+
+    function cancelDuplicateCheckBtnHandler() {
+        cancelDuplicateCheck()
+    }
+
+    function usernameInputOnChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+        setUsername(event.target.value)
+    }
+
+    function passwordInputOnChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+        setPassword(event.target.value)
+    }
+
+    function passwordCheckInputOnChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+        setPasswordCheck(event.target.value)
+    }
+
+    function nameInputOnChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+        setName(event.target.value)
+    }
+
+    function emailInputOnChangeHandler(event: ChangeEvent<HTMLInputElement>) {
+        setEmail(event.target.value)
+    }
+
     return (
         <>
             <h1>SignupPage</h1>
-            <NavLink to={RouterLocaleSet.MAIN_PAGE} end>
-                <p>Go Main</p>
-            </NavLink>
-            <form onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => { signupHandler(event) }}>
-                <label>{t("page.signup_page.username")} : </label>
+            <form
+                onSubmit={submitHandler}
+            >
+                <p>{t("page.signup_page.username")}</p>
                 {
                     isUsernameInputBlock ? (
                         <>
                             <span>{username}</span>
                             <button
                                 type='button'
-                                onClick={() => { cancelDuplicateCheck() }}
-                            >
-                                {t("page.signup_page.check_username_button.recheck_button")}
-                            </button>
+                                onClick={cancelDuplicateCheckBtnHandler}
+                                children={t("page.signup_page.check_username_button.recheck_button")}
+                            />
                         </>
                     ) : (
                         <>
@@ -44,51 +77,49 @@ export default function SignupPage() {
                                 id='username'
                                 type='text'
                                 value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={usernameInputOnChangeHandler}
                             />
                             <button
                                 type='button'
-                                onClick={() => { duplicateUsernameCheck() }}
-                            >
-                                {t("page.signup_page.check_username_button.check_button")}
-                            </button>
+                                onClick={duplicateCheckBtnHandler}
+                                children={t("page.signup_page.check_username_button.check_button")}
+                            />
                         </>
                     )
                 }
-                <br/>
-                <label>{t("page.signup_page.password")} : </label>
+                <p>{t("page.signup_page.password")}</p>
                 <input
                     id='password'
                     type='password'
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={passwordInputOnChangeHandler}
                 />
-                <br/>
-                <label>{t("page.signup_page.password_check")} : </label>
+                <p>{t("page.signup_page.password_check")}</p>
                 <input
-                id='passwordCheck'
-                type='password'
-                value={passwordCheck}
-                onChange={(e) => setPasswordCheck(e.target.value)}
+                    id='passwordCheck'
+                    type='password'
+                    value={passwordCheck}
+                    onChange={passwordCheckInputOnChangeHandler}
                 />
-                <br/>
-                <label>{t("page.signup_page.name")} : </label>
+                <p>{t("page.signup_page.name")}</p>
                 <input
                     id='name'
                     type='text'
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={nameInputOnChangeHandler}
                 />
-                <br/>
-                <label>{t("page.signup_page.email")} : </label>
+                <p>{t("page.signup_page.email")}</p>
                 <input
                     id='email'
                     type='text'
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={emailInputOnChangeHandler}
                 />
-                <br/>
-                <button type='submit'>{t("page.signup_page.signup_button")}</button>
+                <br />
+                <button
+                    type='submit'
+                    children={t("page.signup_page.signup_button")}
+                />
             </form >
         </>
     )

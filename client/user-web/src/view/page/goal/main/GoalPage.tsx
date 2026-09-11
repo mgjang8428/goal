@@ -1,3 +1,4 @@
+import { RouterLocaleSet } from "@/config/route/router"
 import GoalList from "@/view/page/goal/main/components/GoalList"
 import useGoalListViewModel from "@/viewmodel/goal/useGoalListViewModel"
 import { createContext, useEffect } from "react"
@@ -8,6 +9,7 @@ export interface GoalListItemButtonFunctionContextType {
     update: (goalId: number) => void
     delete: (goalId: number) => Promise<void>
 }
+
 export const GoalListItemButtonFunctionContext = createContext<GoalListItemButtonFunctionContextType | null>(null)
 
 export default function GoalPage() {
@@ -32,7 +34,9 @@ export default function GoalPage() {
     return (
         <>
             <h1>Goal Page</h1>
-            <NavLink to={"/goal/create"}>
+            <NavLink
+                to={RouterLocaleSet.GOAL_CREATE_PAGE}
+            >
                 <p>{t("page.goal.main.create_button")}</p>
             </NavLink>
             <button

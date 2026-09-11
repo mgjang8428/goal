@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next"
 import { redirect } from "react-router"
 
 export default function useMyInfoViewModel() {
+
     const log: Logger = container.resolve(ContainerSet.LOGGER)
     const userService: UserService = container.resolve(ContainerSet.USER_SERVICE)
     const authService: AuthService = container.resolve(ContainerSet.AUTH_SERVICE)
@@ -29,86 +30,82 @@ export default function useMyInfoViewModel() {
     const [isPasswordUpdateMode, setIsPasswordUpdateMode] = useState(false)
 
     async function loadMyInfoData() {
-        log.debug("Do getMyInfoData()")
-        try {
-            const responseDto: GetMyInfoResponseDto = await userService.getMyInfoData()
-            setUsername(responseDto.username)
-            setName(responseDto.name)
-            setEmail(responseDto.email)
-        } catch (error) {
-            alert(t("myinfo_viewmodel.loadmyinfodata_error_alert"))
-            return
-        }
+        await userService.getMyInfoData()
+            .then((responseDto: GetMyInfoResponseDto) => {
+                setUsername(responseDto.username)
+                setName(responseDto.name)
+                setEmail(responseDto.email)
+            })
+            .catch((error) => {
+                log.error("loadMyInfoData error: ", error)
+                alert(t("myinfo_viewmodel.loadmyinfodata_error_alert"))
+            })
     }
 
     async function changePassword() {
-        log.debug("Do changePassword()")
-        const confirmResult = confirm(t("myinfo_viewmodel.changepassword_confirm"))
-        if (!confirmResult) return
-        try {
-            await userService.changePassword(nowPassword, newPassword)
-            loadMyInfoData()
-            setIsPasswordUpdateMode(false)
-            setNowPassword("")
-            setNewPassword("")
-        } catch (error) {
-            alert(t("myinfo_viewmodel.changepassword_error_alert"))
-            return
-        }
-
+        if (!confirm(t("myinfo_viewmodel.changepassword_confirm"))) return
+        await userService.changePassword(nowPassword, newPassword)
+            .then(() => {
+                loadMyInfoData()
+                setIsPasswordUpdateMode(false)
+                setNowPassword("")
+                setNewPassword("")
+            })
+            .catch((error) => {
+                log.error("changePassword error: ", error)
+                alert(t("myinfo_viewmodel.changepassword_error_alert"))
+            })
     }
 
     async function changeName() {
-        log.debug("Do changeName()")
-        const confirmResult = confirm(t("myinfo_viewmodel.changename_confirm"))
-        if (!confirmResult) return
-        try {
-            await userService.changeName(newName)
-            loadMyInfoData()
-            setIsNameUpdateMode(false)
-            setNewName("")
-        } catch (error) {
-            alert(t("myinfo_viewmodel.changename_error_alert"))
-            return
-        }
-
+        if (!confirm(t("myinfo_viewmodel.changename_confirm"))) return
+        await userService.changeName(newName)
+            .then(() => {
+                loadMyInfoData()
+                setIsNameUpdateMode(false)
+                setNewName("")
+            })
+            .catch((error) => {
+                log.error("changeName error: ", error)
+                alert(t("myinfo_viewmodel.changename_error_alert"))
+            })
     }
 
     async function changeEmail() {
-        log.debug("Do changeEmail()")
-        const confirmResult = confirm(t("myinfo_viewmodel.changeemail_confirm"))
-        if (!confirmResult) return
-        try {
-            await userService.changeEmail(newEmail)
-            loadMyInfoData()
-            setIsEmailUpdateMode(false)
-            setNewEmail("")
-        } catch (error) {
-            alert(t("myinfo_viewmodel.changeemail_error_alert"))
-            return
-        }
+        if (!confirm(t("myinfo_viewmodel.changeemail_confirm"))) return
+        await userService.changeEmail(newEmail)
+            .then(() => {
+                loadMyInfoData()
+                setIsEmailUpdateMode(false)
+                setNewEmail("")
+            })
+            .catch((error) => {
+                log.error("changeEmail error: ", error)
+                alert(t("myinfo_viewmodel.changeemail_error_alert"))
+            })
     }
 
     async function deleteUser() {
-        log.debug("Do deleteUser()")
-        const isDeleteConfirm = confirm(t("myinfo_viewmodel.deleteuser_confirm"))
-        if (!isDeleteConfirm) return
-
+        // 삭제 여부 확인
+        if (!confirm(t("myinfo_viewmodel.deleteuser_confirm"))) return
+        // 비밀번호 입력
         const deleteUserPassword = prompt(t("myinfo_viewmodel.deleteuser_prompt"))
+        // 비밀번호 입력 취소 시
         if (deleteUserPassword == null) return
+        // 비밀번호 입력 공백 시
         if (deleteUserPassword == "") {
             alert(t("myinfo_viewmodel.deleteuser_prompt_alert"))
             return
         }
-        try {
-            await userService.deleteUser(deleteUserPassword)
-            authService.signout()
-            redirect(RouterLocaleSet.MAIN_PAGE)
-        } catch (error) {
-            alert(t("myinfo_viewmodel.deleteuser_error_alert"))
-            return
-        }
-
+        await userService.deleteUser(deleteUserPassword)
+            .then(() => {
+                authService.signout()
+                redirect(RouterLocaleSet.MAIN_PAGE)
+            })
+            .catch((error) => {
+                log.error("deleteUser error: ", error)
+                alert(t("myinfo_viewmodel.deleteuser_error_alert"))
+            })
     }
 
     return {
