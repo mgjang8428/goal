@@ -1,3 +1,5 @@
+declare module '*.css'
+
 interface ViteTypeOptions {
     // strictImportMetaEnv: unknown
 }

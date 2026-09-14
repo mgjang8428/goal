@@ -71,3 +71,7 @@ lerna-debug.log*
 # env file
 .env*
 !.env.example
+
+# storybook
+*storybook.log
+storybook-static

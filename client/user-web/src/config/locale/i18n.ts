@@ -20,3 +20,5 @@ i18n
         },
         defaultNS,
     })
+
+export default i18n
