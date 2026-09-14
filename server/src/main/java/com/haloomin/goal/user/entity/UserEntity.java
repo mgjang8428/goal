@@ -18,22 +18,22 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "user_id")
-    Long id;
+    private Long id;
 
     @Column(nullable = false, length = 30)
-    String name;
+    private String name;
 
     @Column(length = 100)
-    String email;
+    private String email;
 
     @OneToOne(mappedBy = "userEntity")
-    UserAuth userAuth;
+    private UserAuth userAuth;
 
     @OneToMany(mappedBy = "userEntity")
-    List<UserRefreshToken> userRefreshTokens;
+    private List<UserRefreshToken> userRefreshTokens;
 
     @OneToMany(mappedBy = "userEntity")
-    List<Goal> goals;
+    private List<Goal> goals;
 
     @Builder
     public UserEntity(String name, String email) {

@@ -1,14 +1,17 @@
 package com.haloomin.goal.goal.service.impl;
 
 import com.haloomin.goal.goal.dto.request.CreateGoalRequestDto;
+import com.haloomin.goal.goal.dto.request.RepeatInfoRequestDto;
 import com.haloomin.goal.goal.dto.request.UpdateGoalRequestDto;
 import com.haloomin.goal.goal.dto.response.GetGoalDetailResponseDto;
 import com.haloomin.goal.goal.dto.response.GetGoalListResponseDto;
 import com.haloomin.goal.goal.entity.Goal;
+import com.haloomin.goal.goal.entity.GoalRepeatInfo;
 import com.haloomin.goal.goal.exception.AccessDeniedException;
 import com.haloomin.goal.goal.exception.AlreadyDeletedException;
 import com.haloomin.goal.goal.exception.NotFoundGoalException;
 import com.haloomin.goal.goal.repository.GoalJpaRepository;
+import com.haloomin.goal.goal.repository.GoalRepeatInfoJpaRepository;
 import com.haloomin.goal.goal.service.GoalService;
 import com.haloomin.goal.user.entity.UserAuth;
 import com.haloomin.goal.user.entity.UserEntity;
@@ -27,6 +30,7 @@ import java.util.List;
 public class GoalServiceImpl implements GoalService {
 
     private final GoalJpaRepository goalJpaRepository;
+    private final GoalRepeatInfoJpaRepository goalRepeatInfoJpaRepository;
     private final UserAuthJpaRepository userAuthJpaRepository;
 
     @Override
@@ -38,8 +42,26 @@ public class GoalServiceImpl implements GoalService {
                 .title(requestDto.title())
                 .content(requestDto.content())
                 .userEntity(userAuth.getUserEntity())
+                .startDate(requestDto.startDate())
+                .endDate(requestDto.endDate())
+                .repeatType(requestDto.repeatType())
                 .build();
+
+        List<GoalRepeatInfo> goalRepeatInfoList = new ArrayList<>();
+
+        for (RepeatInfoRequestDto repeatInfo : requestDto.repeatInfo()) {
+            GoalRepeatInfo goalRepeatInfo = GoalRepeatInfo.builder()
+                    .goal(goal)
+                    .weekRepeatType(repeatInfo.weekRepeatType())
+                    .monthRepeatNum(repeatInfo.monthRepeatNum())
+                    .yearRepeat(repeatInfo.yearRepeat())
+                    .dateRepeat(repeatInfo.dateRepeat())
+                    .build();
+            goalRepeatInfoList.add(goalRepeatInfo);
+        }
+
         goalJpaRepository.save(goal);
+        goalRepeatInfoJpaRepository.saveAll(goalRepeatInfoList);
     }
 
     @Override
