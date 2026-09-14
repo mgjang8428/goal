@@ -14,7 +14,7 @@
   }
 
   a {
-    @apply cursor-pointer
+    @apply cursor-pointer underline
   }
 
   button {

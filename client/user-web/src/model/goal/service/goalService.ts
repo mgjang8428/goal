@@ -1,4 +1,5 @@
 import container, { ContainerSet } from "@/config/di/container"
+import type { RepeatInfoRequestDto } from "@/model/goal/dto/request/createGoalRequestDto"
 import type CreateGoalRequestDto from "@/model/goal/dto/request/createGoalRequestDto"
 import type UpdateGoalRequestDto from "@/model/goal/dto/request/updateGoalRequestDto"
 import type GetGoalDetailResponseDto from "@/model/goal/dto/response/getGoalDetailResponseDto"
@@ -7,7 +8,14 @@ import type { GoalRepository } from "@/model/goal/repository/goalRepository"
 
 export interface GoalService {
 
-    create(title: string, content: string): Promise<void>
+    create(
+        title: string,
+        content: string,
+        startDate: string,
+        endDate: string,
+        repeatType: string,
+        repeatInfo: RepeatInfoRequestDto[]
+    ): Promise<void>
 
     getGoalList(): Promise<GetGoalListResponseDto[]>
 
@@ -22,10 +30,22 @@ export default class GoalServiceImpl implements GoalService {
 
     private goalRepository: GoalRepository = container.resolve(ContainerSet.GOAL_REPOSITORY)
 
-    public async create(title: string, content: string): Promise<void> {
+    public async create(
+        title: string,
+        content: string,
+        startDate: string,
+        endDate: string,
+        repeatType: string,
+        repeatInfo: RepeatInfoRequestDto[]
+    ): Promise<void> {
+        
         const requestDto: CreateGoalRequestDto = {
             title: title,
-            content: content
+            content: content,
+            startDate: startDate,
+            endDate: endDate,
+            repeatType: repeatType,
+            repeatInfo: repeatInfo
         }
         await this.goalRepository.create(requestDto)
     }

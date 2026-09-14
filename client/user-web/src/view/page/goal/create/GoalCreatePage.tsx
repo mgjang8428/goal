@@ -9,20 +9,17 @@ export default function GoalCreatePage() {
   const {
     title, setTitle,
     content, setContent,
+    startDate, setStartDate,
+    endDate, setEndDate,
+    repeatType, setRepeatType,
+    repeatInfo, setRepeatInfof,
+
     goalCreate
   } = useGoalCreateViewModel()
 
   function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     goalCreate()
-  }
-
-  function titleInputChangeHandler(event: ChangeEvent<HTMLInputElement>) {
-    setTitle(event.target.value)
-  }
-
-  function contentInputChangeHandler(event: ChangeEvent<HTMLTextAreaElement>) {
-    setContent(event.target.value)
   }
 
   return (
@@ -33,7 +30,7 @@ export default function GoalCreatePage() {
           type="text"
           placeholder={t("page.goal.create.title_input_placeholder")}
           value={title}
-          onChange={titleInputChangeHandler}
+          onChange={(event) => { setTitle(event.target.value) }}
           minLength={1}
           maxLength={100}
           required
@@ -42,7 +39,7 @@ export default function GoalCreatePage() {
         <textarea
           placeholder={t("page.goal.create.content_input_placeholder")}
           value={content}
-          onChange={contentInputChangeHandler}
+          onChange={(event) => { setContent(event.target.value) }}
           maxLength={3000}
         />
         <br />

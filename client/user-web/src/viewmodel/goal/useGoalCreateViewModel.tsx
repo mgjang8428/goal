@@ -16,11 +16,22 @@ export default function useGoalCreateViewModel() {
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+    const [startDate, setStartDate] = useState("")
+    const [endDate, setEndDate] = useState("")
+    const [repeatType, setRepeatType] = useState("")
+    const [repeatInfo, setRepeatInfof] = useState([])
 
     async function goalCreate() {
-        if(!confirm(t("goalcreate_viewmodel.goalcreate_confirm"))) return
+        if (!confirm(t("goalcreate_viewmodel.goalcreate_confirm"))) return
 
-        await goalService.create(title, content)
+        await goalService.create(
+            title,
+            content,
+            startDate,
+            endDate,
+            repeatType,
+            repeatInfo
+        )
             .then(() => {
                 alert(t("goalcreate_viewmodel.goalcreate_then_alert"))
                 navigate(RouterLocaleSet.GOAL_PAGE)
@@ -34,6 +45,11 @@ export default function useGoalCreateViewModel() {
     return {
         title, setTitle,
         content, setContent,
+        startDate, setStartDate,
+        endDate, setEndDate,
+        repeatType, setRepeatType,
+        repeatInfo, setRepeatInfof,
+
         goalCreate
     }
 }
