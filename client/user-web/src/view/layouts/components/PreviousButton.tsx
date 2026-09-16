@@ -1,5 +1,5 @@
 import { RouterLocaleSet } from "@/config/route/router";
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export default function PreviousButton() {
 

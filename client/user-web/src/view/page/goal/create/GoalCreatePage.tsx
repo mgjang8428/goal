@@ -1,19 +1,19 @@
+import GoalTitleContentSet from "@/view/page/goal/create/components/features/GoalTitleContentSet"
 import useGoalCreateViewModel from "@/viewmodel/goal/useGoalCreateViewModel"
-import type { ChangeEvent } from "react"
 import { useTranslation } from "react-i18next"
+import useGoalInfoStore from "@/store/goal/goalInfoStore"
+import { useEffect } from "react"
+import GoalRepeatOptionsSet from "@/view/page/goal/create/components/features/GoalRepeatOptionsSet"
 
 export default function GoalCreatePage() {
 
   const { t } = useTranslation()
 
   const {
-    title, setTitle,
-    content, setContent,
-    startDate, setStartDate,
-    endDate, setEndDate,
-    repeatType, setRepeatType,
-    repeatInfo, setRepeatInfof,
+    initAllStoreData
+  } = useGoalInfoStore()
 
+  const {
     goalCreate
   } = useGoalCreateViewModel()
 
@@ -22,26 +22,19 @@ export default function GoalCreatePage() {
     goalCreate()
   }
 
+  useEffect(() => {
+      return () => {
+        initAllStoreData()
+      }
+    }, []
+  )
+
   return (
     <>
       <form onSubmit={submitHandler}>
-        <p>{t("page.goal.create.title_label")}</p>
-        <input
-          type="text"
-          placeholder={t("page.goal.create.title_input_placeholder")}
-          value={title}
-          onChange={(event) => { setTitle(event.target.value) }}
-          minLength={1}
-          maxLength={100}
-          required
-        />
-        <p>{t("page.goal.create.content_label")}</p>
-        <textarea
-          placeholder={t("page.goal.create.content_input_placeholder")}
-          value={content}
-          onChange={(event) => { setContent(event.target.value) }}
-          maxLength={3000}
-        />
+        <GoalTitleContentSet />
+        <br />
+        <GoalRepeatOptionsSet />
         <br />
         <button
           type="submit"

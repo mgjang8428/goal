@@ -2,7 +2,7 @@ import container, { ContainerSet } from "@/config/di/container";
 import { RouterLocaleSet } from "@/config/route/router";
 import type { UserService } from "@/model/user/service/userService";
 import type { Logger } from "@/util/logger/logger";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 

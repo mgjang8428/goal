@@ -1,8 +1,6 @@
-import { RouterLocaleSet } from "@/config/route/router"
 import useMyInfoViewModel from "@/viewmodel/user/useMyInfoViewModel"
 import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
-import { NavLink } from "react-router"
 
 export default function MyInfoPage() {
 

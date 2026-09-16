@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { devtools, persist } from 'zustand/middleware'
 
 export interface AuthStoreState {
     accessToken: string | null,
@@ -8,15 +8,30 @@ export interface AuthStoreState {
 }
 
 const useAuthStore = create<AuthStoreState>()(
-    persist(
-        (set) => ({
-            accessToken: null,
-            setAccessToken: (token) => set({ accessToken: token }),
-            popAccessToken: () => set({ accessToken: null })
-        }),
-        {
-            name: 'auth-storage'
-        }
+    devtools(
+        persist(
+            (set) => ({
+                accessToken: null,
+                setAccessToken: (token) => {
+                    set(
+                        { accessToken: token },
+                        undefined,
+                        "authStore/setAccessToken"
+                    )
+                },
+                popAccessToken: () => {
+                    set(
+                        { accessToken: null },
+                        undefined,
+                        "authStore/popAccessToken"
+                    )
+                }
+            }),
+            {
+                name: 'auth-storage'
+            }
+        ),
+        { name: "authStore" }
     )
 )
 
