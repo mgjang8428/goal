@@ -1,7 +1,7 @@
 import RepeatType from "@/model/goal/const/repeatType"
 import useGoalInfoStore from "@/store/goal/goalInfoStore"
-import RepeatInfoSet from "@/view/page/goal/create/components/features/repeatoptions/GoalRepeatTypeSet"
-import RepeatTypeSelectRadio from "@/view/page/goal/create/components/features/repeatoptions/RepeatTypeSelectRadio"
+import RepeatInfoSet from "@/view/page/goal/components/features/repeatoptions/GoalRepeatTypeSet"
+import RepeatTypeSelectRadio from "@/view/page/goal/components/features/repeatoptions/RepeatTypeSelectRadio"
 
 export default function GoalRepeatSet() {
 

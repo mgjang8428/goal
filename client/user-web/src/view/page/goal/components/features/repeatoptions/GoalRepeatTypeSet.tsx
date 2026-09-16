@@ -1,9 +1,9 @@
 import RepeatType from "@/model/goal/const/repeatType";
 import useGoalInfoStore from "@/store/goal/goalInfoStore";
-import MonthlyRepeatSet from "@/view/page/goal/create/components/features/repeatoptions/repeatype/MonthlyRepeatSet";
-import SelectRepeatSet from "@/view/page/goal/create/components/features/repeatoptions/repeatype/SelectRepeatSet";
-import WeeklyRepeatSet from "@/view/page/goal/create/components/features/repeatoptions/repeatype/WeeklyRepeatSet";
-import YearlyRepeatSet from "@/view/page/goal/create/components/features/repeatoptions/repeatype/YearlyRepeatSet";
+import MonthlyRepeatSet from "@/view/page/goal/components/features/repeatoptions/repeatype/MonthlyRepeatSet";
+import SelectRepeatSet from "@/view/page/goal/components/features/repeatoptions/repeatype/SelectRepeatSet";
+import WeeklyRepeatSet from "@/view/page/goal/components/features/repeatoptions/repeatype/WeeklyRepeatSet";
+import YearlyRepeatSet from "@/view/page/goal/components/features/repeatoptions/repeatype/YearlyRepeatSet";
 
 export default function RepeatInfoSet() {
 

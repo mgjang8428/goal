@@ -1,6 +1,6 @@
+import GoalTitleContentSet from '@/view/page/goal/components/features/GoalTitleContentSet';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import GoalTitleContentSet from './GoalTitleContentSet';
 
 const meta = {
   component: GoalTitleContentSet,

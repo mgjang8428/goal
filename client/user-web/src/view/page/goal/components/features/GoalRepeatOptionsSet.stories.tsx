@@ -1,4 +1,4 @@
-import GoalRepeatOptionsSet from '@/view/page/goal/create/components/features/GoalRepeatOptionsSet';
+import GoalRepeatOptionsSet from '@/view/page/goal/components/features/GoalRepeatOptionsSet';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {

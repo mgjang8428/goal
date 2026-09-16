@@ -1,9 +1,9 @@
-import GoalTitleContentSet from "@/view/page/goal/create/components/features/GoalTitleContentSet"
+import GoalTitleContentSet from "@/view/page/goal/components/features/GoalTitleContentSet"
 import useGoalCreateViewModel from "@/viewmodel/goal/useGoalCreateViewModel"
 import { useTranslation } from "react-i18next"
 import useGoalInfoStore from "@/store/goal/goalInfoStore"
 import { useEffect } from "react"
-import GoalRepeatOptionsSet from "@/view/page/goal/create/components/features/GoalRepeatOptionsSet"
+import GoalRepeatOptionsSet from "@/view/page/goal/components/features/GoalRepeatOptionsSet"
 
 export default function GoalCreatePage() {
 
