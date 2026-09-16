@@ -31,7 +31,8 @@ public class GoalRepeatInfo {
     private Integer monthRepeatNum;
 
     // 연간 반복 정보
-    private MonthDay yearRepeat;
+    private Integer yearRepeatMonth;
+    private Integer yearRepeatDate;
 
     // 날짜 지정
     private LocalDate dateRepeat;
@@ -41,13 +42,15 @@ public class GoalRepeatInfo {
             Goal goal,
             WeekType weekRepeatType,
             Integer monthRepeatNum,
-            MonthDay yearRepeat,
+            Integer yearRepeatMonth,
+            Integer yearRepeatDate,
             LocalDate dateRepeat
     ) {
         this.goal = goal;
         this.weekRepeatType = weekRepeatType;
         this.monthRepeatNum = monthRepeatNum;
-        this.yearRepeat = yearRepeat;
+        this.yearRepeatMonth = yearRepeatMonth;
+        this.yearRepeatDate = yearRepeatDate;
         this.dateRepeat = dateRepeat;
     }
 }

@@ -8,8 +8,9 @@ import java.time.MonthDay;
 public record RepeatInfoRequestDto(
         WeekType weekRepeatType,
         Integer monthRepeatNum,
-        MonthDay yearRepeat,
-        LocalDate dateRepeat
+        Integer yearRepeatMonth,
+        Integer yearRepeatDate,
+        LocalDate selectRepeat
 ) {
 
 }

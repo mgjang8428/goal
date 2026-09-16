@@ -33,6 +33,10 @@ public class Goal extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;
 
+    // 활성화 여부
+    @Column(nullable = false)
+    private Boolean isActive;
+
     // 반복 시작일
     @Column(nullable = false)
     private LocalDateTime startDateTime;
@@ -51,6 +55,7 @@ public class Goal extends BaseEntity {
     public Goal(
             String title,
             String content,
+            Boolean isActive,
             UserEntity userEntity,
             LocalDate startDate,
             LocalDate endDate,
@@ -58,9 +63,10 @@ public class Goal extends BaseEntity {
     ) {
         this.title = title;
         this.content = content;
+        this.isActive = isActive;
         this.userEntity = userEntity;
         this.startDateTime = startDate.atStartOfDay();
-        this.endDateTime = endDate.atTime(LocalTime.MAX);
+        this.endDateTime = endDate == null ? LocalDateTime.MAX : endDate.atTime(LocalTime.MAX);
         this.repeatType = repeatType;
     }
 

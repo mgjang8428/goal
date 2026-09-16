@@ -15,6 +15,8 @@ public record CreateGoalRequestDto(
         @Size(max = 3000)
         String content,
         @NotNull
+        Boolean isActive,
+        @NotNull
         LocalDate startDate,
         LocalDate endDate,
         @NotNull

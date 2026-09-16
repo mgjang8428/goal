@@ -41,6 +41,7 @@ public class GoalServiceImpl implements GoalService {
         Goal goal = Goal.builder()
                 .title(requestDto.title())
                 .content(requestDto.content())
+                .isActive(requestDto.isActive())
                 .userEntity(userAuth.getUserEntity())
                 .startDate(requestDto.startDate())
                 .endDate(requestDto.endDate())
@@ -54,8 +55,9 @@ public class GoalServiceImpl implements GoalService {
                     .goal(goal)
                     .weekRepeatType(repeatInfo.weekRepeatType())
                     .monthRepeatNum(repeatInfo.monthRepeatNum())
-                    .yearRepeat(repeatInfo.yearRepeat())
-                    .dateRepeat(repeatInfo.dateRepeat())
+                    .yearRepeatMonth(repeatInfo.yearRepeatMonth())
+                    .yearRepeatDate(repeatInfo.yearRepeatDate())
+                    .dateRepeat(repeatInfo.selectRepeat())
                     .build();
             goalRepeatInfoList.add(goalRepeatInfo);
         }
