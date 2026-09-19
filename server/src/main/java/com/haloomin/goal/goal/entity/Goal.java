@@ -77,4 +77,12 @@ public class Goal extends BaseEntity {
     public void updateContent(String content) {
         this.content = content;
     }
+
+    public void updateIsActive(Boolean isActive) { this.isActive = isActive; }
+
+    public void updateStartDateTime(LocalDate startDate) { this.startDateTime = startDate.atStartOfDay(); }
+
+    public void updateEndDateTime(LocalDate endDate) { this.endDateTime = endDate == null ? LocalDateTime.MAX : endDate.atTime(LocalTime.MAX); }
+
+    public void updateRepeatType(RepeatType repeatType) { this.repeatType = repeatType; }
 }

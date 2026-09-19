@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public final class ErrorResponseUtil {
 
+    public ResponseEntity<ResponseDto<Void>> undefinedErrorResponse(ErrorResponseType type) {
+        return makeErrorResponseEntity(type, HttpStatus.BAD_REQUEST);
+    }
+
     public ResponseEntity<ResponseDto<Void>> badRequestErrorResponse(ErrorResponseType type) {
         return makeErrorResponseEntity(type, HttpStatus.BAD_REQUEST);
     }

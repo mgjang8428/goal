@@ -5,6 +5,7 @@ import com.haloomin.goal.goal.dto.request.RepeatInfoRequestDto;
 import com.haloomin.goal.goal.dto.request.UpdateGoalRequestDto;
 import com.haloomin.goal.goal.dto.response.GetGoalDetailResponseDto;
 import com.haloomin.goal.goal.dto.response.GetGoalListResponseDto;
+import com.haloomin.goal.goal.dto.response.RepeatInfoResponseDto;
 import com.haloomin.goal.goal.entity.Goal;
 import com.haloomin.goal.goal.entity.GoalRepeatInfo;
 import com.haloomin.goal.goal.exception.AccessDeniedException;
@@ -48,8 +49,17 @@ public class GoalServiceImpl implements GoalService {
                 .repeatType(requestDto.repeatType())
                 .build();
 
-        List<GoalRepeatInfo> goalRepeatInfoList = new ArrayList<>();
+        List<GoalRepeatInfo> goalRepeatInfoList = makeGoalRepeatInfoListByCereatGoalRequestDto(requestDto, goal);
 
+        goalJpaRepository.save(goal);
+        goalRepeatInfoJpaRepository.saveAll(goalRepeatInfoList);
+    }
+
+    private List<GoalRepeatInfo> makeGoalRepeatInfoListByCereatGoalRequestDto(
+            CreateGoalRequestDto requestDto,
+            Goal goal
+    ) {
+        List<GoalRepeatInfo> resultList = new ArrayList<>();
         for (RepeatInfoRequestDto repeatInfo : requestDto.repeatInfo()) {
             GoalRepeatInfo goalRepeatInfo = GoalRepeatInfo.builder()
                     .goal(goal)
@@ -57,13 +67,11 @@ public class GoalServiceImpl implements GoalService {
                     .monthRepeatNum(repeatInfo.monthRepeatNum())
                     .yearRepeatMonth(repeatInfo.yearRepeatMonth())
                     .yearRepeatDate(repeatInfo.yearRepeatDate())
-                    .dateRepeat(repeatInfo.selectRepeat())
+                    .selectRepeat(repeatInfo.selectRepeat())
                     .build();
-            goalRepeatInfoList.add(goalRepeatInfo);
+            resultList.add(goalRepeatInfo);
         }
-
-        goalJpaRepository.save(goal);
-        goalRepeatInfoJpaRepository.saveAll(goalRepeatInfoList);
+        return resultList;
     }
 
     @Override
@@ -76,7 +84,9 @@ public class GoalServiceImpl implements GoalService {
         for (Goal goal : goals) {
             GetGoalListResponseDto getGoalListResponseDto = new GetGoalListResponseDto(
                     goal.getId(),
-                    goal.getTitle()
+                    goal.getTitle(),
+                    goal.getIsActive(),
+                    goal.getRepeatType()
             );
             result.add(getGoalListResponseDto);
         }
@@ -99,10 +109,31 @@ public class GoalServiceImpl implements GoalService {
             throw new AccessDeniedException();
         }
 
+        // Repeat 정보 응답 리스트 생성
+        List<RepeatInfoResponseDto> repeatInfoResponseDtos = new ArrayList<>();
+        for (GoalRepeatInfo repeatInfo : goal.getGoalRepeatInfoList()) {
+            repeatInfoResponseDtos.add(
+                    new RepeatInfoResponseDto(
+                            repeatInfo.getWeekRepeatType(),
+                            repeatInfo.getMonthRepeatNum(),
+                            repeatInfo.getYearRepeatMonth(),
+                            repeatInfo.getYearRepeatDate(),
+                            repeatInfo.getSelectRepeat()
+                    )
+            );
+        }
+
         return new GetGoalDetailResponseDto(
                 goal.getId(),
                 goal.getTitle(),
                 goal.getContent(),
+
+                goal.getIsActive(),
+                goal.getStartDateTime().toLocalDate(),
+                goal.getEndDateTime().toLocalDate(),
+                goal.getRepeatType(),
+                repeatInfoResponseDtos,
+
                 goal.getCreatedAt(),
                 goal.getUpdatedAt()
         );
@@ -119,8 +150,38 @@ public class GoalServiceImpl implements GoalService {
         if (!goal.getUserEntity().equals(userAuth.getUserEntity())) {
             throw new AccessDeniedException();
         }
+        // 목표정보 업데이트
         goal.updateTitle(requestDto.title());
         goal.updateContent(requestDto.content());
+        goal.updateIsActive(requestDto.isActive());
+        goal.updateStartDateTime(requestDto.startDate());
+        goal.updateEndDateTime(requestDto.endDate());
+        goal.updateRepeatType(requestDto.repeatType());
+
+        // 목표반복정보 재생성
+        List<GoalRepeatInfo> deleteGoalRepeatInfoList = goalRepeatInfoJpaRepository.findByGoal(goal);
+        goalRepeatInfoJpaRepository.deleteAll(deleteGoalRepeatInfoList);
+        List<GoalRepeatInfo> goalRepeatInfoList = makeGoalRepeatInfoListByUpdateGoalRequestDto(requestDto, goal);
+        goalRepeatInfoJpaRepository.saveAll(goalRepeatInfoList);
+    }
+
+    private List<GoalRepeatInfo> makeGoalRepeatInfoListByUpdateGoalRequestDto(
+            UpdateGoalRequestDto requestDto,
+            Goal goal
+    ) {
+        List<GoalRepeatInfo> resultList = new ArrayList<>();
+        for (RepeatInfoRequestDto repeatInfo : requestDto.repeatInfo()) {
+            GoalRepeatInfo goalRepeatInfo = GoalRepeatInfo.builder()
+                    .goal(goal)
+                    .weekRepeatType(repeatInfo.weekRepeatType())
+                    .monthRepeatNum(repeatInfo.monthRepeatNum())
+                    .yearRepeatMonth(repeatInfo.yearRepeatMonth())
+                    .yearRepeatDate(repeatInfo.yearRepeatDate())
+                    .selectRepeat(repeatInfo.selectRepeat())
+                    .build();
+            resultList.add(goalRepeatInfo);
+        }
+        return resultList;
     }
 
     @Override
@@ -134,6 +195,10 @@ public class GoalServiceImpl implements GoalService {
         if (!goal.getUserEntity().equals(userAuth.getUserEntity())) {
             throw new AccessDeniedException();
         }
-        goal.softDelete();
+
+        // 정보 삭제
+        List<GoalRepeatInfo> goalRepeatInfos = goalRepeatInfoJpaRepository.findByGoal(goal);
+        goalRepeatInfoJpaRepository.deleteAll(goalRepeatInfos);
+        goalJpaRepository.deleteById(goalId);
     }
 }

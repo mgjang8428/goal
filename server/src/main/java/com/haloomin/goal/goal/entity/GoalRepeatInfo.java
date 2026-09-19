@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.MonthDay;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,7 +34,7 @@ public class GoalRepeatInfo {
     private Integer yearRepeatDate;
 
     // 날짜 지정
-    private LocalDate dateRepeat;
+    private LocalDate selectRepeat;
 
     @Builder
     public GoalRepeatInfo(
@@ -44,13 +43,13 @@ public class GoalRepeatInfo {
             Integer monthRepeatNum,
             Integer yearRepeatMonth,
             Integer yearRepeatDate,
-            LocalDate dateRepeat
+            LocalDate selectRepeat
     ) {
         this.goal = goal;
         this.weekRepeatType = weekRepeatType;
         this.monthRepeatNum = monthRepeatNum;
         this.yearRepeatMonth = yearRepeatMonth;
         this.yearRepeatDate = yearRepeatDate;
-        this.dateRepeat = dateRepeat;
+        this.selectRepeat = selectRepeat;
     }
 }

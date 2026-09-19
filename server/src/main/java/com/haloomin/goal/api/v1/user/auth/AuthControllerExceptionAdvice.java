@@ -4,6 +4,8 @@ import com.haloomin.goal.global.response.dto.ResponseDto;
 import com.haloomin.goal.global.response.error.ErrorResponseType;
 import com.haloomin.goal.global.response.util.ErrorResponseUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice(assignableTypes = {AuthController.class})
 public class AuthControllerExceptionAdvice {
 
