@@ -1,63 +1,51 @@
+import useGoalInfoStore from "@/store/goal/goalInfoStore"
+import GoalRepeatOptionsSet from "@/view/page/goal/components/features/GoalRepeatOptionsSet"
+import GoalTitleContentSet from "@/view/page/goal/components/features/GoalTitleContentSet"
+import useGetGoalInfoViewModel from "@/viewmodel/goal/useGetGoalInfoViewModel"
 import useGoalUpdateViewModel from "@/viewmodel/goal/useGoalUpdateViewModel"
-import { useEffect, type ChangeEvent } from "react"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router"
 
 export default function GoalUpdatePage() {
-    const { goalId } = useParams<{ goalId: string }>()
+
+    const { t } = useTranslation()
+
+    const { goalId } = useParams()
 
     const {
         setGoalId,
-        title, setTitle,
-        content, setContent,
-        getGoalDetail,
-        updateGoal
-    } = useGoalUpdateViewModel()
+        initAllStoreData
+    } = useGoalInfoStore()
+
+    const { updateGoal } = useGoalUpdateViewModel()
+
+    const { getGoalInfo } = useGetGoalInfoViewModel()
 
     useEffect(() => {
-        setGoalId(parseInt(goalId as string, 10))
-        getGoalDetail(parseInt(goalId as string, 10))
-    }, [])
+        setGoalId(Number(goalId))
+        getGoalInfo(Number(goalId))
+        return () => { initAllStoreData() }
+    }, [goalId, setGoalId, getGoalInfo, initAllStoreData])
 
     function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault()
         updateGoal()
     }
 
-    function titleInputChangeHandler(event: ChangeEvent<HTMLInputElement>) {
-        setTitle(event.target.value)
-    }
-
-    function contentInputChangeHandler(event: ChangeEvent<HTMLTextAreaElement>) {
-        setContent(event.target.value)
-    }
-
     return (
         <>
-            <h1>GoalUpdatePage</h1>
+            <p>목표 번호: <span>{goalId}</span></p>
             <form onSubmit={submitHandler}>
-                <p>목표 번호: {goalId}</p>
-
-                <p>제목</p>
-                <input
-                    type="text"
-                    placeholder="제목 입력"
-                    value={title}
-                    onChange={titleInputChangeHandler}
-                    minLength={1}
-                    maxLength={100}
-                    required
-                />
-                <p>내용</p>
-                <textarea
-                    placeholder="내용 입력"
-                    value={content}
-                    onChange={contentInputChangeHandler}
-                    maxLength={3000}
-                />
+                <GoalTitleContentSet />
+                <br />
+                <GoalRepeatOptionsSet />
+                <br />
                 <button
                     type="submit"
-                    children="수정"
-                />
+                >
+                    {t("page.goal.update.submit_button")}
+                </button>
             </form>
         </>
     )

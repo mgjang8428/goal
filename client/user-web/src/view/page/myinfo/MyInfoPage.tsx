@@ -30,7 +30,7 @@ export default function MyInfoPage() {
 
     useEffect(() => {
         loadMyInfoData()
-    }, [])
+    }, [loadMyInfoData])
 
     return (
         <>
@@ -43,7 +43,7 @@ export default function MyInfoPage() {
                 <span>{t("page.myinfo_page.label.password")} : </span>
                 <button
                     onClick={() => {
-                        isPasswordUpdateMode ? setIsPasswordUpdateMode(false) : setIsPasswordUpdateMode(true)
+                        setIsPasswordUpdateMode(!isPasswordUpdateMode)
                         setNowPassword("")
                         setNewPassword("")
                     }}
@@ -77,8 +77,9 @@ export default function MyInfoPage() {
                             </form>
                             <button
                                 onClick={changePassword}
-                                children={t("page.myinfo_page.change_button.accept")}
-                            />
+                            >
+                                {t("page.myinfo_page.change_button.accept")}
+                            </button>
                         </div>
                     ) : (<></>)
                 }
@@ -88,7 +89,7 @@ export default function MyInfoPage() {
                 <span>{name}</span>
                 <button
                     onClick={() => {
-                        isNameUpdateMode ? setIsNameUpdateMode(false) : setIsNameUpdateMode(true)
+                        setIsNameUpdateMode(!isNameUpdateMode)
                         setNewName("")
                     }}
                 >
@@ -120,7 +121,7 @@ export default function MyInfoPage() {
                 <span>{email ? email : "-"}</span>
                 <button
                     onClick={() => {
-                        isEmailUpdateMode ? (setIsEmailUpdateMode(false)) : (setIsEmailUpdateMode(true))
+                        setIsEmailUpdateMode(isEmailUpdateMode)
                         setNewEmail("")
                     }}
                 >

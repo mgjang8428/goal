@@ -10,7 +10,7 @@ export default function useSignupViewModel() {
     const log: Logger = container.resolve(ContainerSet.LOGGER)
     const userService: UserService = container.resolve(ContainerSet.USER_SERVICE)
 
-    const { t } = useTranslation('noti')
+    const { t } = useTranslation()
     const navigate = useNavigate()
 
     const [username, setUsername] = useState('')
@@ -25,7 +25,7 @@ export default function useSignupViewModel() {
     async function signupHandler() {
         // ID 중복 확인 안했을 경우
         if (!isUsernameDuplicateCheck) {
-            alert(t("signup_viewmodel.signup_need_duplecheck_alert"))
+            alert(t("notification:signup_viewmodel.signup_need_duplecheck_alert"))
             return
         }
         // PW 일치 확인

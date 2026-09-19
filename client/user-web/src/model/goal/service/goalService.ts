@@ -22,7 +22,16 @@ export interface GoalService {
 
     getGoalDetail(goalId: number): Promise<GetGoalDetailResponseDto>
 
-    updateGoal(goalId: number, title: string, content: string): Promise<void>
+    updateGoal(
+        goalId: number,
+        title: string,
+        content: string,
+        isActive: boolean,
+        startDate: string,
+        endDate: string,
+        repeatType: string,
+        repeatInfo: RepeatInfoRequestDto[]
+    ): Promise<void>
 
     deleteGoal(goalId: number): Promise<void>
 }
@@ -40,7 +49,7 @@ export default class GoalServiceImpl implements GoalService {
         repeatType: string,
         repeatInfo: RepeatInfoRequestDto[]
     ): Promise<void> {
-        
+
         const requestDto: CreateGoalRequestDto = {
             title: title,
             content: content,
@@ -61,10 +70,24 @@ export default class GoalServiceImpl implements GoalService {
         return await this.goalRepository.getGoalDetail(goalId)
     }
 
-    public async updateGoal(goalId: number, title: string, content: string): Promise<void> {
+    public async updateGoal(
+        goalId: number,
+        title: string,
+        content: string,
+        isActive: boolean,
+        startDate: string,
+        endDate: string,
+        repeatType: string,
+        repeatInfo: RepeatInfoRequestDto[]
+    ): Promise<void> {
         const requestDto: UpdateGoalRequestDto = {
             title: title,
-            content: content
+            content: content,
+            isActive: isActive,
+            startDate: startDate,
+            endDate: endDate,
+            repeatType: repeatType,
+            repeatInfo: repeatInfo
         }
         await this.goalRepository.updateGoal(goalId, requestDto)
     }

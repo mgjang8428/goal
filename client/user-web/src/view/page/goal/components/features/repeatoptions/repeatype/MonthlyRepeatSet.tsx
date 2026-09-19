@@ -30,11 +30,13 @@ export default function MonthlyRepeatSet() {
             />
             <button
                 type="button"
-                children="추가"
+
                 onClick={() => {
                     setMonthRepeatInfoSetDate(date)
                 }}
-            />
+            >
+                추가
+            </button>
             <p>추가된 반복일</p>
             <table className="border">
                 <thead>
@@ -51,9 +53,10 @@ export default function MonthlyRepeatSet() {
                                 <td className="border">
                                     <button
                                         type="button"
-                                        children="X"
                                         onClick={() => { setMonthRepeatInfoDeleteDate(date) }}
-                                    />
+                                    >
+                                        X
+                                    </button>
                                 </td>
                             </tr>
                         ))

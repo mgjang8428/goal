@@ -23,10 +23,10 @@ export default function GoalCreatePage() {
   }
 
   useEffect(() => {
-      return () => {
-        initAllStoreData()
-      }
-    }, []
+    return () => {
+      initAllStoreData()
+    }
+  }, [initAllStoreData]
   )
 
   return (
@@ -38,8 +38,9 @@ export default function GoalCreatePage() {
         <br />
         <button
           type="submit"
-          children={t("page.goal.create.submit_button")}
-        />
+        >
+          {t("page.goal.create.submit_button")}
+        </button>
       </form>
     </>
   )

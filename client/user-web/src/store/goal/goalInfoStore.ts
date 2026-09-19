@@ -2,50 +2,66 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 export interface GoalInfoStoreState {
-    initAllStoreData: () => void
-    initRepeatInfoData: () => void
 
+    goalId: number
     title: string
-    setTitle: (title: string) => void
-
     content: string
-    setContent: (content: string) => void
-
     startDate: string
-    setStartDate: (startDate: string) => void
-
     endDate: string
-    setEndDate: (endDate: string) => void
+
+    isEndDate: boolean
+    isGoalRepeat: boolean
+    isActive: boolean
 
     repeatType: string
-    setRepeatType: (repeatType: string) => void
-
     weekRepeatInfo: WeekRepeatSetCheck
+    monthRepeatInfo: number[]
+    yearRepeatInfo: string[]
+    selectRepeatInfo: string[]
+
+    setGoalId: (goalId: number) => void
+    setTitle: (title: string) => void
+    setContent: (content: string) => void
+    setStartDate: (startDate: string) => void
+    setEndDate: (endDate: string) => void
+
+    setIsEndDate: (isEndDate: boolean) => void
+    setIsGoalRepeat: (isGoalRepeat: boolean) => void
+    setIsActive: (isActive: boolean) => void
+
+    setRepeatType: (repeatType: string) => void
     setWeekRepeatInfoSetDayValue: (
         day: keyof WeekRepeatSetCheck,
         value: boolean
     ) => void
-
-    monthRepeatInfo: number[]
     setMonthRepeatInfoSetDate: (date: number) => boolean
     setMonthRepeatInfoDeleteDate: (date: number) => void
-
-    yearRepeatInfo: string[]
-    setYearRepeatInfoSetDate: (date: string) => boolean
+    setYearRepeatInfoSetDate: (month: string, date: string) => boolean
+    setYearRepeatInfoSetNumberToStringDate: (month: number, date: number) => void
     setYearRepeatInfoDeleteDate: (date: string) => void
-
-    selectRepeatInfo: string[]
     setSelectRepeatInfoSetDate: (date: string) => boolean
     setSelectRepeatInfoDeleteDate: (date: string) => void
 
-    isEndDate: boolean
-    setIsEndDate: (isEndDate: boolean) => void
+    initAllStoreData: () => void
+    initRepeatInfoData: () => void
 
-    isGoalRepeat: boolean
-    setIsGoalRepeat: (isGoalRepeat: boolean) => void
+    setAllStoreData: (
+        goalId: number,
+        title: string,
+        content: string,
+        startDate: string,
+        endDate: string,
 
-    isActive: boolean
-    setIsActive: (isActive: boolean) => void
+        isEndDate: boolean,
+        isGoalRepeat: boolean,
+        isActive: boolean,
+
+        repeatType: string,
+        weekRepeatInfo: WeekRepeatSetCheck,
+        monthRepeatInfo: number[],
+        yearRepeatInfo: string[],
+        selectRepeatInfo: string[]
+    ) => void
 }
 
 export interface WeekRepeatSetCheck {
@@ -58,60 +74,44 @@ export interface WeekRepeatSetCheck {
     SUN: boolean
 }
 
+export const weekRepeatDefaultValue: WeekRepeatSetCheck = {
+    MON: false,
+    TUE: false,
+    WED: false,
+    THU: false,
+    FRI: false,
+    SAT: false,
+    SUN: false,
+}
+
 const useGoalInfoStore = create<GoalInfoStoreState>()(
     devtools(
         (set, get) => ({
 
-            initAllStoreData: () => {
+            goalId: 0,
+            title: "",
+            content: "",
+            startDate: "",
+            endDate: "",
+
+            isEndDate: false,
+            isGoalRepeat: false,
+            isActive: false,
+
+            repeatType: "NONE",
+            weekRepeatInfo: weekRepeatDefaultValue,
+            monthRepeatInfo: [],
+            yearRepeatInfo: [],
+            selectRepeatInfo: [],
+
+            setGoalId: (goalId: number) => {
                 set(
-                    {
-                        title: "",
-                        content: "",
-                        startDate: "",
-                        endDate: "",
-                        repeatType: "NONE",
-                        weekRepeatInfo: {
-                            MON: false,
-                            TUE: false,
-                            WED: false,
-                            THU: false,
-                            FRI: false,
-                            SAT: false,
-                            SUN: false
-                        },
-                        monthRepeatInfo: [],
-                        yearRepeatInfo: [],
-                        selectRepeatInfo: [],
-                        isEndDate: false,
-                        isGoalRepeat: false,
-                        isActive: false,
-                    },
+                    { goalId: goalId },
                     undefined,
-                    "useGoalInfoStore/initAllStoreData"
-                )
-            },
-            initRepeatInfoData: () => {
-                set(
-                    {
-                        weekRepeatInfo: {
-                            MON: false,
-                            TUE: false,
-                            WED: false,
-                            THU: false,
-                            FRI: false,
-                            SAT: false,
-                            SUN: false
-                        },
-                        monthRepeatInfo: [],
-                        yearRepeatInfo: [],
-                        selectRepeatInfo: [],
-                    },
-                    undefined,
-                    "useGoalInfoStore/initRepeatInfoData"
+                    'useGoalInfoStore/setGoalId'
                 )
             },
 
-            title: "",
             setTitle: (title) => {
                 set(
                     { title: title },
@@ -120,7 +120,6 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            content: "",
             setContent: (content) => {
                 set(
                     { content: content },
@@ -129,7 +128,6 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            startDate: "",
             setStartDate: (startDate) => {
                 set(
                     { startDate: startDate },
@@ -138,7 +136,6 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            endDate: "",
             setEndDate: (endDate) => {
                 set(
                     { endDate: endDate },
@@ -147,7 +144,30 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            repeatType: "NONE",
+            setIsEndDate: (isEndDate) => {
+                set(
+                    { isEndDate: isEndDate },
+                    undefined,
+                    'useGoalInfoStore/setIsEndDate'
+                )
+            },
+
+            setIsGoalRepeat: (isGoalRepeat) => {
+                set(
+                    { isGoalRepeat: isGoalRepeat },
+                    undefined,
+                    'useGoalInfoStore/setIsGoalRepeat'
+                )
+            },
+
+            setIsActive: (isActive) => {
+                set(
+                    { isActive: isActive },
+                    undefined,
+                    'useGoalInfoStore/setIsActive'
+                )
+            },
+
             setRepeatType: (repeatType) => {
                 set(
                     { repeatType: repeatType },
@@ -156,15 +176,6 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            weekRepeatInfo: {
-                MON: false,
-                TUE: false,
-                WED: false,
-                THU: false,
-                FRI: false,
-                SAT: false,
-                SUN: false,
-            },
             setWeekRepeatInfoSetDayValue: (day, value) => {
                 set(
                     (state) => ({
@@ -178,7 +189,6 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            monthRepeatInfo: [],
             setMonthRepeatInfoSetDate: (date) => {
                 const currentMonthRepeatInfo = get().monthRepeatInfo
                 if (currentMonthRepeatInfo.includes(date)) {
@@ -194,6 +204,7 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
                 return true;
             },
+
             setMonthRepeatInfoDeleteDate: (date: number) => {
                 set(
                     (state) => ({
@@ -207,15 +218,15 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            yearRepeatInfo: [],
-            setYearRepeatInfoSetDate: (date: string) => {
+            setYearRepeatInfoSetDate: (month: string, date: string) => {
+                const parseDate = `${month}월${date}일`
                 const currentYearRepeatInfo = get().yearRepeatInfo
-                if (currentYearRepeatInfo.includes(date)) {
+                if (currentYearRepeatInfo.includes(parseDate)) {
                     return false
                 }
                 set(
                     (state) => ({
-                        yearRepeatInfo: [...state.yearRepeatInfo, date]
+                        yearRepeatInfo: [...state.yearRepeatInfo, parseDate]
                             .sort()
                     }),
                     undefined,
@@ -223,6 +234,21 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
                 return true
             },
+
+            setYearRepeatInfoSetNumberToStringDate: (month: number, date: number) => {
+                const parseDate = `${String(month).padStart(2, '0')}월${String(date).padStart(2, '0')}일`
+                set(
+                    (state) => ({
+                        yearRepeatInfo: [
+                            ...state.yearRepeatInfo,
+                            parseDate
+                        ].sort()
+                    }),
+                    undefined,
+                    "useGoalInfoStore/setYearRepeatInfoSetRawDate"
+                )
+            },
+
             setYearRepeatInfoDeleteDate: (date: string) => {
                 set(
                     (state) => ({
@@ -236,7 +262,6 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            selectRepeatInfo: [],
             setSelectRepeatInfoSetDate: (date: string) => {
                 const currentSelectRepeatInfo = get().selectRepeatInfo
                 if (currentSelectRepeatInfo.includes(date)) {
@@ -252,6 +277,7 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
                 return true
             },
+
             setSelectRepeatInfoDeleteDate: (date: string) => {
                 set(
                     (state) => ({
@@ -265,32 +291,80 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
                 )
             },
 
-            isEndDate: false,
-            setIsEndDate: (isEndDate) => {
+            initAllStoreData: () => {
                 set(
-                    { isEndDate: isEndDate },
+                    {
+                        goalId: 0,
+                        title: "",
+                        content: "",
+                        startDate: "",
+                        endDate: "",
+                        repeatType: "NONE",
+                        weekRepeatInfo: weekRepeatDefaultValue,
+                        monthRepeatInfo: [],
+                        yearRepeatInfo: [],
+                        selectRepeatInfo: [],
+                        isEndDate: false,
+                        isGoalRepeat: false,
+                        isActive: false,
+                    },
                     undefined,
-                    'useGoalInfoStore/setIsEndDate'
+                    "useGoalInfoStore/initAllStoreData"
                 )
             },
 
-            isGoalRepeat: false,
-            setIsGoalRepeat: (isGoalRepeat) => {
+            initRepeatInfoData: () => {
                 set(
-                    { isGoalRepeat: isGoalRepeat },
+                    {
+                        weekRepeatInfo: weekRepeatDefaultValue,
+                        monthRepeatInfo: [],
+                        yearRepeatInfo: [],
+                        selectRepeatInfo: [],
+                    },
                     undefined,
-                    'useGoalInfoStore/setIsGoalRepeat'
+                    "useGoalInfoStore/initRepeatInfoData"
                 )
             },
 
-            isActive: false,
-            setIsActive: (isActive) => {
+            setAllStoreData: (
+                goalId: number,
+                title: string,
+                content: string,
+                startDate: string,
+                endDate: string,
+
+                isEndDate: boolean,
+                isGoalRepeat: boolean,
+                isActive: boolean,
+
+                repeatType: string,
+                weekRepeatInfo: WeekRepeatSetCheck,
+                monthRepeatInfo: number[],
+                yearRepeatInfo: string[],
+                selectRepeatInfo: string[]
+            ) => {
                 set(
-                    { isActive: isActive },
+                    {
+                        goalId: goalId,
+                        title: title,
+                        content: content,
+                        startDate: startDate,
+                        endDate: endDate,
+
+                        isEndDate: isEndDate,
+                        isGoalRepeat: isGoalRepeat,
+                        isActive: isActive,
+
+                        repeatType: repeatType,
+                        weekRepeatInfo: weekRepeatInfo,
+                        monthRepeatInfo: monthRepeatInfo,
+                        yearRepeatInfo: yearRepeatInfo,
+                        selectRepeatInfo: selectRepeatInfo
+                    },
                     undefined,
-                    'useGoalInfoStore/setIsActive'
+                    "useGoalInfoStore/setAllStoreData"
                 )
-            },
+            }
         }),
         { name: "goalInfoStore" }
     )

@@ -7,6 +7,7 @@ export default function RepeatTypeSelectRadio() {
     const {
         initRepeatInfoData,
         isGoalRepeat,
+        repeatType,
         setRepeatType
     } = useGoalInfoStore()
 
@@ -26,8 +27,8 @@ export default function RepeatTypeSelectRadio() {
                             type="radio"
                             name="repeat-type"
                             value={RepeatType.ALWAYS}
+                            checked={repeatType == RepeatType.ALWAYS ? true : false}
                             onChange={onChangeHandler}
-                            defaultChecked
                         />
                         매일 반복
                     </label>
@@ -36,6 +37,7 @@ export default function RepeatTypeSelectRadio() {
                             type="radio"
                             name="repeat-type"
                             value={RepeatType.WEEKLY}
+                            checked={repeatType == RepeatType.WEEKLY ? true : false}
                             onChange={onChangeHandler}
                         />
                         주간 반복
@@ -45,6 +47,7 @@ export default function RepeatTypeSelectRadio() {
                             type="radio"
                             name="repeat-type"
                             value={RepeatType.MONTHLY}
+                            checked={repeatType == RepeatType.MONTHLY ? true : false}
                             onChange={onChangeHandler}
                         />
                         월간 반복
@@ -54,6 +57,7 @@ export default function RepeatTypeSelectRadio() {
                             type="radio"
                             name="repeat-type"
                             value={RepeatType.YEARLY}
+                            checked={repeatType == RepeatType.YEARLY ? true : false}
                             onChange={onChangeHandler}
                         />
                         연간 반복
@@ -63,6 +67,7 @@ export default function RepeatTypeSelectRadio() {
                             type="radio"
                             name="repeat-type"
                             value={RepeatType.SELECT}
+                            checked={repeatType == RepeatType.SELECT ? true : false}
                             onChange={onChangeHandler}
                         />
                         지정 반복

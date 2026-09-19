@@ -20,8 +20,9 @@ export default function PreviousButton() {
             <>
                 <button
                     onClick={previousButtonHandler}
-                    children="<-"
-                />
+                >
+                    {"<-"}
+                </button>
             </>
         )
     )

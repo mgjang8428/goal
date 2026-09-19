@@ -1,9 +1,7 @@
-import { RouterLocaleSet } from '@/config/route/router'
 import useSignupViewModel from '@/viewmodel/user/useSignupViewModel'
-import type { ChangeEvent } from 'react'
 import type React from 'react'
+import type { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router'
 
 export default function SignupPage() {
 
@@ -68,8 +66,10 @@ export default function SignupPage() {
                             <button
                                 type='button'
                                 onClick={cancelDuplicateCheckBtnHandler}
-                                children={t("page.signup_page.check_username_button.recheck_button")}
-                            />
+
+                            >
+                                {t("page.signup_page.check_username_button.recheck_button")}
+                            </button>
                         </>
                     ) : (
                         <>
@@ -82,8 +82,9 @@ export default function SignupPage() {
                             <button
                                 type='button'
                                 onClick={duplicateCheckBtnHandler}
-                                children={t("page.signup_page.check_username_button.check_button")}
-                            />
+                            >
+                                {t("page.signup_page.check_username_button.check_button")}
+                            </button>
                         </>
                     )
                 }
@@ -118,8 +119,9 @@ export default function SignupPage() {
                 <br />
                 <button
                     type='submit'
-                    children={t("page.signup_page.signup_button")}
-                />
+                >
+                    {t("page.signup_page.signup_button")}
+                </button>
             </form >
         </>
     )

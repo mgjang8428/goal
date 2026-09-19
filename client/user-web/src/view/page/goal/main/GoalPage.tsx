@@ -1,16 +1,12 @@
 import { RouterLocaleSet } from "@/config/route/router"
 import GoalList from "@/view/page/goal/main/components/GoalList"
+import { GoalListItemButtonFunctionContext } from "@/view/page/goal/main/GoalListItemButtonFunctionContext"
 import useGoalListViewModel from "@/viewmodel/goal/useGoalListViewModel"
-import { createContext, useEffect } from "react"
+import { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { NavLink } from "react-router"
 
-export interface GoalListItemButtonFunctionContextType {
-    update: (goalId: number) => void
-    delete: (goalId: number) => Promise<void>
-}
 
-export const GoalListItemButtonFunctionContext = createContext<GoalListItemButtonFunctionContextType | null>(null)
 
 export default function GoalPage() {
 
@@ -25,7 +21,7 @@ export default function GoalPage() {
 
     useEffect(() => {
         getGoalList()
-    }, [])
+    }, [getGoalList])
 
     function reloadButtonHandler() {
         getGoalList()
@@ -41,8 +37,10 @@ export default function GoalPage() {
             </NavLink>
             <button
                 onClick={reloadButtonHandler}
-                children={t("page.goal.main.reload_button")}
-            />
+
+            >
+                {t("page.goal.main.reload_button")}
+            </button>
             <GoalListItemButtonFunctionContext
                 value={{
                     update: goUpdateGoalPage,

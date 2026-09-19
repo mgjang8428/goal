@@ -33,8 +33,9 @@ export default function YearlyRepeatSet() {
                         <option
                             key={`month_select_${month}`}
                             value={month}
-                            children={`${month}월`}
-                        />
+                        >
+                            {`${month}월`}
+                        </option>
                     ))
                 }
             </select>
@@ -48,18 +49,20 @@ export default function YearlyRepeatSet() {
                         <option
                             key={`date_select_${date}`}
                             value={date}
-                            children={`${date}일`}
-                        />
+                        >
+                            {`${date}일`}
+                        </option>
                     ))
                 }
             </select>
             <button
                 type="button"
-                children="추가"
                 onClick={() => {
-                    setYearRepeatInfoSetDate(`${monthValue}월${dateValue}일`)
+                    setYearRepeatInfoSetDate(monthValue, dateValue)
                 }}
-            />
+            >
+                추가
+            </button>
             <p>추가된 반복일</p>
             <table className="border">
                 <thead>
@@ -80,9 +83,10 @@ export default function YearlyRepeatSet() {
                                     <button
                                         className="border"
                                         type="button"
-                                        children="X"
                                         onClick={() => { setYearRepeatInfoDeleteDate(date) }}
-                                    />
+                                    >
+                                        X
+                                    </button>
                                 </td>
                             </tr>
                         ))

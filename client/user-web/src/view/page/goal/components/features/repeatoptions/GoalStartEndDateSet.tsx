@@ -19,8 +19,19 @@ export default function GoalStartEndDateSet() {
     const nowFormat = `${nowYear}-${nowMonth}-${nowDate}`
 
     useEffect(() => {
-        setStartDate(nowFormat)
-    }, [])
+        if (startDate == "") {
+            setStartDate(nowFormat)
+        }
+        if (isEndDate == false) {
+            setEndDate("")
+        }
+    }, [
+        startDate,
+        nowFormat,
+        setStartDate,
+        isEndDate,
+        setEndDate
+    ])
 
     return (
         <>
@@ -30,7 +41,7 @@ export default function GoalStartEndDateSet() {
                     type="date"
                     value={startDate}
                     onChange={(event) => { setStartDate(event.target.value) }}
-                    min={nowFormat}
+                    min={startDate}
                 />
             </label>
             <br />
@@ -43,7 +54,7 @@ export default function GoalStartEndDateSet() {
                 끝일:
                 <input
                     type="date"
-                    value={endDate}
+                    value={isEndDate ? endDate : ""}
                     onChange={(event) => { setEndDate(event.target.value) }}
                     readOnly={!isEndDate}
                     min={nowFormat}

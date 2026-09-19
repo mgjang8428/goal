@@ -16,6 +16,8 @@ export default function GoalList({ goalList }: GoalListProps) {
                 <thead>
                     <tr>
                         <th>{t("page.goal.main.goal_list.table_header.title")}</th>
+                        <th>활성화</th>
+                        <th>반복종류</th>
                         <th>{t("page.goal.main.goal_list.table_header.update_btn")}</th>
                         <th>{t("page.goal.main.goal_list.table_header.delete_btn")}</th>
                     </tr>
@@ -23,11 +25,13 @@ export default function GoalList({ goalList }: GoalListProps) {
                 <tbody>
                     {
                         goalList.length != 0 ? (
-                            goalList.map(({ goalId, title }) => {
+                            goalList.map(({ goalId, title, isActive, repeatType }) => {
                                 return <GoalListItem
                                     key={"goalListItem_" + goalId}
                                     goalId={goalId}
                                     title={title}
+                                    isActive={isActive}
+                                    repeatType={repeatType}
                                 />
                             })
                         ) : (

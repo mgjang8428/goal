@@ -29,11 +29,12 @@ export default function SelectRepeatSet() {
             />
             <button
                 type="button"
-                children="추가"
                 onClick={() => {
                     setSelectRepeatInfoSetDate(date)
                 }}
-            />
+            >
+                추가
+            </button>
             <p>추가된 반복일</p>
             <table className="border">
                 <thead>
@@ -54,9 +55,10 @@ export default function SelectRepeatSet() {
                                     <button
                                         className="border"
                                         type="button"
-                                        children="X"
                                         onClick={() => { setSelectRepeatInfoDeleteDate(date) }}
-                                    />
+                                    >
+                                        X
+                                    </button>
                                 </td>
                             </tr>
                         ))

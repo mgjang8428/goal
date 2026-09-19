@@ -1,4 +1,4 @@
-export default interface RepeatInfoRequestDto {
+export default interface RepeatInfoResponseDto {
     weekRepeatType?: string
     monthRepeatNum?: number
     yearRepeatMonth?: number
