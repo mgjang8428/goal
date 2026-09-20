@@ -1,29 +1,24 @@
-import { RouterLocaleSet } from "@/config/route/router";
-import { useLocation, useNavigate } from "react-router";
+import { RouterLocaleSet } from "@/config/route/router"
+import { useLocation, useNavigate } from "react-router"
 
 export default function PreviousButton() {
+	const navigate = useNavigate()
+	const location = useLocation()
 
-    const navigate = useNavigate()
-    const location = useLocation()
+	const hidePreviousButtonPath: string[] = [
+		RouterLocaleSet.MAIN_PAGE,
+		RouterLocaleSet.DASHBOARD_PAGE
+	]
 
-    const hidePreviousButtonPath: string[] = [
-        RouterLocaleSet.MAIN_PAGE,
-        RouterLocaleSet.DASHBOARD_PAGE
-    ]
+	function previousButtonHandler() {
+		navigate(-1)
+	}
 
-    function previousButtonHandler() {
-        navigate(-1)
-    }
-
-    return (
-        hidePreviousButtonPath.includes(location.pathname) ? (<></>) : (
-            <>
-                <button
-                    onClick={previousButtonHandler}
-                >
-                    {"<-"}
-                </button>
-            </>
-        )
-    )
+	return hidePreviousButtonPath.includes(location.pathname) ? (
+		<></>
+	) : (
+		<>
+			<button onClick={previousButtonHandler}>{"<-"}</button>
+		</>
+	)
 }

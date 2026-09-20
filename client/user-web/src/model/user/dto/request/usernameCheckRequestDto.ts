@@ -1,3 +1,3 @@
 export default interface UsernameCheckRequestDto {
-    username: string
+	username: string
 }

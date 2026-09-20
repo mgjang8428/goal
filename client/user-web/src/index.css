@@ -1,38 +1,40 @@
 @import "tailwindcss";
 
 @layer base {
-  h1 {
-    @apply text-4xl
-  }
+	h1 {
+		@apply text-4xl;
+	}
 
-  h2 {
-    @apply text-3xl
-  }
+	h2 {
+		@apply text-3xl;
+	}
 
-  h3 {
-    @apply text-2xl
-  }
+	h3 {
+		@apply text-2xl;
+	}
 
-  a {
-    @apply cursor-pointer underline
-  }
+	a {
+		@apply cursor-pointer underline;
+	}
 
-  button {
-    @apply border border-solid cursor-pointer
-  }
+	button {
+		@apply border border-solid cursor-pointer;
+	}
 
-  input {
-    @apply border border-solid
-  }
+	input {
+		@apply border border-solid;
+	}
 
-  textarea {
-    @apply border border-solid
-  }
+	textarea {
+		@apply border border-solid;
+	}
 }
 
-@layer components {}
+@layer components {
+}
 
-@layer utilities {}
+@layer utilities {
+}
 
 /* :root {
   --text: #6b6375;

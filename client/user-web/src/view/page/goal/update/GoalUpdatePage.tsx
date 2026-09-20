@@ -8,45 +8,43 @@ import { useTranslation } from "react-i18next"
 import { useParams } from "react-router"
 
 export default function GoalUpdatePage() {
+	const { t } = useTranslation()
 
-    const { t } = useTranslation()
+	const { goalId } = useParams()
 
-    const { goalId } = useParams()
+	const { setGoalId, initAllStoreData } = useGoalInfoStore()
 
-    const {
-        setGoalId,
-        initAllStoreData
-    } = useGoalInfoStore()
+	const { updateGoal } = useGoalUpdateViewModel()
 
-    const { updateGoal } = useGoalUpdateViewModel()
+	const { getGoalInfo } = useGetGoalInfoViewModel()
 
-    const { getGoalInfo } = useGetGoalInfoViewModel()
+	useEffect(() => {
+		setGoalId(Number(goalId))
+		getGoalInfo(Number(goalId))
+		return () => {
+			initAllStoreData()
+		}
+	}, [goalId, setGoalId, getGoalInfo, initAllStoreData])
 
-    useEffect(() => {
-        setGoalId(Number(goalId))
-        getGoalInfo(Number(goalId))
-        return () => { initAllStoreData() }
-    }, [goalId, setGoalId, getGoalInfo, initAllStoreData])
+	function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
+		event.preventDefault()
+		updateGoal()
+	}
 
-    function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
-        event.preventDefault()
-        updateGoal()
-    }
-
-    return (
-        <>
-            <p>목표 번호: <span>{goalId}</span></p>
-            <form onSubmit={submitHandler}>
-                <GoalTitleContentSet />
-                <br />
-                <GoalRepeatOptionsSet />
-                <br />
-                <button
-                    type="submit"
-                >
-                    {t("page.goal.update.submit_button")}
-                </button>
-            </form>
-        </>
-    )
+	return (
+		<>
+			<p>
+				목표 번호: <span>{goalId}</span>
+			</p>
+			<form onSubmit={submitHandler}>
+				<GoalTitleContentSet />
+				<br />
+				<GoalRepeatOptionsSet />
+				<br />
+				<button type="submit">
+					{t("page.goal.update.submit_button")}
+				</button>
+			</form>
+		</>
+	)
 }

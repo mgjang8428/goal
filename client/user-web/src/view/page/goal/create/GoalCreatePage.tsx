@@ -6,42 +6,34 @@ import { useEffect } from "react"
 import GoalRepeatOptionsSet from "@/view/page/goal/components/features/GoalRepeatOptionsSet"
 
 export default function GoalCreatePage() {
+	const { t } = useTranslation()
 
-  const { t } = useTranslation()
+	const { initAllStoreData } = useGoalInfoStore()
 
-  const {
-    initAllStoreData
-  } = useGoalInfoStore()
+	const { goalCreate } = useGoalCreateViewModel()
 
-  const {
-    goalCreate
-  } = useGoalCreateViewModel()
+	function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
+		event.preventDefault()
+		goalCreate()
+	}
 
-  function submitHandler(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault()
-    goalCreate()
-  }
+	useEffect(() => {
+		return () => {
+			initAllStoreData()
+		}
+	}, [initAllStoreData])
 
-  useEffect(() => {
-    return () => {
-      initAllStoreData()
-    }
-  }, [initAllStoreData]
-  )
-
-  return (
-    <>
-      <form onSubmit={submitHandler}>
-        <GoalTitleContentSet />
-        <br />
-        <GoalRepeatOptionsSet />
-        <br />
-        <button
-          type="submit"
-        >
-          {t("page.goal.create.submit_button")}
-        </button>
-      </form>
-    </>
-  )
+	return (
+		<>
+			<form onSubmit={submitHandler}>
+				<GoalTitleContentSet />
+				<br />
+				<GoalRepeatOptionsSet />
+				<br />
+				<button type="submit">
+					{t("page.goal.create.submit_button")}
+				</button>
+			</form>
+		</>
+	)
 }

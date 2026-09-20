@@ -1,0 +1,17 @@
+.vscode/
+dist/
+build/
+out/
+node_modules/
+*.cache/
+.temp/
+
+*.log
+.env*
+package.json
+package-lock.json
+.oxlintrc.json
+tsconfig*
+vite-env.d.ts
+vite.config.ts
+vitest.shims.d.ts

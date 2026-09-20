@@ -7,92 +7,93 @@ import type { GoalRepository } from "@/model/goal/repository/goalRepository"
 import type RepeatInfoRequestDto from "../dto/request/repeatInfoRequestDto"
 
 export interface GoalService {
+	create(
+		title: string,
+		content: string,
+		isActive: boolean,
+		startDate: string,
+		endDate: string,
+		repeatType: string,
+		repeatInfo: RepeatInfoRequestDto[]
+	): Promise<void>
 
-    create(
-        title: string,
-        content: string,
-        isActive: boolean,
-        startDate: string,
-        endDate: string,
-        repeatType: string,
-        repeatInfo: RepeatInfoRequestDto[]
-    ): Promise<void>
+	getGoalList(): Promise<GetGoalListResponseDto[]>
 
-    getGoalList(): Promise<GetGoalListResponseDto[]>
+	getGoalDetail(goalId: number): Promise<GetGoalDetailResponseDto>
 
-    getGoalDetail(goalId: number): Promise<GetGoalDetailResponseDto>
+	updateGoal(
+		goalId: number,
+		title: string,
+		content: string,
+		isActive: boolean,
+		startDate: string,
+		endDate: string,
+		repeatType: string,
+		repeatInfo: RepeatInfoRequestDto[]
+	): Promise<void>
 
-    updateGoal(
-        goalId: number,
-        title: string,
-        content: string,
-        isActive: boolean,
-        startDate: string,
-        endDate: string,
-        repeatType: string,
-        repeatInfo: RepeatInfoRequestDto[]
-    ): Promise<void>
-
-    deleteGoal(goalId: number): Promise<void>
+	deleteGoal(goalId: number): Promise<void>
 }
 
 export default class GoalServiceImpl implements GoalService {
+	private goalRepository: GoalRepository = container.resolve(
+		ContainerSet.GOAL_REPOSITORY
+	)
 
-    private goalRepository: GoalRepository = container.resolve(ContainerSet.GOAL_REPOSITORY)
+	public async create(
+		title: string,
+		content: string,
+		isActive: boolean,
+		startDate: string,
+		endDate: string,
+		repeatType: string,
+		repeatInfo: RepeatInfoRequestDto[]
+	): Promise<void> {
+		const requestDto: CreateGoalRequestDto = {
+			title: title,
+			content: content,
+			isActive: isActive,
+			startDate: startDate,
+			endDate: endDate,
+			repeatType: repeatType,
+			repeatInfo: repeatInfo
+		}
+		await this.goalRepository.create(requestDto)
+	}
 
-    public async create(
-        title: string,
-        content: string,
-        isActive: boolean,
-        startDate: string,
-        endDate: string,
-        repeatType: string,
-        repeatInfo: RepeatInfoRequestDto[]
-    ): Promise<void> {
+	public async getGoalList(): Promise<GetGoalListResponseDto[]> {
+		return await this.goalRepository.getGoalList()
+	}
 
-        const requestDto: CreateGoalRequestDto = {
-            title: title,
-            content: content,
-            isActive: isActive,
-            startDate: startDate,
-            endDate: endDate,
-            repeatType: repeatType,
-            repeatInfo: repeatInfo
-        }
-        await this.goalRepository.create(requestDto)
-    }
+	public async getGoalDetail(
+		goalId: number
+	): Promise<GetGoalDetailResponseDto> {
+		return await this.goalRepository.getGoalDetail(goalId)
+	}
 
-    public async getGoalList(): Promise<GetGoalListResponseDto[]> {
-        return await this.goalRepository.getGoalList()
-    }
+	public async updateGoal(
+		goalId: number,
+		title: string,
+		content: string,
+		isActive: boolean,
+		startDate: string,
+		endDate: string,
+		repeatType: string,
+		repeatInfo: RepeatInfoRequestDto[]
+	): Promise<void> {
+		const requestDto: UpdateGoalRequestDto = {
+			title: title,
+			content: content,
+			isActive: isActive,
+			startDate: startDate,
+			endDate: endDate,
+			repeatType: repeatType,
+			repeatInfo: repeatInfo
+		}
+		await this.goalRepository.updateGoal(goalId, requestDto)
+	}
 
-    public async getGoalDetail(goalId: number): Promise<GetGoalDetailResponseDto> {
-        return await this.goalRepository.getGoalDetail(goalId)
-    }
-
-    public async updateGoal(
-        goalId: number,
-        title: string,
-        content: string,
-        isActive: boolean,
-        startDate: string,
-        endDate: string,
-        repeatType: string,
-        repeatInfo: RepeatInfoRequestDto[]
-    ): Promise<void> {
-        const requestDto: UpdateGoalRequestDto = {
-            title: title,
-            content: content,
-            isActive: isActive,
-            startDate: startDate,
-            endDate: endDate,
-            repeatType: repeatType,
-            repeatInfo: repeatInfo
-        }
-        await this.goalRepository.updateGoal(goalId, requestDto)
-    }
-
-    public async deleteGoal(goalId: number): Promise<void> {
-        await this.goalRepository.deleteGoal(goalId)
-    }
+	public async deleteGoal(goalId: number): Promise<void> {
+		await this.goalRepository.deleteGoal(goalId)
+	}
 }

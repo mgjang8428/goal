@@ -1,6 +1,6 @@
 export default interface GetGoalListResponseDto {
-    goalId: number
-    title: string
-    isActive: boolean
-    repeatType: string
+	goalId: number
+	title: string
+	isActive: boolean
+	repeatType: string
 }

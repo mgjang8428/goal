@@ -11,45 +11,46 @@ const log: Logger = container.resolve(ContainerSet.LOGGER)
 const goalService: GoalService = container.resolve(ContainerSet.GOAL_SERVICE)
 
 export default function useGoalListViewModel() {
+	const navigate = useNavigate()
+	const { t } = useTranslation()
 
-    const navigate = useNavigate()
-    const { t } = useTranslation()
+	const [goalList, setGoalList] = useState<GetGoalListResponseDto[]>([])
 
-    const [goalList, setGoalList] = useState<GetGoalListResponseDto[]>([])
+	async function getGoalList() {
+		await goalService
+			.getGoalList()
+			.then((responseList: GetGoalListResponseDto[]) => {
+				setGoalList(responseList)
+			})
+			.catch((error) => {
+				log.error("getGoalList error: ", error)
+				alert(t("goallist_viewmodel.getgoallist_catch_alert"))
+			})
+	}
 
-    async function getGoalList() {
-        await goalService.getGoalList()
-            .then((responseList: GetGoalListResponseDto[]) => {
-                setGoalList(responseList)
-            })
-            .catch((error) => {
-                log.error("getGoalList error: ", error)
-                alert(t("goallist_viewmodel.getgoallist_catch_alert"))
-            })
-    }
+	function goUpdateGoalPage(goalId: number) {
+		navigate(RouterLocaleSet.GOAL_UPDATE_PAGE(goalId))
+	}
 
-    function goUpdateGoalPage(goalId: number) {
-        navigate(RouterLocaleSet.GOAL_UPDATE_PAGE(goalId))
-    }
+	async function doDeleteGoal(goalId: number) {
+		if (!confirm(t("goallist_viewmodel.dodeletegoal_confirm"))) return
 
-    async function doDeleteGoal(goalId: number) {
-        if(!confirm(t("goallist_viewmodel.dodeletegoal_confirm"))) return
+		await goalService
+			.deleteGoal(goalId)
+			.then(async () => {
+				alert(t("goallist_viewmodel.dodeletegoal_then_alert"))
+				getGoalList()
+			})
+			.catch((error) => {
+				log.error("doDeleteGoal error: ", error)
+				alert(t("goallist_viewmodel.dodeletegoal_catch_alert"))
+			})
+	}
 
-        await goalService.deleteGoal(goalId)
-            .then(async () => {
-                alert(t("goallist_viewmodel.dodeletegoal_then_alert"))
-                getGoalList()
-            })
-            .catch((error) => {
-                log.error("doDeleteGoal error: ", error)
-                alert(t("goallist_viewmodel.dodeletegoal_catch_alert"))
-            })
-    }
-
-    return {
-        goalList,
-        getGoalList,
-        goUpdateGoalPage,
-        doDeleteGoal
-    }
+	return {
+		goalList,
+		getGoalList,
+		goUpdateGoalPage,
+		doDeleteGoal
+	}
 }

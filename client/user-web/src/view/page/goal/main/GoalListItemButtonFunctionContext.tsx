@@ -1,8 +1,9 @@
-import { createContext } from "react";
+import { createContext } from "react"
 
 export interface GoalListItemButtonFunctionContextType {
-    update: (goalId: number) => void
-    delete: (goalId: number) => Promise<void>
+	update: (goalId: number) => void
+	delete: (goalId: number) => Promise<void>
 }
 
-export const GoalListItemButtonFunctionContext = createContext<GoalListItemButtonFunctionContextType | null>(null)
+export const GoalListItemButtonFunctionContext =
+	createContext<GoalListItemButtonFunctionContextType | null>(null)

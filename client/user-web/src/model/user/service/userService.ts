@@ -8,76 +8,89 @@ import type GetMyInfoResponseDto from "@/model/user/dto/response/getMyInfoRespon
 import type { UserRepository } from "@/model/user/repository/userRepository"
 
 export interface UserService {
+	signup(
+		username: string,
+		password: string,
+		name: string,
+		email: string
+	): Promise<void>
 
-    signup(username: string, password: string, name: string, email: string): Promise<void>
+	checkUsername(username: string): Promise<void>
 
-    checkUsername(username: string): Promise<void>
+	getMyInfoData(): Promise<GetMyInfoResponseDto>
 
-    getMyInfoData(): Promise<GetMyInfoResponseDto>
+	changePassword(nowPassword: string, newPassword: string): Promise<void>
 
-    changePassword(nowPassword: string, newPassword: string): Promise<void>
+	changeName(newName: string): Promise<void>
 
-    changeName(newName: string): Promise<void>
+	changeEmail(newEmail: string): Promise<void>
 
-    changeEmail(newEmail: string): Promise<void>
-
-    deleteUser(deleteUserPassword: string): Promise<void>
+	deleteUser(deleteUserPassword: string): Promise<void>
 }
 
 export default class UserServiceImpl implements UserService {
+	private userRepository: UserRepository = container.resolve(
+		ContainerSet.USER_REPOSITORY
+	)
 
-    private userRepository: UserRepository = container.resolve(ContainerSet.USER_REPOSITORY)
+	public async signup(
+		username: string,
+		password: string,
+		name: string,
+		email: string
+	): Promise<void> {
+		const requestDto: SignupRequestDto = {
+			username: username,
+			password: password,
+			name: name,
+			email: email
+		}
+		await this.userRepository.postSignup(requestDto)
+	}
 
-    public async signup(username: string, password: string, name: string, email: string): Promise<void> {
-        const requestDto: SignupRequestDto = {
-            username: username,
-            password: password,
-            name: name,
-            email: email
-        }
-        await this.userRepository.postSignup(requestDto)
-    }
+	public async checkUsername(username: string): Promise<void> {
+		const requestDto: UsernameCheckRequestDto = {
+			username: username
+		}
+		await this.userRepository.checkUsername(requestDto)
+	}
 
-    public async checkUsername(username: string): Promise<void> {
-        const requestDto: UsernameCheckRequestDto = {
-            username: username
-        }
-        await this.userRepository.checkUsername(requestDto)
-    }
+	public async getMyInfoData(): Promise<GetMyInfoResponseDto> {
+		return await this.userRepository.getMyInfo()
+	}
 
-    public async getMyInfoData(): Promise<GetMyInfoResponseDto> {
-        return await this.userRepository.getMyInfo()
-    }
+	public async changePassword(
+		nowPassword: string,
+		newPassword: string
+	): Promise<void> {
+		const requestDto: UpdateMyInfoRequestDto = {
+			type: UpdateMyInfoRequestType.PASSWORD,
+			nowPassword: nowPassword,
+			newPassword: newPassword
+		}
+		await this.userRepository.updateMyInfo(requestDto)
+	}
 
-    public async changePassword(nowPassword: string, newPassword: string): Promise<void> {
-        const requestDto: UpdateMyInfoRequestDto = {
-            type: UpdateMyInfoRequestType.PASSWORD,
-            nowPassword: nowPassword,
-            newPassword: newPassword,
-        }
-        await this.userRepository.updateMyInfo(requestDto)
-    }
+	public async changeName(newName: string): Promise<void> {
+		const requestDto: UpdateMyInfoRequestDto = {
+			type: UpdateMyInfoRequestType.NAME,
+			name: newName
+		}
+		await this.userRepository.updateMyInfo(requestDto)
+	}
 
-    public async changeName(newName: string): Promise<void> {
-        const requestDto: UpdateMyInfoRequestDto = {
-            type: UpdateMyInfoRequestType.NAME,
-            name: newName
-        }
-        await this.userRepository.updateMyInfo(requestDto)
-    }
+	public async changeEmail(newEmail: string): Promise<void> {
+		const requestDto: UpdateMyInfoRequestDto = {
+			type: UpdateMyInfoRequestType.EMAIL,
+			email: newEmail
+		}
+		await this.userRepository.updateMyInfo(requestDto)
+	}
 
-    public async changeEmail(newEmail: string): Promise<void> {
-        const requestDto: UpdateMyInfoRequestDto = {
-            type: UpdateMyInfoRequestType.EMAIL,
-            email: newEmail
-        }
-        await this.userRepository.updateMyInfo(requestDto)
-    }
-
-    public async deleteUser(deleteUserPassword: string): Promise<void> {
-        const requestDto: DeleteUserRequestDto = {
-            password: deleteUserPassword
-        }
-        this.userRepository.deleteUser(requestDto)
-    }
+	public async deleteUser(deleteUserPassword: string): Promise<void> {
+		const requestDto: DeleteUserRequestDto = {
+			password: deleteUserPassword
+		}
+		this.userRepository.deleteUser(requestDto)
+	}
 }

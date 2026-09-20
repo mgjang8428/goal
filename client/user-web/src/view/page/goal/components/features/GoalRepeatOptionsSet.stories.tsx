@@ -1,13 +1,13 @@
-import GoalRepeatOptionsSet from '@/view/page/goal/components/features/GoalRepeatOptionsSet';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import GoalRepeatOptionsSet from "@/view/page/goal/components/features/GoalRepeatOptionsSet"
+import type { Meta, StoryObj } from "@storybook/react-vite"
 
 const meta = {
-  component: GoalRepeatOptionsSet,
-  tags: ['autodocs'],
-} satisfies Meta<typeof GoalRepeatOptionsSet>;
+	component: GoalRepeatOptionsSet,
+	tags: ["autodocs"]
+} satisfies Meta<typeof GoalRepeatOptionsSet>
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}

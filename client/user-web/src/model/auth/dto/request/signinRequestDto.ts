@@ -1,4 +1,4 @@
 export default interface SigninRequestDto {
-    username: string
-    password: string
+	username: string
+	password: string
 }
