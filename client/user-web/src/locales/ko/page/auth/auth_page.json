@@ -1,0 +1,53 @@
+{
+	"signin": {
+		"title": "로그인",
+		"label": {
+			"username": "아이디",
+			"password": "비밀번호"
+		},
+		"button": {
+			"submit_signin": "로그인"
+		}
+	},
+	"signup": {
+		"title": "가입",
+		"label": {
+			"username": "아이디",
+			"password": "비밀번호",
+			"password_check": "비밀번호확인",
+			"name": "이름",
+			"email": "이메일"
+		},
+		"button": {
+			"username_duplicate_check": "중복확인",
+			"username_reinput": "재입력",
+			"submit_signup": "가입"
+		}
+	},
+	"myinfo": {
+		"title": "내정보",
+		"label": {
+			"username": "아이디",
+			"password_change": "비밀번호 변경",
+			"now_password_input": "현재 비밀번호 입력",
+			"new_password_input": "새로운 비밀번호 입력",
+			"name": "닉네임",
+			"new_name_input": "새로운 닉네임 입력",
+			"email": "이메일",
+			"new_email_input": "새로운 이메일 입력",
+			"user_delete": "서비스 탈퇴"
+		},
+		"button": {
+			"password_change_start": "비밀번호 변경",
+			"password_change_cencel": "비밀번호 변경 취소",
+			"password_change_accept": "비밀번호 변경",
+			"name_change_start": "닉네임 변경",
+			"name_change_cencel": "닉네임 변경 취소",
+			"name_change_accept": "닉네임 변경",
+			"email_change_start": "이메일 변경",
+			"email_change_cencel": "이메일 변경 취소",
+			"email_change_accept": "이메일 변경",
+			"user_delete": "탈퇴"
+		}
+	}
+}

@@ -1,0 +1,9 @@
+{
+	"header": {
+		"logo": "Goal Project",
+		"signup": "가입",
+		"signin": "로그인",
+		"signout": "로그아웃",
+		"myinfo": "내정보"
+	}
+}

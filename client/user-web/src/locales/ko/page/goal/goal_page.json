@@ -1,0 +1,33 @@
+{
+	"main": {
+		"title": "목표",
+		"link": {
+			"create": "목표 생성"
+		},
+		"button": {
+			"reload_goal_list": "새로고침"
+		}
+	},
+	"create": {
+		"title": "목표생성",
+		"button": {
+			"create_submit": "생성"
+		}
+	},
+	"detail": {
+		"button": {
+			"move_update_page": "수정"
+		},
+		"label": {
+			"goalid": "목표 번호: "
+		}
+	},
+	"update": {
+		"label": {
+			"goalid": "목표 번호: "
+		},
+		"button": {
+			"update_submit": "수정"
+		}
+	}
+}

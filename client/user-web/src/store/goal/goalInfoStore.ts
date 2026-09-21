@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { create } from "zustand"
 import { devtools } from "zustand/middleware"
 
@@ -214,7 +215,7 @@ const useGoalInfoStore = create<GoalInfoStoreState>()(
 			},
 
 			setYearRepeatInfoSetDate: (month: string, date: string) => {
-				const parseDate = `${month}월${date}일`
+				const parseDate = `${month}월${date}일}`
 				const currentYearRepeatInfo = get().yearRepeatInfo
 				if (currentYearRepeatInfo.includes(parseDate)) {
 					return false

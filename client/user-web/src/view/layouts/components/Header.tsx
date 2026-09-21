@@ -15,13 +15,13 @@ export default function Header() {
 				accessToken == null ? (
 					<>
 						<NavLink to={RouterLocaleSet.MAIN_PAGE}>
-							<h1>Goal Project</h1>
+							<h1>{t("layouts:header.logo")}</h1>
 						</NavLink>
 					</>
 				) : (
 					<>
 						<NavLink to={RouterLocaleSet.DASHBOARD_PAGE}>
-							<h1>Goal Project</h1>
+							<h1>{t("layouts:header.logo")}</h1>
 						</NavLink>
 					</>
 				)
@@ -31,19 +31,19 @@ export default function Header() {
 				accessToken == null ? (
 					<>
 						<NavLink to={RouterLocaleSet.SIGNUP_PAGE}>
-							<p>{t("layouts.header.signup")}</p>
+							<p>{t("layouts:header.signup")}</p>
 						</NavLink>
 						<NavLink to={RouterLocaleSet.SIGNIN_PAGE}>
-							<p>{t("layouts.header.signin")}</p>
+							<p>{t("layouts:header.signin")}</p>
 						</NavLink>
 					</>
 				) : (
 					<>
 						<NavLink to={RouterLocaleSet.MYINFO_PAGE}>
-							<p>{t("layouts.header.myinfo")}</p>
+							<p>{t("layouts:header.myinfo")}</p>
 						</NavLink>
 						<button onClick={signoutHandler}>
-							{t("layouts.header.signout")}
+							{t("layouts:header.signout")}
 						</button>
 					</>
 				)

@@ -1,0 +1,68 @@
+import useGoalInfoStore from "@/store/goal/goalInfoStore"
+import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
+
+export default function GoalStartEndDateSet() {
+
+	const { t } = useTranslation()
+
+	const {
+		startDate,
+		setStartDate,
+		isEndDate,
+		setIsEndDate,
+		endDate,
+		setEndDate
+	} = useGoalInfoStore()
+
+	const now = new Date()
+	const nowYear = now.getFullYear()
+	const nowMonth = String(now.getMonth() + 1).padStart(2, "0")
+	const nowDate = String(now.getDate()).padStart(2, "0")
+	const nowFormat = `${nowYear}-${nowMonth}-${nowDate}`
+
+	useEffect(() => {
+		if (startDate == "") {
+			setStartDate(nowFormat)
+		}
+		if (isEndDate == false) {
+			setEndDate("")
+		}
+	}, [startDate, nowFormat, setStartDate, isEndDate, setEndDate])
+
+	return (
+		<>
+			<label>
+				{t("goal_components:set.repeatoptions.goalstartenddateset.label.startdate")}
+				<input
+					type="date"
+					value={startDate}
+					onChange={(event) => {
+						setStartDate(event.target.value)
+					}}
+					min={startDate}
+				/>
+			</label>
+			<br />
+			<input
+				type="checkbox"
+				checked={isEndDate}
+				onChange={(event) => {
+					setIsEndDate(event.target.checked)
+				}}
+			/>
+			<label>
+				{t("goal_components:set.repeatoptions.goalstartenddateset.label.enddate")}
+				<input
+					type="date"
+					value={isEndDate ? endDate : ""}
+					onChange={(event) => {
+						setEndDate(event.target.value)
+					}}
+					readOnly={!isEndDate}
+					min={nowFormat}
+				/>
+			</label>
+		</>
+	)
+}

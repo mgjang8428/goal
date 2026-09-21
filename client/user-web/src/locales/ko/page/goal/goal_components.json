@@ -1,0 +1,175 @@
+{
+	"info": {
+		"goaltitlecontentinfo": {
+			"label": {
+				"title": "제목",
+				"content": "내용"
+			}
+		},
+		"repeatoptions": {
+			"goalactiveinfo": {
+				"label": {
+					"isActtive": "활성화 여부"
+				}
+			},
+			"goalrepeatinfo": {
+				"label": {
+					"isRepeat": "반복 여부",
+					"repeatType": "반복 종류: ",
+					"repeatInfo": "반복 정보"
+				},
+				"weektype_data": {
+					"none": "-",
+					"always": "매일반복",
+					"weekly": "주간반복",
+					"monthly": "월간반복",
+					"yearly": "연간반복",
+					"select": "지정반복",
+					"default": " "
+				}
+			},
+			"goalstartenddateinfo": {
+				"label": {
+					"startdate": "시작일: ",
+					"enddate": "끝일: "
+				},
+				"null_enddate": "-"
+			},
+			"repeatype": {
+				"weeklyRepeat": {
+					"mon": "월",
+					"tue": "화",
+					"wed": "수",
+					"thu": "목",
+					"fri": "금",
+					"sat": "토",
+					"sun": "일"
+				},
+				"monthlyRepeat": {
+					"table_header": "반복일",
+					"table_item_type": "일"
+				},
+				"yearlyRepeat": {
+					"table_header": "반복일"
+				},
+				"selectRepeat": {
+					"table_header": "반복일"
+				}
+			}
+		}
+	},
+	"list": {
+		"table_header": {
+			"goal_title": "목표 제목",
+			"goal_isActive": "활성화 여부",
+			"goal_repeatType": "반복 종류",
+			"goal_update_button": "수정",
+			"goal_delete_button": "삭제"
+		},
+		"goal_create_request_message": "목표를 생성해주세요.",
+		"repeatTypeToMessage": {
+			"none": "반복없음",
+			"always": "매일반복",
+			"weekly": "주간반복",
+			"monthly": "월간반복",
+			"yearly": "연간반복",
+			"select": "선택반복",
+			"default": "정보없음"
+		},
+		"list_item_button": {
+			"update": "수정",
+			"delete": "삭제"
+		}
+	},
+	"set": {
+		"goaltitlecontentinfo": {
+			"label": {
+				"title": "제목",
+				"content": "내용"
+			},
+			"input_placholder": {
+				"title": "제목을 입력해주세요.",
+				"content": "내용을 입력해주세요. (공백 가능)"
+			}
+		},
+		"repeatoptions": {
+			"goalactiveset": {
+				"label": {
+					"isActtive": "활성화 여부: "
+				}
+			},
+			"goalrepeatset": {
+				"label": {
+					"isRepeat": "반복 설정"
+				}
+			},
+			"goalstartenddateset": {
+				"label": {
+					"startdate": "시작일: ",
+					"enddate": "끝일: "
+				}
+			},
+			"repeattypeselectradio": {
+				"legend": "반복 종류",
+				"always": "매일반복",
+				"weekly": "주간반복",
+				"monthly": "월간반복",
+				"yearly": "연간반복",
+				"select": "지정반복"
+			},
+			"repeatype": {
+				"weeklyRepeat": {
+					"label": "주간반복 요일선택",
+					"mon": "월",
+					"tue": "화",
+					"wed": "수",
+					"thu": "목",
+					"fri": "금",
+					"sat": "토",
+					"sun": "일"
+				},
+				"monthlyRepeat": {
+					"label": "월간반복 일자선택",
+					"button": {
+						"add_button": "추가"
+					},
+					"table": {
+						"label": "추가된 반복일",
+						"header": "반복일",
+						"delete_button_header": "삭제",
+						"item_type": "일",
+						"delete_button": "X"
+					}
+				},
+				"yearlyRepeat": {
+					"label": "연간반복 날짜선택",
+					"select": {
+						"option_month": "월",
+						"option_date": "일"
+					},
+					"button": {
+						"add_button": "추가"
+					},
+					"table": {
+						"label": "추가된 반복일",
+						"header_date": "반복일",
+						"header_delete": "삭제",
+						"delete_button": "X"
+					}
+				},
+				"selectRepeat": {
+					"label": "지정반복 날짜선택",
+					"button": {
+						"add_button": "추가"
+					},
+					"table": {
+						"label": "추가된 반복일",
+						"header_date": "반복일",
+						"header_delete": "삭제",
+						"delete_button":"X"
+					}
+				}
+			}
+		}
+	}
+}

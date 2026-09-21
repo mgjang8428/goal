@@ -1,0 +1,8 @@
+{
+	"header": {
+		"signup": "signup",
+		"signin": "signin",
+		"signout": "signout",
+		"myinfo": "myinfo"
+	}
+}
