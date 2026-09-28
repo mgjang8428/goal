@@ -3,6 +3,7 @@ import { RouterLocaleSet } from "@/config/route/router"
 import type RepeatInfoRequestDto from "@/model/goal/dto/request/repeatInfoRequestDto"
 import type { GoalService } from "@/model/goal/service/goalService"
 import useGoalInfoStore from "@/store/goal/goalInfoStore"
+import useDialogStore from "@/store/layouts/dialogStore"
 import type { Logger } from "@/util/logger/logger"
 import { makeRepeatInfoArray } from "@/viewmodel/goal/util/makeRepeatInfoArray"
 import { useTranslation } from "react-i18next"
@@ -15,7 +16,7 @@ export default function useGoalCreateViewModel() {
 	)
 
 	const navigate = useNavigate()
-	const { t } = useTranslation("noti")
+	const { t } = useTranslation()
 
 	const {
 		initAllStoreData,
@@ -31,36 +32,60 @@ export default function useGoalCreateViewModel() {
 		isActive
 	} = useGoalInfoStore()
 
-	async function goalCreate() {
-		if (!confirm(t("goalcreate_viewmodel.goalcreate_confirm"))) return
+	const { dialogOpen } = useDialogStore()
 
-		const repeatInfo: RepeatInfoRequestDto[] = makeRepeatInfoArray(
-			repeatType,
-			weekRepeatInfo,
-			monthRepeatInfo,
-			yearRepeatInfo,
-			selectRepeatInfo
+	async function goalCreate() {
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:goal.useGoalCreateViewModel.confirm.goalCreate"),
+			{
+				onCheck: onCheckHandler
+			}
 		)
 
-		await goalService
-			.create(
-				title,
-				content,
-				isActive,
-				startDate,
-				endDate,
+		async function onCheckHandler() {
+			const repeatInfo: RepeatInfoRequestDto[] = makeRepeatInfoArray(
 				repeatType,
-				repeatInfo
+				weekRepeatInfo,
+				monthRepeatInfo,
+				yearRepeatInfo,
+				selectRepeatInfo
 			)
-			.then(() => {
-				alert(t("goalcreate_viewmodel.goalcreate_then_alert"))
-				initAllStoreData()
-				navigate(RouterLocaleSet.GOAL_PAGE)
-			})
-			.catch((error) => {
-				log.error("goalCreate error: ", error)
-				alert(t("goalcreate_viewmodel.goalcreate_error_alert"))
-			})
+
+			await goalService
+				.create(
+					title,
+					content,
+					isActive,
+					startDate,
+					endDate,
+					repeatType,
+					repeatInfo
+				)
+				.then(() => {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:goal.useGoalCreateViewModel.alert.goalCreate_success"
+						),
+						{
+							onClose: () => {
+								initAllStoreData()
+								navigate(RouterLocaleSet.GOAL_PAGE)
+							}
+						}
+					)
+				})
+				.catch((error) => {
+					log.error("goalCreate error: ", error)
+					dialogOpen(
+						"ERROR",
+						t(
+							"viewmodel:goal.useGoalCreateViewModel.error.goalCreate_failed"
+						)
+					)
+				})
+		}
 	}
 
 	return {

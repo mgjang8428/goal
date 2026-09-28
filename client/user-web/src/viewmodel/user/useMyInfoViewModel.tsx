@@ -3,10 +3,11 @@ import { RouterLocaleSet } from "@/config/route/router"
 import type { AuthService } from "@/model/auth/service/authService"
 import type GetMyInfoResponseDto from "@/model/user/dto/response/getMyInfoResponseDto"
 import type { UserService } from "@/model/user/service/userService"
+import useDialogStore from "@/store/layouts/dialogStore"
 import type { Logger } from "@/util/logger/logger"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { redirect } from "react-router"
+import { useNavigate } from "react-router"
 
 export default function useMyInfoViewModel() {
 	const log: Logger = container.resolve(ContainerSet.LOGGER)
@@ -17,7 +18,10 @@ export default function useMyInfoViewModel() {
 		ContainerSet.AUTH_SERVICE
 	)
 
-	const { t } = useTranslation("noti")
+	const { t } = useTranslation()
+	const navigate = useNavigate()
+
+	const { dialogOpen, inputValue } = useDialogStore()
 
 	const [username, setUsername] = useState("")
 	const [name, setName] = useState("")
@@ -42,80 +46,190 @@ export default function useMyInfoViewModel() {
 			})
 			.catch((error) => {
 				log.error("loadMyInfoData error: ", error)
-				alert(t("myinfo_viewmodel.loadmyinfodata_error_alert"))
+				dialogOpen(
+					"ERROR",
+					t(
+						"viewmodel:user.useMyInfoViewModel.error.getMyInfoData_error"
+					),
+					{
+						onClose: () => {
+							navigate(RouterLocaleSet.DASHBOARD_PAGE)
+						}
+					}
+				)
 			})
 	}
 
 	async function changePassword() {
-		if (!confirm(t("myinfo_viewmodel.changepassword_confirm"))) return
-		await userService
-			.changePassword(nowPassword, newPassword)
-			.then(() => {
-				loadMyInfoData()
-				setIsPasswordUpdateMode(false)
-				setNowPassword("")
-				setNewPassword("")
-			})
-			.catch((error) => {
-				log.error("changePassword error: ", error)
-				alert(t("myinfo_viewmodel.changepassword_error_alert"))
-			})
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:user.useMyInfoViewModel.confirm.changePassword"),
+			{
+				onCheck: onCheckHandler
+			}
+		)
+
+		async function onCheckHandler() {
+			await userService
+				.changePassword(nowPassword, newPassword)
+				.then(() => {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:user.useMyInfoViewModel.alert.changePassword_success"
+						),
+						{
+							onClose: () => {
+								loadMyInfoData()
+								setIsPasswordUpdateMode(false)
+								setNowPassword("")
+								setNewPassword("")
+							}
+						}
+					)
+				})
+				.catch((error) => {
+					log.error("changePassword error: ", error)
+					dialogOpen(
+						"ERROR",
+						t(
+							"viewmodel:user.useMyInfoViewModel.error.changePassword_error"
+						)
+					)
+				})
+		}
 	}
 
 	async function changeName() {
-		if (!confirm(t("myinfo_viewmodel.changename_confirm"))) return
-		await userService
-			.changeName(newName)
-			.then(() => {
-				loadMyInfoData()
-				setIsNameUpdateMode(false)
-				setNewName("")
-			})
-			.catch((error) => {
-				log.error("changeName error: ", error)
-				alert(t("myinfo_viewmodel.changename_error_alert"))
-			})
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:user.useMyInfoViewModel.confirm.changeName"),
+			{ onCheck: onCheckHandler }
+		)
+
+		async function onCheckHandler() {
+			await userService
+				.changeName(newName)
+				.then(() => {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:user.useMyInfoViewModel.alert.changeName_success"
+						),
+						{
+							onClose: () => {
+								loadMyInfoData()
+								setIsNameUpdateMode(false)
+								setNewName("")
+							}
+						}
+					)
+				})
+				.catch((error) => {
+					log.error("changeName error: ", error)
+					dialogOpen(
+						"ERROR",
+						t(
+							"viewmodel:user.useMyInfoViewModel.error.changeName_error"
+						)
+					)
+				})
+		}
 	}
 
 	async function changeEmail() {
-		if (!confirm(t("myinfo_viewmodel.changeemail_confirm"))) return
-		await userService
-			.changeEmail(newEmail)
-			.then(() => {
-				loadMyInfoData()
-				setIsEmailUpdateMode(false)
-				setNewEmail("")
-			})
-			.catch((error) => {
-				log.error("changeEmail error: ", error)
-				alert(t("myinfo_viewmodel.changeemail_error_alert"))
-			})
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:user.useMyInfoViewModel.confirm.changeEmail"),
+			{
+				onCheck: onCheckHandler
+			}
+		)
+
+		async function onCheckHandler() {
+			await userService
+				.changeEmail(newEmail)
+				.then(() => {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:user.useMyInfoViewModel.alert.changeEmail_success"
+						),
+						{
+							onClose: () => {
+								loadMyInfoData()
+								setIsEmailUpdateMode(false)
+								setNewEmail("")
+							}
+						}
+					)
+				})
+				.catch((error) => {
+					log.error("changeEmail error: ", error)
+					dialogOpen(
+						"ERROR",
+						t(
+							"viewmodel:user.useMyInfoViewModel.error.changeEmail_error"
+						)
+					)
+				})
+		}
 	}
 
 	async function deleteUser() {
-		// 삭제 여부 확인
-		if (!confirm(t("myinfo_viewmodel.deleteuser_confirm"))) return
-		// 비밀번호 입력
-		const deleteUserPassword = prompt(
-			t("myinfo_viewmodel.deleteuser_prompt")
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:user.useMyInfoViewModel.confirm.deleteUser"),
+			{
+				onCheck: confirmOnCheckHandler
+			}
 		)
-		// 비밀번호 입력 취소 시
-		if (deleteUserPassword == null) return
-		// 비밀번호 입력 공백 시
-		if (deleteUserPassword == "") {
-			alert(t("myinfo_viewmodel.deleteuser_prompt_alert"))
-			return
+
+		async function confirmOnCheckHandler() {
+			dialogOpen(
+				"PASSWORD",
+				t("viewmodel:user.useMyInfoViewModel.password.deleteUser"),
+				{ onCheck: passwordOnCheckHandler }
+			)
+
+			async function passwordOnCheckHandler() {
+				// 비밀번호 입력 공백 시
+				if (inputValue == "") {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:user.useMyInfoViewModel.alert.deleteUser_blank_error"
+						)
+					)
+					return
+				}
+				await userService
+					.deleteUser(inputValue)
+					.then(() => {
+						dialogOpen(
+							"ALERT",
+							t(
+								"viewmodel:user.useMyInfoViewModel.alert.deleteUser_success"
+							),
+							{
+								onClose: () => {
+									authService.signout()
+									navigate(RouterLocaleSet.MAIN_PAGE)
+								}
+							}
+						)
+					})
+					.catch((error) => {
+						log.error("deleteUser error: ", error)
+						dialogOpen(
+							"ERROR",
+							t(
+								"viewmodel:user.useMyInfoViewModel.error.deleteUser_password_error"
+							)
+						)
+					})
+			}
 		}
-		await userService
-			.deleteUser(deleteUserPassword)
-			.then(() => {
-				authService.signout()
-				redirect(RouterLocaleSet.MAIN_PAGE)
-			})
-			.catch((error) => {
-				log.error("deleteUser error: ", error)
-				alert(t("myinfo_viewmodel.deleteuser_error_alert"))
-			})
 	}
 
 	return {

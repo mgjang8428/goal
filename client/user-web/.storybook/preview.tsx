@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react-vite"
 import { Suspense, useEffect } from "react"
 import { I18nextProvider } from "react-i18next"
-import i18n from "../src/config/locale/i18n"
+import i18n from "../src/locales/i18n"
 import "../src/index.css"
 
 const preview: Preview = {

@@ -1,4 +1,5 @@
 import container, { ContainerSet } from "@/config/di/container"
+import { RouterLocaleSet } from "@/config/route/router"
 import RepeatType from "@/model/goal/const/repeatType"
 import type GetGoalDetailResponseDto from "@/model/goal/dto/response/getGoalDetailResponseDto"
 import type RepeatInfoResponseDto from "@/model/goal/dto/response/repeatInfoResponseDto"
@@ -7,17 +8,21 @@ import useGoalInfoStore, {
 	weekRepeatDefaultValue,
 	type WeekRepeatSetCheck
 } from "@/store/goal/goalInfoStore"
+import useDialogStore from "@/store/layouts/dialogStore"
 import type logger from "@/util/logger/logger"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router"
 
 export default function useGetGoalInfoViewModel() {
-	const { t } = useTranslation("noti")
+	const { t } = useTranslation()
+	const navigate = useNavigate()
 	const log: logger = container.resolve(ContainerSet.LOGGER)
 	const goalService: GoalService = container.resolve(
 		ContainerSet.GOAL_SERVICE
 	)
 
 	const { initAllStoreData, setAllStoreData } = useGoalInfoStore()
+	const { dialogOpen } = useDialogStore()
 
 	async function getGoalInfo(goalId: number) {
 		await goalService
@@ -30,7 +35,17 @@ export default function useGetGoalInfoViewModel() {
 			})
 			.catch((error) => {
 				log.error("getGoalDetail error: ", error)
-				alert(t("goalupdate_viewmodel.getgoaldetail_catch_alert"))
+				dialogOpen(
+					"ERROR",
+					t(
+						"viewmodel:goal.useGetGoalInfoViewModel.error.getGoalInfo_error"
+					),
+					{
+						onClose: () => {
+							navigate(RouterLocaleSet.GOAL_PAGE)
+						}
+					}
+				)
 			})
 	}
 

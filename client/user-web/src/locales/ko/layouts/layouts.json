@@ -5,5 +5,15 @@
 		"signin": "로그인",
 		"signout": "로그아웃",
 		"myinfo": "내정보"
+	},
+	"dialog": {
+		"alert_close": "확인",
+		"confirm_check": "확인",
+		"confirm_close": "취소",
+		"error_close": "확인",
+		"password_check": "확인",
+		"password_close": "취소",
+		"prompt_check": "확인",
+		"prompt_close": "취소"
 	}
 }

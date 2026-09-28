@@ -1,0 +1,98 @@
+{
+	"auth": {
+		"useSigninViewModel": {
+			"error": {
+				"signin_faild": "로그인 실패"
+			}
+		},
+		"useSignoutViewModel": {
+			"confirm": {
+				"signout": "로그아웃하시겠습니까?"
+			}
+		}
+	},
+	"goal": {
+		"useGetGoalInfoViewModel": {
+            "error": {
+                "getGoalInfo_error": "정보 불러오기 에러"
+            }
+        },
+		"useGoalCreateViewModel": {
+            "confirm": {
+                "goalCreate": "목표를 생성할까요?"
+            },
+            "alert": {
+                "goalCreate_success": "목표가 생성되었습니다."
+            },
+            "error": {
+                "goalCreate_failed": "목표 생성실패"
+            }
+        },
+		"useGoalDetailViewModel": {},
+        "useGoalListViewModel": {
+            "error": {
+                "getGoalList_error": "정보 불러오기 에러",
+                "deleteGoal_error": "목표 삭제실패"
+            },
+            "confirm": {
+                "deleteGoal": "목표를 삭제할까요?"
+            },
+            "alert": {
+                "deleteGoal_success": "목표가 삭제되었습니다."
+            }
+        },
+        "useGoalUpdateViewModel": {
+            "confirm": {
+                "updateGoal": "목표를 수정할까요?"
+            },
+            "alert": {
+                "updateGoal_success": "목표 수정완료"
+            },
+            "error": {
+                "updateGoal_error": "목표 수정실패"
+            }
+        }
+	},
+	"user": {
+        "useMyInfoViewModel": {
+            "error": {
+                "getMyInfoData_error": "내정보 불러오기 실패",
+                "changePassword_error": "비밀번호 변경실패",
+                "changeName_error": "이름 변경실패",
+                "changeEmail_error": "이메일 변경실패",
+                "deleteUser_password_error": "비밀번호가 틀립니다."
+            },
+            "confirm": {
+                "changePassword": "비밀번호를 변경할까요?",
+                "changeName": "이름을 변경할까요?",
+                "changeEmail": "이메일을 변경할까요?",
+                "deleteUser": "서비스에서 탈퇴하시겠습니까?"
+            },
+            "alert": {
+                "changePassword_success": "비밀번호 변경완료",
+                "changeName_success": "이름 변경완료",
+                "changeEmail_success": "이메일 변경완료",
+                "deleteUser_blank_error": "비밀번호를 입력해야합니다.",
+                "deleteUser_success": "서비스에서 탈퇴하였습니다."
+            },
+            "password": {
+                "deleteUser": "서비스를 탈퇴하기 위해 계정의 비밀번호를 입력해주세요."
+            }
+        },
+        "useSignupViewModel": {
+            "alert": {
+                "notUsernameDuplicateCheck": "아이디 중복확인이 필요합니다.",
+                "passwordCheckWrong": "비밀번호 확인이 일치하지않습니다.",
+                "signup_success": "가입되었습니다.",
+                "username_duplicate_check_success": "사용가능합니다."
+            },
+            "confirm": {
+                "signup": "가입하시겠습니까?"
+            },
+            "error": {
+                "signup_error": "가입 실패",
+                "username_duplicate_check_failed": "중복된 아이디입니다."
+            }
+        }
+    }
+}

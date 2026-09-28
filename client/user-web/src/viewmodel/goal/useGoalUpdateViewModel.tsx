@@ -3,6 +3,7 @@ import { RouterLocaleSet } from "@/config/route/router"
 import type RepeatInfoRequestDto from "@/model/goal/dto/request/repeatInfoRequestDto"
 import type { GoalService } from "@/model/goal/service/goalService"
 import useGoalInfoStore from "@/store/goal/goalInfoStore"
+import useDialogStore from "@/store/layouts/dialogStore"
 import type { Logger } from "@/util/logger/logger"
 import { makeRepeatInfoArray } from "@/viewmodel/goal/util/makeRepeatInfoArray"
 import { useTranslation } from "react-i18next"
@@ -15,7 +16,7 @@ export default function useGoalUpdateViewModel() {
 	)
 
 	const navigate = useNavigate()
-	const { t } = useTranslation("noti")
+	const { t } = useTranslation()
 
 	const {
 		goalId,
@@ -32,36 +33,58 @@ export default function useGoalUpdateViewModel() {
 		selectRepeatInfo
 	} = useGoalInfoStore()
 
-	async function updateGoal() {
-		if (!confirm(t("goalupdate_viewmodel.updategoal_confirm"))) return
+	const { dialogOpen } = useDialogStore()
 
-		const repeatInfo: RepeatInfoRequestDto[] = makeRepeatInfoArray(
-			repeatType,
-			weekRepeatInfo,
-			monthRepeatInfo,
-			yearRepeatInfo,
-			selectRepeatInfo
+	async function updateGoal() {
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:goal.useGoalUpdateViewModel.confirm.updateGoal"),
+			{ onCheck: onCheckHandler }
 		)
 
-		await goalService
-			.updateGoal(
-				goalId,
-				title,
-				content,
-				isActive,
-				startDate,
-				endDate,
+		async function onCheckHandler() {
+			const repeatInfo: RepeatInfoRequestDto[] = makeRepeatInfoArray(
 				repeatType,
-				repeatInfo
+				weekRepeatInfo,
+				monthRepeatInfo,
+				yearRepeatInfo,
+				selectRepeatInfo
 			)
-			.then(() => {
-				alert(t("goalupdate_viewmodel.updategoal_then_alert"))
-				navigate(RouterLocaleSet.GOAL_PAGE)
-			})
-			.catch((error) => {
-				log.error("updateGoal error: ", error)
-				alert(t("goalupdate_viewmodel.updategoal_catch_alert"))
-			})
+
+			await goalService
+				.updateGoal(
+					goalId,
+					title,
+					content,
+					isActive,
+					startDate,
+					endDate,
+					repeatType,
+					repeatInfo
+				)
+				.then(() => {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:goal.useGoalUpdateViewModel.alert.updateGoal_success"
+						),
+						{
+							onClose: () => {
+								navigate(RouterLocaleSet.GOAL_PAGE)
+							}
+						}
+					)
+				})
+				.catch((error) => {
+					log.error("updateGoal error: ", error)
+					dialogOpen(
+						"ERROR",
+						t(
+							"viewmodel:goal.useGoalUpdateViewModel.error.updateGoal_error"
+						)
+					)
+				})
+		}
 	}
 
 	return {

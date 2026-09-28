@@ -2,6 +2,7 @@ import container, { ContainerSet } from "@/config/di/container"
 import { RouterLocaleSet } from "@/config/route/router"
 import type GetGoalListResponseDto from "@/model/goal/dto/response/getGoalListResponseDto"
 import type { GoalService } from "@/model/goal/service/goalService"
+import useDialogStore from "@/store/layouts/dialogStore"
 import type { Logger } from "@/util/logger/logger"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -14,6 +15,8 @@ export default function useGoalListViewModel() {
 	const navigate = useNavigate()
 	const { t } = useTranslation()
 
+	const { dialogOpen } = useDialogStore()
+
 	const [goalList, setGoalList] = useState<GetGoalListResponseDto[]>([])
 
 	async function getGoalList() {
@@ -24,7 +27,17 @@ export default function useGoalListViewModel() {
 			})
 			.catch((error) => {
 				log.error("getGoalList error: ", error)
-				alert(t("goallist_viewmodel.getgoallist_catch_alert"))
+				dialogOpen(
+					"ERROR",
+					t(
+						"viewmodel:goal.useGoalListViewModel.error.getGoalList_error"
+					),
+					{
+						onClose: () => {
+							navigate(RouterLocaleSet.DASHBOARD_PAGE)
+						}
+					}
+				)
 			})
 	}
 
@@ -33,18 +46,40 @@ export default function useGoalListViewModel() {
 	}
 
 	async function doDeleteGoal(goalId: number) {
-		if (!confirm(t("goallist_viewmodel.dodeletegoal_confirm"))) return
+		dialogOpen(
+			"CONFIRM",
+			t("viewmodel:goal.useGoalListViewModel.confirm.deleteGoal"),
+			{
+				onCheck: onCheckHandler
+			}
+		)
 
-		await goalService
-			.deleteGoal(goalId)
-			.then(async () => {
-				alert(t("goallist_viewmodel.dodeletegoal_then_alert"))
-				getGoalList()
-			})
-			.catch((error) => {
-				log.error("doDeleteGoal error: ", error)
-				alert(t("goallist_viewmodel.dodeletegoal_catch_alert"))
-			})
+		async function onCheckHandler() {
+			await goalService
+				.deleteGoal(goalId)
+				.then(async () => {
+					dialogOpen(
+						"ALERT",
+						t(
+							"viewmodel:goal.useGoalListViewModel.alert.deleteGoal_success"
+						),
+						{
+							onClose: () => {
+								getGoalList()
+							}
+						}
+					)
+				})
+				.catch((error) => {
+					log.error("doDeleteGoal error: ", error)
+					dialogOpen(
+						"ERROR",
+						t(
+							"viewmodel:goal.useGoalListViewModel.error.deleteGoal_error"
+						)
+					)
+				})
+		}
 	}
 
 	return {
