@@ -7,9 +7,11 @@ export default function DashboardPage() {
 	return (
 		<>
 			<h1>{t("dashboard_page:title")}</h1>
-			<NavLink to={RouterLocaleSet.GOAL_PAGE}>
-				<h3>{t("dashboard_page:menu.goal")}</h3>
-			</NavLink>
+			<div className="w-fit h-fit">
+				<NavLink to={RouterLocaleSet.GOAL_PAGE}>
+					<h3>{t("dashboard_page:menu.goal")}</h3>
+				</NavLink>
+			</div>
 		</>
 	)
 }

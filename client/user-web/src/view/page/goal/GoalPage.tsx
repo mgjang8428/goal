@@ -23,9 +23,11 @@ export default function GoalPage() {
 	return (
 		<>
 			<h1>{t("goal_page:main.title")}</h1>
-			<NavLink to={RouterLocaleSet.GOAL_CREATE_PAGE}>
-				<p>{t("goal_page:main.link.create")}</p>
-			</NavLink>
+			<div className="w-fit h-fit">
+				<NavLink to={RouterLocaleSet.GOAL_CREATE_PAGE}>
+					<p>{t("goal_page:main.link.create")}</p>
+				</NavLink>
+			</div>
 			<button onClick={reloadButtonHandler}>
 				{t("goal_page:main.button.reload_goal_list")}
 			</button>

@@ -114,8 +114,14 @@ export default function Dialog() {
 				ref={dialogRef}
 				closedby={dialogTypeClosedBy()}
 				onClose={closeHandler}
+				className="m-auto min-w-80 min-h-50 border rounded-xl"
 			>
-				{dialogTypeContent()}
+				<div className="h-4 bg-gray-400 border-b"></div>
+				<div className="h-46">
+					<div className="flex items-center justify-center size-full">
+						{dialogTypeContent()}
+					</div>
+				</div>
 			</dialog>
 		</>
 	)

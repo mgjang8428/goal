@@ -12,19 +12,22 @@ export default function PasswordDialog({
 	checkHandler,
 	closeHandler
 }: PasswordDialogProps) {
-
 	const { t } = useTranslation()
 
 	const { inputValue, inputOnChange } = useDialogStore()
 
-    function onSubmitHandler(event: React.SubmitEvent<HTMLFormElement>) {
-        event.preventDefault()
-    }
-    
+	function onSubmitHandler(event: React.SubmitEvent<HTMLFormElement>) {
+		event.preventDefault()
+	}
+
 	return (
 		<div>
 			<p>{message}</p>
-			<form onSubmit={(event) => {onSubmitHandler(event)}}>
+			<form
+				onSubmit={(event) => {
+					onSubmitHandler(event)
+				}}
+			>
 				<input
 					type="password"
 					autoComplete="false"
@@ -32,8 +35,14 @@ export default function PasswordDialog({
 					onChange={(event) => inputOnChange(event.target.value)}
 				/>
 			</form>
-			<button onClick={checkHandler}>{t("layouts:dialog.password_check")}</button>
-			<button onClick={closeHandler}>{t("layouts:dialog.password_close")}</button>
+			<div className="flex items-center justify-center size-full my-5">
+				<button onClick={checkHandler} className="mr-3">
+					{t("layouts:dialog.password_check")}
+				</button>
+				<button onClick={closeHandler}>
+					{t("layouts:dialog.password_close")}
+				</button>
+			</div>
 		</div>
 	)
 }

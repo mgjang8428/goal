@@ -28,12 +28,14 @@ export default function PromptDialog({
 					onChange={(event) => inputOnChange(event.target.value)}
 				/>
 			</form>
-			<button onClick={checkHandler}>
-				{t("layouts:dialog.prompt_check")}
-			</button>
-			<button onClick={closeHandler}>
-				{t("layouts:dialog.prompt_close")}
-			</button>
+			<div className="flex items-center justify-center size-full my-5">
+				<button onClick={checkHandler} className="mr-3">
+					{t("layouts:dialog.prompt_check")}
+				</button>
+				<button onClick={closeHandler}>
+					{t("layouts:dialog.prompt_close")}
+				</button>
+			</div>
 		</div>
 	)
 }

@@ -55,9 +55,11 @@ export default function GoalListItem({
 	return (
 		<tr>
 			<td>
-				<NavLink to={RouterLocaleSet.GOAL_DETAIL_PAGE(goalId)}>
-					{title}
-				</NavLink>
+				<div className="w-fit h-fit">
+					<NavLink to={RouterLocaleSet.GOAL_DETAIL_PAGE(goalId)}>
+						{title}
+					</NavLink>
+				</div>
 			</td>
 			<td>
 				<input type="checkbox" checked={isActive} readOnly={true} />

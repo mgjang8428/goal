@@ -18,7 +18,7 @@ export default function PreviousButton() {
 		<></>
 	) : (
 		<>
-			<button onClick={previousButtonHandler}>{"<-"}</button>
+			<button onClick={previousButtonHandler} className="mb-5">{"<-"}</button>
 		</>
 	)
 }

@@ -13,9 +13,11 @@ export default function AlertDialog({
 	return (
 		<div>
 			<p>{message}</p>
-			<button onClick={closeHandler}>
-				{t("layouts:dialog.alert_close")}
-			</button>
+			<div className="flex items-center justify-center size-full my-5">
+				<button onClick={closeHandler}>
+					{t("layouts:dialog.alert_close")}
+				</button>
+			</div>
 		</div>
 	)
 }

@@ -8,9 +8,13 @@ export default function DefaultLayout() {
 	return (
 		<>
 			<Dialog />
-			<Header />
-			<PreviousButton />
-			<Outlet />
+			<div className="min-h-screen">
+				<Header />
+				<div className="mx-auto max-w-7xl py-10 px-10">
+					<PreviousButton />
+					<Outlet />
+				</div>
+			</div>
 			<Footer />
 		</>
 	)

@@ -15,12 +15,14 @@ export default function ConfirmDialog({
 	return (
 		<div>
 			<p>{message}</p>
-			<button onClick={checkHandler}>
-				{t("layouts:dialog.confirm_check")}
-			</button>
-			<button onClick={closeHandler}>
-				{t("layouts:dialog.confirm_close")}
-			</button>
+			<div className="flex items-center justify-center size-full my-5">
+				<button onClick={checkHandler} className="mr-3">
+					{t("layouts:dialog.confirm_check")}
+				</button>
+				<button onClick={closeHandler}>
+					{t("layouts:dialog.confirm_close")}
+				</button>
+			</div>
 		</div>
 	)
 }
