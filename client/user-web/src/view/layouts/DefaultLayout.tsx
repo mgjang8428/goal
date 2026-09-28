@@ -6,16 +6,16 @@ import { Outlet } from "react-router"
 
 export default function DefaultLayout() {
 	return (
-		<>
+		<div>
 			<Dialog />
 			<div className="min-h-screen">
 				<Header />
-				<div className="mx-auto max-w-7xl py-10 px-10">
+				<div className="mx-auto max-w-7xl pt-30 py-10 px-10">
 					<PreviousButton />
 					<Outlet />
 				</div>
 			</div>
 			<Footer />
-		</>
+		</div>
 	)
 }

@@ -1,12 +1,12 @@
 import { RouterLocaleSet } from "@/config/route/router"
 import RepeatType from "@/model/goal/const/repeatType"
+import CNavLink from "@/view/layouts/components/CNavLink"
 import {
 	GoalListItemButtonFunctionContext,
 	type GoalListItemButtonFunctionContextType
 } from "@/view/page/goal/GoalListItemButtonFunctionContext"
 import { useContext } from "react"
 import { useTranslation } from "react-i18next"
-import { NavLink } from "react-router"
 
 export interface GoalListItemProps {
 	goalId: number
@@ -56,9 +56,9 @@ export default function GoalListItem({
 		<tr>
 			<td>
 				<div className="w-fit h-fit">
-					<NavLink to={RouterLocaleSet.GOAL_DETAIL_PAGE(goalId)}>
+					<CNavLink to={RouterLocaleSet.GOAL_DETAIL_PAGE(goalId)}>
 						{title}
-					</NavLink>
+					</CNavLink>
 				</div>
 			</td>
 			<td>
